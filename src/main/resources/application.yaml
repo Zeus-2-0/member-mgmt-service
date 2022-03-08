@@ -1,0 +1,33 @@
+zeus-member-mgmt:
+  api:
+    version: 1.0.0
+server:
+  port: 8084
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/membermgmtdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: membermgmtapp
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  flyway:
+    user: membermgmtadmin
+    password: password
+  profiles:
+    active: local, clean
+logging:
+  file:
+    name: logs/local/membermgmt.log
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+
