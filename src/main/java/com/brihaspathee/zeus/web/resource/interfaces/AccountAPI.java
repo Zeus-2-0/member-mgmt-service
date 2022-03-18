@@ -34,14 +34,14 @@ public interface AccountAPI {
      */
     @Operation(
             method = "GET",
-            description = "Get the details of the file by its id",
-            tags = {"file-mgmt"}
+            description = "Get the details of the account by its id",
+            tags = {"account"}
     )
     @ApiResponses(
             value = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Successfully retrieved the details of the file",
+                            description = "Successfully retrieved the details of the account",
                             content = {
                                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ZeusApiResponse.class))
                             }
