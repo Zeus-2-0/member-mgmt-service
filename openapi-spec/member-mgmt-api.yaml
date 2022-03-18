@@ -16,8 +16,8 @@ paths:
   /api/v1/account/{accountId}:
     get:
       tags:
-      - file-mgmt
-      description: Get the details of the file by its id
+      - account
+      description: Get the details of the account by its id
       operationId: getAccountById
       parameters:
       - name: accountId
@@ -27,7 +27,7 @@ paths:
           type: string
       responses:
         "200":
-          description: Successfully retrieved the details of the file
+          description: Successfully retrieved the details of the account
           content:
             application/json:
               schema:
