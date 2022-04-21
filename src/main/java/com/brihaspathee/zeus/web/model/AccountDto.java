@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.web.model;
 
 import lombok.*;
 
+import java.util.UUID;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -18,8 +20,9 @@ import lombok.*;
 @AllArgsConstructor
 public class AccountDto {
 
-    private String accountSK;
+    private UUID accountSK;
     private String accountId;
+    private String lineOfBusinessTypeCode;
 
     @Override
     public String toString() {
