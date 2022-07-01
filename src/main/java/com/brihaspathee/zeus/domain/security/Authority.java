@@ -43,13 +43,6 @@ public class Authority {
     @ManyToMany(mappedBy = "authorities")
     private Set<Role> roles;
 
-    @CreationTimestamp
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-
-    @UpdateTimestamp
-    @Column(name = "updated_date", nullable = false)
-    private LocalDateTime updatedDate;
 
     @Override
     public String toString() {
