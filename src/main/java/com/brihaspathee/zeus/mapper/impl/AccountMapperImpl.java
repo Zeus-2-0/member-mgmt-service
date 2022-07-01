@@ -30,8 +30,8 @@ public class AccountMapperImpl implements AccountMapper {
         }
         Account account = Account.builder()
                 .accountSK(accountDto.getAccountSK())
-                .accountId(accountDto.getAccountId())
-                .lineOfBusinessTypeCode(accountDto.getLineOfBusinessTypeCode())
+                //.accountId(accountDto.getAccountId())
+                //.lineOfBusinessTypeCode(accountDto.getLineOfBusinessTypeCode())
                 .build();
         return account;
     }
@@ -43,8 +43,8 @@ public class AccountMapperImpl implements AccountMapper {
         }
         AccountDto accountDto = AccountDto.builder()
                 .accountSK(account.getAccountSK())
-                .accountId(account.getAccountId())
-                .lineOfBusinessTypeCode(account.getLineOfBusinessTypeCode())
+                //.accountId(account.getAccountId())
+                //.lineOfBusinessTypeCode(account.getLineOfBusinessTypeCode())
                 .build();
         return accountDto;
     }
