@@ -1,10 +1,14 @@
 package com.brihaspathee.zeus.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -25,6 +29,9 @@ import java.util.UUID;
 @Table(name = "ACCOUNT")
 public class Account {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue(generator = "UUID")
     @Type(type = "uuid-char")
@@ -32,16 +39,58 @@ public class Account {
     @Column(name = "account_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID accountSK;
 
-    private String accountId;
+    /**
+     * Unique number associated with each account
+     */
+    private String accountNumber;
 
-    private String lineOfBusinessTypeCode;
+    /**
+     * The date when the record was created
+     */
+    @CreationTimestamp
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
 
+    /**
+     * The date when the record was updated
+     */
+    @UpdateTimestamp
+    @Column(name = "updated_date", nullable = false)
+    private LocalDateTime updatedDate;
+
+    /**
+     * toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "Account{" +
                 "accountSK=" + accountSK +
-                ", accountId='" + accountId + '\'' +
-                ", lineOfBusinessTypeCode='" + lineOfBusinessTypeCode + '\'' +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
                 '}';
+    }
+
+    /**
+     * the equals method
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return accountSK.equals(account.accountSK);
+    }
+
+    /**
+     * hascode method
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountSK);
     }
 }
