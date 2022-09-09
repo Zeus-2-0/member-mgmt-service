@@ -68,7 +68,7 @@ public class MemberIdentifier {
      * Date and time when the record was updated
      */
     @CreationTimestamp
-    @Column(name = "created_date")
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     /**

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -51,7 +52,7 @@ public class EnrollmentSpan {
      * The list of all the premium spans associated with the enrollment span
      */
     @OneToMany(mappedBy = "enrollmentSpan", fetch = FetchType.EAGER)
-    private List<PremiumSpan> premiumSpans;
+    private Set<PremiumSpan> premiumSpans;
 
     /**
      * The state for which the enrollment span is created
@@ -118,7 +119,7 @@ public class EnrollmentSpan {
      * Date and time when the record was updated
      */
     @CreationTimestamp
-    @Column(name = "created_date")
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     /**
