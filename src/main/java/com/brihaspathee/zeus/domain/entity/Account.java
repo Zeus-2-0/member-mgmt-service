@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -44,19 +45,19 @@ public class Account {
      * The list of all the members associated with the account
      */
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<Member> members;
+    private Set<Member> members;
 
     /**
      * The list of all the enrollment spans associated with the account
      */
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<EnrollmentSpan> enrollmentSpans;
+    private Set<EnrollmentSpan> enrollmentSpans;
 
     /**
      * The list of all the attributes associated with the account
      */
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<AccountAttribute> accountAttributes;
+    private Set<AccountAttribute> accountAttributes;
 
     /**
      * Unique number associated with each account

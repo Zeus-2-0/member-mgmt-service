@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -51,7 +52,7 @@ public class PremiumSpan {
      * The members associated with the enrollment span
      */
     @OneToMany(mappedBy = "premiumSpan", fetch = FetchType.EAGER)
-    private List<MemberPremium> members;
+    private Set<MemberPremium> members;
 
     /**
      * The csr variant associated with the premium span
@@ -100,7 +101,7 @@ public class PremiumSpan {
      * Date and time when the record was updated
      */
     @CreationTimestamp
-    @Column(name = "created_date")
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     /**

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -93,43 +94,43 @@ public class Member {
      * The list of all the attributes associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberAttribute> memberAttributes;
+    private Set<MemberAttribute> memberAttributes;
 
     /**
      * The list of all the addresses associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberAddress> memberAddresses;
+    private Set<MemberAddress> memberAddresses;
 
     /**
      * The list of all the identifiers associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberIdentifier> memberIdentifiers;
+    private Set<MemberIdentifier> memberIdentifiers;
 
     /**
      * The list of all the emails associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberEmail> memberEmails;
+    private Set<MemberEmail> memberEmails;
 
     /**
      * The list of all the languages associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberLanguage> memberLanguages;
+    private Set<MemberLanguage> memberLanguages;
 
     /**
      * The list of all the phone numbers associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberPhone> memberPhones;
+    private Set<MemberPhone> memberPhones;
 
     /**
      * The list of all the premium spans associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<MemberPremium> memberPremiums;
+    private Set<MemberPremium> memberPremiums;
 
     /**
      * Date when the record was created
@@ -142,7 +143,7 @@ public class Member {
      * Date and time when the record was updated
      */
     @CreationTimestamp
-    @Column(name = "created_date")
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     /**
