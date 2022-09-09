@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -36,26 +37,45 @@ public class Account {
     @GeneratedValue(generator = "UUID")
     @Type(type = "uuid-char")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "acct_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    @Column(name = "account_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID accountSK;
+
+    /**
+     * The list of all the members associated with the account
+     */
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private List<Member> members;
+
+    /**
+     * The list of all the enrollment spans associated with the account
+     */
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private List<EnrollmentSpan> enrollmentSpans;
+
+    /**
+     * The list of all the attributes associated with the account
+     */
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private List<AccountAttribute> accountAttributes;
 
     /**
      * Unique number associated with each account
      */
+    @Column(name = "account_number", nullable = false)
     private String accountNumber;
 
     /**
      * The date when the record was created
      */
     @CreationTimestamp
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     /**
      * The date when the record was updated
      */
     @UpdateTimestamp
-    @Column(name = "updated_date", nullable = false)
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     /**
@@ -66,6 +86,9 @@ public class Account {
     public String toString() {
         return "Account{" +
                 "accountSK=" + accountSK +
+                ", members=" + members +
+                ", enrollmentSpans=" + enrollmentSpans +
+                ", accountAttributes=" + accountAttributes +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +

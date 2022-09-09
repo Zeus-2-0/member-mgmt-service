@@ -1,10 +1,13 @@
 package com.brihaspathee.zeus.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -34,4 +37,75 @@ public class AccountAttribute {
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "acct_attribute_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID accountAttributeSK;
+
+    /**
+     * The attribute associated with the account
+     */
+    @ManyToOne
+    @JoinColumn(name = "attribute_sk")
+    private Attribute attribute;
+
+    /**
+     * The account of the attribute
+     */
+    @ManyToOne
+    @JoinColumn(name = "account_sk")
+    private Account account;
+
+    /**
+     * The value that is assigned to the attribute
+     */
+    @Column(name = "attribute_value")
+    private String attributeValue;
+
+    /**
+     * Date when the record was created
+     */
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    /**
+     * Date and time when the record was updated
+     */
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime updatedDate;
+
+    /**
+     * to String method
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "AccountAttribute{" +
+                "accountAttributeSK=" + accountAttributeSK +
+                ", attribute=" + attribute +
+                ", attributeValue='" + attributeValue + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                '}';
+    }
+
+    /**
+     * Equals method
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountAttribute that = (AccountAttribute) o;
+        return accountAttributeSK.equals(that.accountAttributeSK);
+    }
+
+    /**
+     * Hash code method
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountAttributeSK);
+    }
 }
