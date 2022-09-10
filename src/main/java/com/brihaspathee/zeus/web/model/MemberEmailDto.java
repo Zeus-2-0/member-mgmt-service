@@ -55,6 +55,13 @@ public class MemberEmailDto {
     private String email;
 
     /**
+     * Identifies if the email is the primary email
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "Identifies if the email is the primary email", example = "true", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private boolean isPrimary;
+
+    /**
      * The start date of the email
      */
     @JsonProperty(required = true)
