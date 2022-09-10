@@ -52,7 +52,7 @@ public class MemberIdentifier {
     private String identifierTypeCode;
 
     /**
-     * The identifer of the member
+     * The identifier of the member
      */
     @Column(name = "identifier_value", length = 50, columnDefinition = "varchar", nullable = false)
     private String identifierValue;
