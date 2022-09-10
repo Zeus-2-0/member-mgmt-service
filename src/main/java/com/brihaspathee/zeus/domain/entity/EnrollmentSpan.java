@@ -67,6 +67,12 @@ public class EnrollmentSpan {
     private String marketplaceTypeCode;
 
     /**
+     * The business unit associated with the enrollment span
+     */
+    @Column(name = "business_unit_type_code", length = 50, columnDefinition = "varchar", nullable = false)
+    private String businessUnitTypeCode;
+
+    /**
      * Start date of the enrollment span
      */
     @Column(name = "start_date", columnDefinition = "datetime", nullable = false)

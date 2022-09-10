@@ -66,6 +66,12 @@ public class Account {
     private String accountNumber;
 
     /**
+     * The line of business associated with the account
+     */
+    @Column(name = "line_of_business_type_code", columnDefinition = "varchar", length = 45, nullable = false)
+    private String lineOfBusinessUnitTypeCode;
+
+    /**
      * The date when the record was created
      */
     @CreationTimestamp
