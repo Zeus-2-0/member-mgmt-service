@@ -27,7 +27,7 @@ public class AccountAPIImpl implements AccountAPI {
     @Override
     public ResponseEntity<ZeusApiResponse<AccountDto>> getAccountById(String accountId) {
         ZeusApiResponse<AccountDto> apiResponse = ZeusApiResponse.<AccountDto>builder()
-                .response(AccountDto.builder().accountSK(UUID.randomUUID()).accountId("Test Id").build())
+                .response(AccountDto.builder().accountSK(UUID.randomUUID()).accountNumber("Test Id").build())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
