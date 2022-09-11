@@ -34,11 +34,11 @@ public class MemberPremiumDto {
     private UUID memberPremiumSK;
 
     /**
-     * The primary key of the premium span
+     * A unique code assigned to the member
      */
-    @JsonProperty(required = false)
-    @Schema(description = "Premium span SK - This is a UUID value", example = "657cfd75-634e-49f1-9556-4d79f79848ec", required = false, accessMode = Schema.AccessMode.READ_WRITE)
-    private UUID premiumSpanSK;
+    @JsonProperty(required = true)
+    @Schema(description = "A unique member code", example = "SDG3543SDFG23GF", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private UUID memberCode;
 
     /**
      * The primary key of the member

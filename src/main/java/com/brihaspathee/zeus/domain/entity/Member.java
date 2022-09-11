@@ -49,6 +49,12 @@ public class Member {
     private Account account;
 
     /**
+     * A unique code that is assigned to the member
+     */
+    @Column(name = "member_code", columnDefinition = "varchar", nullable = false, length = 15)
+    private String memberCode;
+
+    /**
      * The first name of the member
      */
     @Column(name = "first_name", columnDefinition = "varchar", nullable = false, length = 100)
