@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.Null;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -75,18 +76,25 @@ public class MemberAddressDto {
     private String stateTypeCode;
 
     /**
+     * The zip code of the address
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The zipcode of the address", example = "33556", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private String zipCode;
+
+    /**
      * The start date of the address
      */
     @JsonProperty(required = true)
     @Schema(description = "The start date of the address", example = "1/1/2021", required = true, accessMode = Schema.AccessMode.READ_WRITE)
-    private String startDate;
+    private LocalDate startDate;
 
     /**
      * The end date of the address
      */
     @JsonProperty(required = false)
     @Schema(description = "The end date of the address", example = "12/31/2021", required = false, accessMode = Schema.AccessMode.READ_WRITE)
-    private String endDate;
+    private LocalDate endDate;
 
     /**
      * The date when the address was created
