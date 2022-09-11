@@ -16,9 +16,31 @@ import java.util.Set;
  */
 public interface AccountMapper {
 
+    /**
+     * Convert account dto to account entity
+     * @param accountDto
+     * @return
+     */
     Account accountDtoToAccount(AccountDto accountDto);
+
+    /**
+     * Convert account entity to account dto
+     * @param account
+     * @return
+     */
     AccountDto accountToAccountDto(Account account);
 
+    /**
+     * Convert account dtos to account entities
+     * @param accountDtos
+     * @return
+     */
     Set<Account> accountDtosToAccount(Set<AccountDto> accountDtos);
+
+    /**
+     * Convert account entities to account dtos
+     * @param accounts
+     * @return
+     */
     Set<AccountDto> accountToAccountDtos(Set<Account> accounts);
 }
