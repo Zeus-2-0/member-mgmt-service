@@ -42,6 +42,13 @@ public class MemberDto {
     private UUID accountSK;
 
     /**
+     * A unique code assigned to the member
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "A unique member code", example = "SDG3543SDFG23GF", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private String memberCode;
+
+    /**
      * The first name of the member
      */
     @JsonProperty(required = true)
