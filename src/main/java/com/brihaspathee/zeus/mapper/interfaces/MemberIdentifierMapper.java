@@ -42,5 +42,5 @@ public interface MemberIdentifierMapper {
      * @param memberIdentifiers
      * @return
      */
-    Set<MemberIdentifierDto> identifierToIdentifierDtos(Set<MemberIdentifier> memberIdentifiers);
+    Set<MemberIdentifierDto> identifiersToIdentifierDtos(Set<MemberIdentifier> memberIdentifiers);
 }

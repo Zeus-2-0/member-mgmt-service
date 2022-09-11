@@ -81,7 +81,7 @@ public class MemberIdentifierMapperImpl implements MemberIdentifierMapper {
      * @return
      */
     @Override
-    public Set<MemberIdentifierDto> identifierToIdentifierDtos(Set<MemberIdentifier> memberIdentifiers) {
+    public Set<MemberIdentifierDto> identifiersToIdentifierDtos(Set<MemberIdentifier> memberIdentifiers) {
         return memberIdentifiers.stream().map(this::identifierToIdentifierDto).collect(Collectors.toSet());
     }
 }
