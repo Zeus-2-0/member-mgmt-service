@@ -115,6 +115,12 @@ public class EnrollmentSpan {
     private String statusTypeCode;
 
     /**
+     * The zeus transaction control number of the transaction that created the enrollment span
+     */
+    @Column(name = "ztcn", length = 20, columnDefinition = "varchar", nullable = false)
+    private String ztcn;
+
+    /**
      * Date when the record was created
      */
     @CreationTimestamp

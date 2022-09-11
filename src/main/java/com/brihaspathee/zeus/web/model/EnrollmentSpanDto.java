@@ -120,6 +120,13 @@ public class EnrollmentSpanDto {
     private String statusTypeCode;
 
     /**
+     * The zeus transaction control number of the transaction that created the enrollment span
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The zeus transaction control number of the transaction that created the enrollment span", example = "SDFG43456DFG23G", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private String ztcn;
+
+    /**
      * The date when the enrollment span was created
      */
     @JsonProperty(required = false)

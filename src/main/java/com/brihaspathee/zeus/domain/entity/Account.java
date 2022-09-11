@@ -69,7 +69,7 @@ public class Account {
      * The line of business associated with the account
      */
     @Column(name = "line_of_business_type_code", columnDefinition = "varchar", length = 45, nullable = false)
-    private String lineOfBusinessUnitTypeCode;
+    private String lineOfBusinessTypeCode;
 
     /**
      * The date when the record was created
