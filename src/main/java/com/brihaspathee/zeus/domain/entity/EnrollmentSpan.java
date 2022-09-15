@@ -85,6 +85,12 @@ public class EnrollmentSpan {
     private LocalDate endDate;
 
     /**
+     * The exchange subscriber id associated with the enrollment span
+     */
+    @Column(name = "exchange_subscriber_id", columnDefinition = "varchar", nullable = false, length = 50)
+    private String exchangeSubscriberId;
+
+    /**
      * Date when the enrollment span was effectuated
      */
     @Column(name = "effectuation_date", columnDefinition = "datetime", nullable = true)

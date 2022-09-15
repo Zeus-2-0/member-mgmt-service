@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -46,6 +47,20 @@ public class PremiumSpanDto {
      */
     @JsonProperty(required = true)
     private Set<MemberPremiumDto> memberPremiumSpans;
+
+    /**
+     * Start date of the premium span
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The start date of the premium span", example = "1/1/2021", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private LocalDate startDate;
+
+    /**
+     * End date of the premium span
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The end date of the premium span", example = "1/1/2021", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private LocalDate endDate;
 
     /**
      * The CSR Variant associated with the premium span

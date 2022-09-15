@@ -1,8 +1,11 @@
 package com.brihaspathee.zeus.mapper.impl;
 
 import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
+import com.brihaspathee.zeus.domain.entity.Member;
+import com.brihaspathee.zeus.domain.entity.MemberPremium;
 import com.brihaspathee.zeus.domain.entity.PremiumSpan;
 import com.brihaspathee.zeus.mapper.interfaces.PremiumSpanMapper;
+import com.brihaspathee.zeus.web.model.MemberPremiumDto;
 import com.brihaspathee.zeus.web.model.PremiumSpanDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,11 +39,15 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
         PremiumSpan premiumSpan = PremiumSpan.builder()
                 .premiumSpanSK(premiumSpanDto.getPremiumSpanSK())
                 .enrollmentSpan(EnrollmentSpan.builder().enrollmentSpanSK(premiumSpanDto.getEnrollmentSpanSK()).build())
+                .startDate(premiumSpanDto.getStartDate())
+                .endDate(premiumSpanDto.getEndDate())
+                .csrVariant(premiumSpanDto.getCsrVariant())
                 .totalPremiumAmount(premiumSpanDto.getTotalPremiumAmount())
                 .totalResponsibleAmount(premiumSpanDto.getTotalResponsibleAmount())
                 .aptcAmount(premiumSpanDto.getAptcAmount())
                 .otherPayAmount(premiumSpanDto.getOtherPayAmount())
                 .csrAmount(premiumSpanDto.getCsrAmount())
+                .members(getMemberPremiums(premiumSpanDto.getMemberPremiumSpans()))
                 .createdDate(premiumSpanDto.getCreatedDate())
                 .updatedDate(premiumSpanDto.getUpdatedDate())
                 .build();
@@ -60,11 +67,15 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
         PremiumSpanDto premiumSpanDto = PremiumSpanDto.builder()
                 .premiumSpanSK(premiumSpan.getPremiumSpanSK())
                 .enrollmentSpanSK(premiumSpan.getEnrollmentSpan().getEnrollmentSpanSK())
+                .startDate(premiumSpan.getStartDate())
+                .endDate(premiumSpan.getEndDate())
+                .csrVariant(premiumSpan.getCsrVariant())
                 .totalPremiumAmount(premiumSpan.getTotalPremiumAmount())
                 .totalResponsibleAmount(premiumSpan.getTotalResponsibleAmount())
                 .aptcAmount(premiumSpan.getAptcAmount())
                 .otherPayAmount(premiumSpan.getOtherPayAmount())
                 .csrAmount(premiumSpan.getCsrAmount())
+                .memberPremiumSpans(getMemberPremiumDtos(premiumSpan.getMembers()))
                 .createdDate(premiumSpan.getCreatedDate())
                 .updatedDate(premiumSpan.getUpdatedDate())
                 .build();
@@ -89,5 +100,68 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
     @Override
     public Set<PremiumSpanDto> premiumSpansToPremiumSpanDtos(Set<PremiumSpan> premiumSpans) {
         return premiumSpans.stream().map(this::premiumSpanToPremiumSpanDto).collect(Collectors.toSet());
+    }
+
+    /**
+     * This method converts the member premium to member premium dto
+     * @param memberPremium
+     * @return
+     */
+    private MemberPremiumDto getMemberPremiumDto(MemberPremium memberPremium){
+        if(memberPremium == null){
+            return null;
+        }
+        MemberPremiumDto memberPremiumDto = MemberPremiumDto.builder()
+                .memberPremiumSK(memberPremium.getMemberPremiumSK())
+                .exchangeMemberId(memberPremium.getExchangeMemberId())
+                .memberCode(memberPremium.getMember().getMemberCode())
+                .individualPremiumAmount(memberPremium.getIndividualPremiumAmount())
+                .memberSK(memberPremium.getMember().getMemberSK())
+                .createdDate(memberPremium.getCreatedDate())
+                .updatedDate(memberPremium.getUpdatedDate())
+                .build();
+        return memberPremiumDto;
+    }
+
+    /**
+     * This method converts the member premium dto to member premium
+     * @param memberPremiumDto
+     * @return
+     */
+    private MemberPremium getMemberPremium(MemberPremiumDto memberPremiumDto){
+        if(memberPremiumDto == null){
+            return null;
+        }
+        MemberPremium memberPremium = MemberPremium.builder()
+                .memberPremiumSK(memberPremiumDto.getMemberPremiumSK())
+                .exchangeMemberId(memberPremiumDto.getExchangeMemberId())
+                .member(Member.builder()
+                        .memberSK(memberPremiumDto.getMemberSK())
+                        .memberCode(memberPremiumDto.getMemberCode())
+                        .build())
+                .individualPremiumAmount(memberPremiumDto.getIndividualPremiumAmount())
+                .exchangeMemberId(memberPremiumDto.getExchangeMemberId())
+                .createdDate(memberPremiumDto.getCreatedDate())
+                .updatedDate(memberPremiumDto.getUpdatedDate())
+                .build();
+        return memberPremium;
+    }
+
+    /**
+     * This method converts the member premiums to member premium dtos
+     * @param memberPremiums
+     * @return
+     */
+    private Set<MemberPremiumDto> getMemberPremiumDtos(Set<MemberPremium> memberPremiums){
+        return memberPremiums.stream().map(this::getMemberPremiumDto).collect(Collectors.toSet());
+    }
+
+    /**
+     * This method converts the member premiums dtos to member premiums
+     * @param memberPremiumDtos
+     * @return
+     */
+    private Set<MemberPremium> getMemberPremiums(Set<MemberPremiumDto> memberPremiumDtos){
+        return memberPremiumDtos.stream().map(this::getMemberPremium).collect(Collectors.toSet());
     }
 }

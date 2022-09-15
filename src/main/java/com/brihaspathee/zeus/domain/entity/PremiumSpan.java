@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -53,6 +54,18 @@ public class PremiumSpan {
      */
     @OneToMany(mappedBy = "premiumSpan", fetch = FetchType.EAGER)
     private Set<MemberPremium> members;
+
+    /**
+     * Start date of the premium span
+     */
+    @Column(name = "start_date", columnDefinition = "datetime", nullable = false)
+    private LocalDate startDate;
+
+    /**
+     * End date of the premium span
+     */
+    @Column(name = "end_date", columnDefinition = "datetime", nullable = false)
+    private LocalDate endDate;
 
     /**
      * The csr variant associated with the premium span
@@ -108,21 +121,7 @@ public class PremiumSpan {
      * toString method
      * @return
      */
-    @Override
-    public String toString() {
-        return "PremiumSpan{" +
-                "premiumSpanSK=" + premiumSpanSK +
-                ", enrollmentSpan=" + enrollmentSpan +
-                ", csrVariant='" + csrVariant + '\'' +
-                ", totalPremiumAmount=" + totalPremiumAmount +
-                ", totalResponsibleAmount=" + totalResponsibleAmount +
-                ", aptcAmount=" + aptcAmount +
-                ", otherPayAmount=" + otherPayAmount +
-                ", csrAmount=" + csrAmount +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
+
 
     /**
      * equals method

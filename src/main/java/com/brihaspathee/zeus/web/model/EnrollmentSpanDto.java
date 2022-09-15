@@ -85,6 +85,13 @@ public class EnrollmentSpanDto {
     private LocalDate endDate;
 
     /**
+     * The exchange subscriber id associated with the enrollment span
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The exchange subscriber id associated with the enrollment span", example = "5236346", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private String exchangeSubscriberId;
+
+    /**
      * The effectuation date of the enrollment span
      */
     @JsonProperty(required = true)
