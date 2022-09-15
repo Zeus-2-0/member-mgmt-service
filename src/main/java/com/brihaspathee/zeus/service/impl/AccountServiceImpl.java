@@ -2,13 +2,16 @@ package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
+import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.web.model.AccountDto;
+import com.brihaspathee.zeus.web.model.AccountList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created in Intellij IDEA
@@ -24,7 +27,15 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
+    /**
+     * The account repository to perform CRUD operations
+     */
     private final AccountRepository accountRepository;
+
+    /**
+     * Mapper to convert dto to entity and vice versa
+     */
+    private final AccountMapper accountMapper;
 
     @Override
     public Account createAccount(AccountDto accountDto) {
@@ -36,9 +47,18 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+    /**
+     * Get all the accounts in the system
+     * @return AccountList that contains all the accounts
+     */
     @Override
-    public Set<Account> getAllAccounts() {
-        return null;
+    public AccountList getAllAccounts() {
+        Set<Account> accounts = accountRepository.findAll().stream().collect(Collectors.toSet());
+        Set<AccountDto> accountDtos = accountMapper.accountToAccountDtos(accounts);
+        AccountList accountList = AccountList.builder()
+                .accountDtos(accountDtos)
+                .build();
+        return accountList;
     }
 
     @Override

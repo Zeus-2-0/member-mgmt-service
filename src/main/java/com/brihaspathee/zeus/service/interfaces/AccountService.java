@@ -2,6 +2,7 @@ package com.brihaspathee.zeus.service.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.web.model.AccountDto;
+import com.brihaspathee.zeus.web.model.AccountList;
 
 import java.util.Set;
 
@@ -18,6 +19,6 @@ public interface AccountService {
 
     Account createAccount(AccountDto accountDto);
     Account getAccountById(String accountId);
-    Set<Account> getAllAccounts();
+    AccountList getAllAccounts();
     Account updateAccount(AccountDto accountDto);
 }

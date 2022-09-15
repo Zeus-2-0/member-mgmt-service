@@ -87,7 +87,7 @@ public class Account {
 
     /**
      * toString method
-     * @return
+     * @return returns a string
      */
     @Override
     public String toString() {
@@ -104,8 +104,8 @@ public class Account {
 
     /**
      * the equals method
-     * @param o
-     * @return
+     * @param o account sk used for equals method
+     * @return returns true or false
      */
     @Override
     public boolean equals(Object o) {
@@ -116,8 +116,8 @@ public class Account {
     }
 
     /**
-     * hascode method
-     * @return
+     * hashcode method
+     * @return returns a unique hashcode value
      */
     @Override
     public int hashCode() {

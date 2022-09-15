@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`attribute` (
   `attribute_name` VARCHAR(50) NOT NULL,
   `attribute_type` VARCHAR(50) NOT NULL,
   `created_date` DATETIME NULL,
-  `update_date` DATETIME NULL,
+  `updated_date` DATETIME NULL,
   PRIMARY KEY (`attribute_sk`))
 ENGINE = InnoDB
 COMMENT = 'Possible attributes that can be assigned to an account';
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member` (
                                                        `last_name` VARCHAR(100) NOT NULL COMMENT 'The last name of the member',
                                                        `relationship_type_code` VARCHAR(20) NOT NULL COMMENT 'Relationship of the member with the head of the household',
                                                        `date_of_birth` DATETIME NULL COMMENT 'The date of birth of the member',
-                                                       `genderTypeCode` VARCHAR(50) NOT NULL COMMENT 'The gender of the member',
+                                                       `gender_type_code` VARCHAR(50) NOT NULL COMMENT 'The gender of the member',
                                                        `height` DECIMAL(10,2) NULL COMMENT 'The height of the member',
                                                        `weight` DECIMAL(10,2) NULL COMMENT 'The weight of the member',
                                                        `created_date` DATETIME NULL COMMENT 'The date when the record was created',
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_email` (
   `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key to the member table',
   `email_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of email (e.g. personal, work, school)\n',
   `email` VARCHAR(100) NOT NULL COMMENT 'The email',
-  `is_primary` TINYINT NOT NULL,
+  `is_primary` BOOLEAN NOT NULL,
   `start_date` DATETIME NOT NULL COMMENT 'The start date of the email',
   `end_date` DATETIME NULL COMMENT 'The end date of the email',
   `created_date` DATETIME NULL COMMENT 'Date when the record was created',

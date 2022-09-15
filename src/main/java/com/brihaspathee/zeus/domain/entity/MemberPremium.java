@@ -26,7 +26,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "MEMBER_PREMIUM")
+@Table(name = "MEMBER_PREMIUMS")
 public class MemberPremium {
 
     /**

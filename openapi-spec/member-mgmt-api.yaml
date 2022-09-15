@@ -13,7 +13,20 @@ servers:
 - url: http://localhost:8084
   description: Development Server
 paths:
-  /api/v1/account/{accountId}:
+  /api/v1/zeus/account:
+    get:
+      tags:
+      - account
+      description: Get the details of all the accounts
+      operationId: getAllAccounts
+      responses:
+        "200":
+          description: Successfully retrieved the details of all the account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZeusApiResponse'
+  /api/v1/zeus/account/{accountId}:
     get:
       tags:
       - account
