@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
 import com.brihaspathee.zeus.web.model.AccountDto;
+import com.brihaspathee.zeus.web.model.AccountList;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Package Name: com.brihaspathee.zeus.web.resource.interfaces
  * To change this template use File | Settings | File and Code Template
  */
-@RequestMapping("/api/v1/account")
+@RequestMapping("/api/v1/zeus/account")
 @Validated
 public interface AccountAPI {
 
@@ -50,4 +51,27 @@ public interface AccountAPI {
     )
     @GetMapping("/{accountId}")
     ResponseEntity<ZeusApiResponse<AccountDto>> getAccountById(@PathVariable("accountId") String accountId);
+
+    /**
+     * Get all the accounts in the system
+     * @return
+     */
+    @Operation(
+            method = "GET",
+            description = "Get the details of all the accounts",
+            tags = {"account"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved the details of all the account",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ZeusApiResponse.class))
+                            }
+                    )
+            }
+    )
+    @GetMapping
+    ResponseEntity<ZeusApiResponse<AccountList>> getAllAccounts();
 }

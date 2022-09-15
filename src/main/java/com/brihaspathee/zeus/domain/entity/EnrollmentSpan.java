@@ -38,7 +38,7 @@ public class EnrollmentSpan {
     @GeneratedValue(generator = "UUID")
     @Type(type = "uuid-char")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "enrollment_span_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    @Column(name = "enrlmnt_span_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID enrollmentSpanSK;
 
     /**

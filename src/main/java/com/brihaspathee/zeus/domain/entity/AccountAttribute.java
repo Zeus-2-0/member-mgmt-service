@@ -25,7 +25,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ACCOUNT_ATTRIBUTE")
+@Table(name = "ACCOUNT_ATTRIBUTES")
 public class AccountAttribute {
 
     /**
