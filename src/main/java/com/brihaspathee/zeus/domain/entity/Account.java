@@ -62,7 +62,7 @@ public class Account {
     /**
      * Unique number associated with each account
      */
-    @Column(name = "account_number", nullable = false)
+    @Column(name = "acct_number", nullable = false)
     private String accountNumber;
 
     /**

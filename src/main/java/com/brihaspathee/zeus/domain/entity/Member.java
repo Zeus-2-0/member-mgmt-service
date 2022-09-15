@@ -73,6 +73,12 @@ public class Member {
     private String lastName;
 
     /**
+     * The relationship of the member with the head of the household
+     */
+    @Column(name = "relationship_type_code", columnDefinition = "varchar", nullable = false, length = 20)
+    private String relationshipTypeCode;
+
+    /**
      * The date of birth of the member
      */
     @Column(name = "date_of_birth", columnDefinition = "datetime", nullable = false)

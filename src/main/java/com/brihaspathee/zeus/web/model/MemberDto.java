@@ -70,6 +70,13 @@ public class MemberDto {
     private String lastName;
 
     /**
+     * The relationship of the member with head of the household
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The relationship of the member with the head of the household", example = "HOH", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private String relationshipTypeCode;
+
+    /**
      * The date of birth of the member
      */
     @JsonProperty(required = true)

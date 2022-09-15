@@ -38,7 +38,7 @@ public class MemberPremiumDto {
      */
     @JsonProperty(required = true)
     @Schema(description = "A unique member code", example = "SDG3543SDFG23GF", required = true, accessMode = Schema.AccessMode.READ_WRITE)
-    private UUID memberCode;
+    private String memberCode;
 
     /**
      * The primary key of the member
@@ -46,6 +46,13 @@ public class MemberPremiumDto {
     @JsonProperty(required = false)
     @Schema(description = "Member SK - This is a UUID value", example = "657cfd75-634e-49f1-9556-4d79f79848ec", required = false, accessMode = Schema.AccessMode.READ_WRITE)
     private UUID memberSK;
+
+    /**
+     * The exchange member id of the member associated with the premium span
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The exchange member id of the member", example = "2323452", required = true, accessMode = Schema.AccessMode.READ_WRITE)
+    private String exchangeMemberId;
 
     /**
      * The member's premium amount

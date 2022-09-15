@@ -54,6 +54,12 @@ public class MemberPremium {
     private Member member;
 
     /**
+     * The exchange member id associated with the member
+     */
+    @Column(name = "exchange_member_id", length=50, columnDefinition = "varchar", nullable = false)
+    private String exchangeMemberId;
+
+    /**
      * The premium amount for the member
      */
     @Column(name = "individual_premium_amount", nullable = false)
