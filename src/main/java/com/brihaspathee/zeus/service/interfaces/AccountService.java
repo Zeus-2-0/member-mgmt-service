@@ -18,7 +18,7 @@ import java.util.Set;
 public interface AccountService {
 
     Account createAccount(AccountDto accountDto);
-    Account getAccountById(String accountId);
+    AccountDto getAccountByNumber(String accountNumber);
     AccountList getAllAccounts();
     Account updateAccount(AccountDto accountDto);
 }

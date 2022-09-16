@@ -35,14 +35,20 @@ public class AccountAPIImpl implements AccountAPI {
     private final AccountService accountService;
 
     /**
-     * Get the account for the account id passed in the input
-     * @param accountId
-     * @return
+     * Get the account for the account number passed in the input
+     * @param accountNumber
+     * @return The account details of the account
      */
     @Override
-    public ResponseEntity<ZeusApiResponse<AccountDto>> getAccountById(String accountId) {
+    public ResponseEntity<ZeusApiResponse<AccountDto>> getAccountByNumber(String accountNumber) {
+        AccountDto accountDto = accountService.getAccountByNumber(accountNumber);
         ZeusApiResponse<AccountDto> apiResponse = ZeusApiResponse.<AccountDto>builder()
-                .response(AccountDto.builder().accountSK(UUID.randomUUID()).accountNumber("Test Id").build())
+                .response(accountDto)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.OK)
+                .statusCode(200)
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.API_SUCCESS)
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

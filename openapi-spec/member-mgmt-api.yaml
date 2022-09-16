@@ -18,22 +18,22 @@ paths:
       tags:
       - account
       description: Get the details of all the accounts
-      operationId: getAllAccounts
+      operationId: Get all accounts
       responses:
         "200":
           description: Successfully retrieved the details of all the account
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZeusApiResponse'
-  /api/v1/zeus/account/{accountId}:
+                $ref: '#/components/schemas/AccountList'
+  /api/v1/zeus/account/{accountNumber}:
     get:
       tags:
       - account
-      description: Get the details of the account by its id
-      operationId: getAccountById
+      description: Get the details of the account by its number
+      operationId: Get Account by account number
       parameters:
-      - name: accountId
+      - name: accountNumber
         in: path
         required: true
         schema:
@@ -44,94 +44,666 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZeusApiResponse'
+                $ref: '#/components/schemas/AccountDto'
 components:
   schemas:
-    ZeusApiResponse:
+    AccountAttributeDto:
+      required:
+      - attributeSK
+      - attributeValue
       type: object
       properties:
-        timestamp:
+        accountAttributeSK:
           type: string
+          description: Account Attribute SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        attributeSK:
+          type: string
+          description: Attribute SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        attributeValue:
+          type: string
+          description: The value of the attribute
+          example: FFM-FL
+        createdDate:
+          type: string
+          description: The date when the account attribute was created
           format: date-time
-        statusCode:
-          type: integer
-          format: int32
-        status:
+        updatedDate:
           type: string
-          enum:
-          - 100 CONTINUE
-          - 101 SWITCHING_PROTOCOLS
-          - 102 PROCESSING
-          - 103 CHECKPOINT
-          - 200 OK
-          - 201 CREATED
-          - 202 ACCEPTED
-          - 203 NON_AUTHORITATIVE_INFORMATION
-          - 204 NO_CONTENT
-          - 205 RESET_CONTENT
-          - 206 PARTIAL_CONTENT
-          - 207 MULTI_STATUS
-          - 208 ALREADY_REPORTED
-          - 226 IM_USED
-          - 300 MULTIPLE_CHOICES
-          - 301 MOVED_PERMANENTLY
-          - 302 FOUND
-          - 302 MOVED_TEMPORARILY
-          - 303 SEE_OTHER
-          - 304 NOT_MODIFIED
-          - 305 USE_PROXY
-          - 307 TEMPORARY_REDIRECT
-          - 308 PERMANENT_REDIRECT
-          - 400 BAD_REQUEST
-          - 401 UNAUTHORIZED
-          - 402 PAYMENT_REQUIRED
-          - 403 FORBIDDEN
-          - 404 NOT_FOUND
-          - 405 METHOD_NOT_ALLOWED
-          - 406 NOT_ACCEPTABLE
-          - 407 PROXY_AUTHENTICATION_REQUIRED
-          - 408 REQUEST_TIMEOUT
-          - 409 CONFLICT
-          - 410 GONE
-          - 411 LENGTH_REQUIRED
-          - 412 PRECONDITION_FAILED
-          - 413 PAYLOAD_TOO_LARGE
-          - 413 REQUEST_ENTITY_TOO_LARGE
-          - 414 URI_TOO_LONG
-          - 414 REQUEST_URI_TOO_LONG
-          - 415 UNSUPPORTED_MEDIA_TYPE
-          - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-          - 417 EXPECTATION_FAILED
-          - 418 I_AM_A_TEAPOT
-          - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-          - 420 METHOD_FAILURE
-          - 421 DESTINATION_LOCKED
-          - 422 UNPROCESSABLE_ENTITY
-          - 423 LOCKED
-          - 424 FAILED_DEPENDENCY
-          - 425 TOO_EARLY
-          - 426 UPGRADE_REQUIRED
-          - 428 PRECONDITION_REQUIRED
-          - 429 TOO_MANY_REQUESTS
-          - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-          - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-          - 500 INTERNAL_SERVER_ERROR
-          - 501 NOT_IMPLEMENTED
-          - 502 BAD_GATEWAY
-          - 503 SERVICE_UNAVAILABLE
-          - 504 GATEWAY_TIMEOUT
-          - 505 HTTP_VERSION_NOT_SUPPORTED
-          - 506 VARIANT_ALSO_NEGOTIATES
-          - 507 INSUFFICIENT_STORAGE
-          - 508 LOOP_DETECTED
-          - 509 BANDWIDTH_LIMIT_EXCEEDED
-          - 510 NOT_EXTENDED
-          - 511 NETWORK_AUTHENTICATION_REQUIRED
-        reason:
+          description: The date when the account attribute was updated
+          format: date-time
+    AccountDto:
+      required:
+      - enrollmentSpans
+      - lineOfBusinessTypeCode
+      - members
+      type: object
+      properties:
+        accountSK:
           type: string
-        message:
+          description: Account SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountNumber:
           type: string
-        developerMessage:
+          description: Account Number - Unique id that is assigned to the account
+          readOnly: true
+          example: DFEV323455DE5S3
+        lineOfBusinessTypeCode:
           type: string
-        response:
-          type: object
+          description: Line of business of the account
+          example: HIX
+        enrollmentSpans:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/EnrollmentSpanDto'
+        members:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberDto'
+        accountAttributes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountAttributeDto'
+        createdDate:
+          type: string
+          description: The date when the account was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the account was updated
+          format: date-time
+    AccountList:
+      type: object
+      properties:
+        accountDtos:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountDto'
+    EnrollmentSpanDto:
+      required:
+      - businessUnitTypeCode
+      - effectuationDate
+      - endDate
+      - exchangeSubscriberId
+      - groupPolicyId
+      - marketplaceTypeCode
+      - planId
+      - premiumSpans
+      - productTypeCode
+      - startDate
+      - stateTypeCode
+      - statusTypeCode
+      - ztcn
+      type: object
+      properties:
+        enrollmentSpanSK:
+          type: string
+          description: Enrollment Span SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        premiumSpans:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PremiumSpanDto'
+        stateTypeCode:
+          type: string
+          description: State associated with the enrollment span
+          example: FL
+        marketplaceTypeCode:
+          type: string
+          description: Marketplace associated with the enrollment span
+          example: FFM
+        businessUnitTypeCode:
+          type: string
+          description: Business unit associated with the enrollment span
+          example: FL_BU
+        startDate:
+          type: string
+          description: Start date associated with the enrollment span
+          format: date
+        endDate:
+          type: string
+          description: End date associated with the enrollment span
+          format: date
+        exchangeSubscriberId:
+          type: string
+          description: The exchange subscriber id associated with the enrollment span
+          example: "5236346"
+        effectuationDate:
+          type: string
+          description: Effectuation date associated with the enrollment span
+          format: date
+        planId:
+          type: string
+          description: Plan Id associated with the enrollment span
+          example: 52345FL424525235
+        groupPolicyId:
+          type: string
+          description: Group policy id associated with the enrollment span
+          example: "523452345"
+        productTypeCode:
+          type: string
+          description: Product type code of the plan
+          example: HMO
+        statusTypeCode:
+          type: string
+          description: Status of the enrollment span
+          example: ENROLLED
+        ztcn:
+          type: string
+          description: The zeus transaction control number of the transaction that
+            created the enrollment span
+          example: SDFG43456DFG23G
+        createdDate:
+          type: string
+          description: The date when the enrollment span was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the enrollment span was updated
+          format: date-time
+    MemberAddressDto:
+      required:
+      - addressLine1
+      - addressLine2
+      - addressTypeCode
+      - city
+      - startDate
+      - stateTypeCode
+      - zipCode
+      type: object
+      properties:
+        memberAddressSK:
+          type: string
+          description: Member Address SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        addressTypeCode:
+          type: string
+          description: The type of the address
+          example: Residential
+        addressLine1:
+          type: string
+          description: The address line 1 of the address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The address line 2 of the address
+          example: Apt 301
+        city:
+          type: string
+          description: The city of the address
+          example: Tampa
+        stateTypeCode:
+          type: string
+          description: The state of the address
+          example: FL
+        zipCode:
+          type: string
+          description: The zipcode of the address
+          example: "33556"
+        startDate:
+          type: string
+          description: The start date of the address
+          format: date
+        endDate:
+          type: string
+          description: The end date of the address
+          format: date
+        createdDate:
+          type: string
+          description: The date when the address was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the address was updated
+          format: date-time
+      description: The list of member addresses associated with the member
+    MemberAttributeDto:
+      required:
+      - attributeSK
+      - attributeValue
+      type: object
+      properties:
+        memberAttributeSK:
+          type: string
+          description: Member Attribute SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        attributeSK:
+          type: string
+          description: Attribute SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        attributeValue:
+          type: string
+          description: The value of the attribute
+          example: FFM-FL
+        createdDate:
+          type: string
+          description: The date when the attribute was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the attribute was updated
+          format: date-time
+      description: The list of member attributes associated with the member
+    MemberDto:
+      required:
+      - dateOfBirth
+      - firstName
+      - genderTypeCode
+      - lastName
+      - memberCode
+      - relationshipTypeCode
+      type: object
+      properties:
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberCode:
+          type: string
+          description: A unique member code
+          example: SDG3543SDFG23GF
+        firstName:
+          type: string
+          description: The first name of the member
+          example: John
+        middleName:
+          type: string
+          description: The middle name of the member
+          example: Mosley
+        lastName:
+          type: string
+          description: The last name of the member
+          example: Doe
+        relationshipTypeCode:
+          type: string
+          description: The relationship of the member with the head of the household
+          example: HOH
+        dateOfBirth:
+          type: string
+          description: The date of birth of the member
+          format: date
+        genderTypeCode:
+          type: string
+          description: The gender of the member
+          example: MALE
+        height:
+          type: number
+          description: The height of the member
+          format: double
+          example: 5.6
+        weight:
+          type: number
+          description: The weight of the member in pounds
+          format: double
+          example: 65.6
+        memberAttributes:
+          uniqueItems: true
+          type: array
+          description: The list of member attributes associated with the member
+          items:
+            $ref: '#/components/schemas/MemberAttributeDto'
+        memberAddresses:
+          uniqueItems: true
+          type: array
+          description: The list of member addresses associated with the member
+          items:
+            $ref: '#/components/schemas/MemberAddressDto'
+        memberIdentifiers:
+          uniqueItems: true
+          type: array
+          description: The list of member identifiers associated with the member
+          items:
+            $ref: '#/components/schemas/MemberIdentifierDto'
+        memberLanguages:
+          uniqueItems: true
+          type: array
+          description: The list of member languages associated with the member
+          items:
+            $ref: '#/components/schemas/MemberLanguageDto'
+        memberPhones:
+          uniqueItems: true
+          type: array
+          description: The list of member phone numbers associated with the member
+          items:
+            $ref: '#/components/schemas/MemberPhoneDto'
+        memberEmails:
+          uniqueItems: true
+          type: array
+          description: The list of member emails associated with the member
+          items:
+            $ref: '#/components/schemas/MemberEmailDto'
+        memberPremiums:
+          uniqueItems: true
+          type: array
+          description: The list of premiums associated with the member
+          items:
+            $ref: '#/components/schemas/MemberPremiumDto'
+        createdDate:
+          type: string
+          description: The date when the member was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the member was updated
+          format: date-time
+    MemberEmailDto:
+      required:
+      - email
+      - emailTypeCode
+      - isPrimary
+      - primary
+      - startDate
+      type: object
+      properties:
+        memberEmailSK:
+          type: string
+          description: Member Email SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        emailTypeCode:
+          type: string
+          description: The email type code of the email
+          example: PERSONAL
+        email:
+          type: string
+          description: The email of the member
+          example: vbalaji215@gmail.com
+        isPrimary:
+          type: boolean
+          description: Identifies if the email is the primary email
+          example: true
+        startDate:
+          type: string
+          description: The start date of the email
+          format: date
+        endDate:
+          type: string
+          description: The end date of the email
+          format: date
+        createdDate:
+          type: string
+          description: The date when the email was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the email was updated
+          format: date-time
+        primary:
+          type: boolean
+      description: The list of member emails associated with the member
+    MemberIdentifierDto:
+      required:
+      - identifierTypeCode
+      - identifierValue
+      type: object
+      properties:
+        memberIdentifierSK:
+          type: string
+          description: Member Identifier SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        identifierTypeCode:
+          type: string
+          description: The identifier type code of the identifier
+          example: SSN
+        identifierValue:
+          type: string
+          description: The identifier of the member
+          example: 345-34-6434
+        createdDate:
+          type: string
+          description: The date when the identifier was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the identifier was updated
+          format: date-time
+      description: The list of member identifiers associated with the member
+    MemberLanguageDto:
+      required:
+      - languageCode
+      - languageTypeCode
+      - startDate
+      type: object
+      properties:
+        memberLanguageSK:
+          type: string
+          description: Member Language SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        languageTypeCode:
+          type: string
+          description: The language type code of the language
+          example: SPOKEN
+        languageCode:
+          type: string
+          description: The language of the member
+          example: ENG
+        startDate:
+          type: string
+          description: The start date of the language
+          format: date
+        endDate:
+          type: string
+          format: date
+        createdDate:
+          type: string
+          description: The date when the language was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the language was updated
+          format: date-time
+      description: The list of member languages associated with the member
+    MemberPhoneDto:
+      required:
+      - phoneNumber
+      - phoneTypeCode
+      - startDate
+      type: object
+      properties:
+        memberPhoneSK:
+          type: string
+          description: Member Phone SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        phoneTypeCode:
+          type: string
+          description: The phone type code of the phone
+          example: MOBILE
+        phoneNumber:
+          type: string
+          description: The phone number of the member
+          example: 813-357-9150
+        startDate:
+          type: string
+          description: The start date of the phone
+          format: date
+        endDate:
+          type: string
+          description: The end date of the phone
+          format: date
+        createdDate:
+          type: string
+          description: The date when the phone number was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the phone number was updated
+          format: date-time
+      description: The list of member phone numbers associated with the member
+    MemberPremiumDto:
+      required:
+      - exchangeMemberId
+      - individualPremiumAmount
+      - memberCode
+      type: object
+      properties:
+        memberPremiumSK:
+          type: string
+          description: Member Premium Span SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberCode:
+          type: string
+          description: A unique member code
+          example: SDG3543SDFG23GF
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        exchangeMemberId:
+          type: string
+          description: The exchange member id of the member
+          example: "2323452"
+        individualPremiumAmount:
+          type: number
+          description: The premium amount for the respective member
+          example: 150.0
+        createdDate:
+          type: string
+          description: The date when the premium span was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the premium span was updated
+          format: date-time
+      description: The list of premiums associated with the member
+    PremiumSpanDto:
+      required:
+      - csrVariant
+      - endDate
+      - memberPremiumSpans
+      - startDate
+      - totalPremiumAmount
+      - totalResponsibleAmount
+      type: object
+      properties:
+        premiumSpanSK:
+          type: string
+          description: Premium Span SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        enrollmentSpanSK:
+          type: string
+          description: Enrollment Span SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberPremiumSpans:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberPremiumDto'
+        startDate:
+          type: string
+          description: The start date of the premium span
+          format: date
+        endDate:
+          type: string
+          description: The end date of the premium span
+          format: date
+        csrVariant:
+          type: string
+          description: The CSR Variant of the premium span
+          example: "01"
+        totalPremiumAmount:
+          type: number
+          description: The total premium amount period of the premium span
+          example: 150.0
+        totalResponsibleAmount:
+          type: number
+          description: The total responsible amount period of the premium span
+          example: 150.0
+        aptcAmount:
+          type: number
+          description: The APTC amount period of the premium span
+          example: 150.0
+        otherPayAmount:
+          type: number
+          description: The other pay amount period of the premium span
+          example: 150.0
+        csrAmount:
+          type: number
+          description: The CSR amount period of the premium span
+          example: 150.0
+        createdDate:
+          type: string
+          description: The date when the premium span was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the premium span was updated
+          format: date-time
