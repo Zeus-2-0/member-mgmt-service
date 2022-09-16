@@ -2,6 +2,7 @@ package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
+import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.web.model.AccountDto;
@@ -42,9 +43,17 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+    /**
+     * Get the details of the account using account mapper
+     * @param accountNumber
+     * @return
+     */
     @Override
-    public Account getAccountById(String accountId) {
-        return null;
+    public AccountDto getAccountByNumber(String accountNumber) {
+        Account account = accountRepository.findAccountsByAccountNumber(accountNumber).orElseThrow(() -> {
+            throw new AccountNotFoundException("Account with account number " + accountNumber + " not found" );
+        });
+        return accountMapper.accountToAccountDto(account);
     }
 
     /**
