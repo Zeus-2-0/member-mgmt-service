@@ -13,6 +13,45 @@ servers:
 - url: http://localhost:8084
   description: Development Server
 paths:
+  /api/v1/zeus/member/{memberCode}:
+    get:
+      tags:
+      - member
+      description: Get the details of the member by their code
+      operationId: Get Member by member code
+      parameters:
+      - name: memberCode
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successfully retrieved the details of the member
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberDto'
+  /api/v1/zeus/member/account/{accountNumber}:
+    get:
+      tags:
+      - member
+      description: Get the details of all the members in an account
+      operationId: Get members of an account
+      parameters:
+      - name: accountNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successfully retrieved the details of all the members in an
+            account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberList'
   /api/v1/zeus/account:
     get:
       tags:
@@ -47,183 +86,6 @@ paths:
                 $ref: '#/components/schemas/AccountDto'
 components:
   schemas:
-    AccountAttributeDto:
-      required:
-      - attributeSK
-      - attributeValue
-      type: object
-      properties:
-        accountAttributeSK:
-          type: string
-          description: Account Attribute SK - This is a UUID value
-          format: uuid
-          readOnly: true
-          example: 657cfd75-634e-49f1-9556-4d79f79848ec
-        attributeSK:
-          type: string
-          description: Attribute SK - This is a UUID value
-          format: uuid
-          example: 657cfd75-634e-49f1-9556-4d79f79848ec
-        accountSK:
-          type: string
-          description: Account SK - This is a UUID value
-          format: uuid
-          example: 657cfd75-634e-49f1-9556-4d79f79848ec
-        attributeValue:
-          type: string
-          description: The value of the attribute
-          example: FFM-FL
-        createdDate:
-          type: string
-          description: The date when the account attribute was created
-          format: date-time
-        updatedDate:
-          type: string
-          description: The date when the account attribute was updated
-          format: date-time
-    AccountDto:
-      required:
-      - enrollmentSpans
-      - lineOfBusinessTypeCode
-      - members
-      type: object
-      properties:
-        accountSK:
-          type: string
-          description: Account SK - This is a UUID value
-          format: uuid
-          readOnly: true
-          example: 657cfd75-634e-49f1-9556-4d79f79848ec
-        accountNumber:
-          type: string
-          description: Account Number - Unique id that is assigned to the account
-          readOnly: true
-          example: DFEV323455DE5S3
-        lineOfBusinessTypeCode:
-          type: string
-          description: Line of business of the account
-          example: HIX
-        enrollmentSpans:
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/EnrollmentSpanDto'
-        members:
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/MemberDto'
-        accountAttributes:
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountAttributeDto'
-        createdDate:
-          type: string
-          description: The date when the account was created
-          format: date-time
-        updatedDate:
-          type: string
-          description: The date when the account was updated
-          format: date-time
-    AccountList:
-      type: object
-      properties:
-        accountDtos:
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountDto'
-    EnrollmentSpanDto:
-      required:
-      - businessUnitTypeCode
-      - effectuationDate
-      - endDate
-      - exchangeSubscriberId
-      - groupPolicyId
-      - marketplaceTypeCode
-      - planId
-      - premiumSpans
-      - productTypeCode
-      - startDate
-      - stateTypeCode
-      - statusTypeCode
-      - ztcn
-      type: object
-      properties:
-        enrollmentSpanSK:
-          type: string
-          description: Enrollment Span SK - This is a UUID value
-          format: uuid
-          readOnly: true
-          example: 657cfd75-634e-49f1-9556-4d79f79848ec
-        accountSK:
-          type: string
-          description: Account SK - This is a UUID value
-          format: uuid
-          example: 657cfd75-634e-49f1-9556-4d79f79848ec
-        premiumSpans:
-          uniqueItems: true
-          type: array
-          items:
-            $ref: '#/components/schemas/PremiumSpanDto'
-        stateTypeCode:
-          type: string
-          description: State associated with the enrollment span
-          example: FL
-        marketplaceTypeCode:
-          type: string
-          description: Marketplace associated with the enrollment span
-          example: FFM
-        businessUnitTypeCode:
-          type: string
-          description: Business unit associated with the enrollment span
-          example: FL_BU
-        startDate:
-          type: string
-          description: Start date associated with the enrollment span
-          format: date
-        endDate:
-          type: string
-          description: End date associated with the enrollment span
-          format: date
-        exchangeSubscriberId:
-          type: string
-          description: The exchange subscriber id associated with the enrollment span
-          example: "5236346"
-        effectuationDate:
-          type: string
-          description: Effectuation date associated with the enrollment span
-          format: date
-        planId:
-          type: string
-          description: Plan Id associated with the enrollment span
-          example: 52345FL424525235
-        groupPolicyId:
-          type: string
-          description: Group policy id associated with the enrollment span
-          example: "523452345"
-        productTypeCode:
-          type: string
-          description: Product type code of the plan
-          example: HMO
-        statusTypeCode:
-          type: string
-          description: Status of the enrollment span
-          example: ENROLLED
-        ztcn:
-          type: string
-          description: The zeus transaction control number of the transaction that
-            created the enrollment span
-          example: SDFG43456DFG23G
-        createdDate:
-          type: string
-          description: The date when the enrollment span was created
-          format: date-time
-        updatedDate:
-          type: string
-          description: The date when the enrollment span was updated
-          format: date-time
     MemberAddressDto:
       required:
       - addressLine1
@@ -640,6 +502,191 @@ components:
           description: The date when the premium span was updated
           format: date-time
       description: The list of premiums associated with the member
+    MemberList:
+      type: object
+      properties:
+        memberDtos:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberDto'
+    AccountAttributeDto:
+      required:
+      - attributeSK
+      - attributeValue
+      type: object
+      properties:
+        accountAttributeSK:
+          type: string
+          description: Account Attribute SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        attributeSK:
+          type: string
+          description: Attribute SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        attributeValue:
+          type: string
+          description: The value of the attribute
+          example: FFM-FL
+        createdDate:
+          type: string
+          description: The date when the account attribute was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the account attribute was updated
+          format: date-time
+    AccountDto:
+      required:
+      - enrollmentSpans
+      - lineOfBusinessTypeCode
+      - members
+      type: object
+      properties:
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountNumber:
+          type: string
+          description: Account Number - Unique id that is assigned to the account
+          readOnly: true
+          example: DFEV323455DE5S3
+        lineOfBusinessTypeCode:
+          type: string
+          description: Line of business of the account
+          example: HIX
+        enrollmentSpans:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/EnrollmentSpanDto'
+        members:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberDto'
+        accountAttributes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountAttributeDto'
+        createdDate:
+          type: string
+          description: The date when the account was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the account was updated
+          format: date-time
+    AccountList:
+      type: object
+      properties:
+        accountDtos:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountDto'
+    EnrollmentSpanDto:
+      required:
+      - businessUnitTypeCode
+      - effectuationDate
+      - endDate
+      - exchangeSubscriberId
+      - groupPolicyId
+      - marketplaceTypeCode
+      - planId
+      - premiumSpans
+      - productTypeCode
+      - startDate
+      - stateTypeCode
+      - statusTypeCode
+      - ztcn
+      type: object
+      properties:
+        enrollmentSpanSK:
+          type: string
+          description: Enrollment Span SK - This is a UUID value
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        premiumSpans:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PremiumSpanDto'
+        stateTypeCode:
+          type: string
+          description: State associated with the enrollment span
+          example: FL
+        marketplaceTypeCode:
+          type: string
+          description: Marketplace associated with the enrollment span
+          example: FFM
+        businessUnitTypeCode:
+          type: string
+          description: Business unit associated with the enrollment span
+          example: FL_BU
+        startDate:
+          type: string
+          description: Start date associated with the enrollment span
+          format: date
+        endDate:
+          type: string
+          description: End date associated with the enrollment span
+          format: date
+        exchangeSubscriberId:
+          type: string
+          description: The exchange subscriber id associated with the enrollment span
+          example: "5236346"
+        effectuationDate:
+          type: string
+          description: Effectuation date associated with the enrollment span
+          format: date
+        planId:
+          type: string
+          description: Plan Id associated with the enrollment span
+          example: 52345FL424525235
+        groupPolicyId:
+          type: string
+          description: Group policy id associated with the enrollment span
+          example: "523452345"
+        productTypeCode:
+          type: string
+          description: Product type code of the plan
+          example: HMO
+        statusTypeCode:
+          type: string
+          description: Status of the enrollment span
+          example: ENROLLED
+        ztcn:
+          type: string
+          description: The zeus transaction control number of the transaction that
+            created the enrollment span
+          example: SDFG43456DFG23G
+        createdDate:
+          type: string
+          description: The date when the enrollment span was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the enrollment span was updated
+          format: date-time
     PremiumSpanDto:
       required:
       - csrVariant
