@@ -28,4 +28,11 @@ public interface MemberService {
      * @return
      */
     Set<MemberDto> getMembersOfAccount(String accountNumber);
+
+    /**
+     * Create a member
+     * @param memberDto
+     * @return
+     */
+    MemberDto createMember(MemberDto memberDto);
 }

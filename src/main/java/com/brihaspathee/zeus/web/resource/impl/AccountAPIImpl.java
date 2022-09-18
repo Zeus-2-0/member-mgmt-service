@@ -6,6 +6,7 @@ import com.brihaspathee.zeus.web.model.AccountDto;
 import com.brihaspathee.zeus.web.model.AccountList;
 import com.brihaspathee.zeus.web.resource.interfaces.AccountAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -69,5 +70,26 @@ public class AccountAPIImpl implements AccountAPI {
                 .developerMessage(ApiResponseConstants.SUCCESS_REASON)
                 .build();
         return ResponseEntity.ok(apiResponse);
+    }
+
+    /**
+     * Create a new account
+     * @param accountDto
+     * @return
+     * @throws JsonProcessingException
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<AccountDto>> createAccount(AccountDto accountDto) throws JsonProcessingException {
+        AccountDto savedAccount = accountService.createAccount(accountDto);
+        log.info("saves:{}",savedAccount);
+        ZeusApiResponse<AccountDto> apiResponse = ZeusApiResponse.<AccountDto>builder()
+            .response(savedAccount)
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.CREATED)
+            .statusCode(201)
+            .message(ApiResponseConstants.SUCCESS)
+            .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+        .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 }

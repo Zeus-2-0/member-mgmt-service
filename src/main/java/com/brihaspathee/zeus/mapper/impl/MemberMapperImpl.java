@@ -131,7 +131,11 @@ public class MemberMapperImpl implements MemberMapper {
      */
     @Override
     public Set<Member> memberDtosToMembers(Set<MemberDto> memberDtos) {
-        return memberDtos.stream().map(this::memberDtoToMember).collect(Collectors.toSet());
+        if(memberDtos !=null && !memberDtos.isEmpty()){
+            return memberDtos.stream().map(this::memberDtoToMember).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -141,6 +145,10 @@ public class MemberMapperImpl implements MemberMapper {
      */
     @Override
     public Set<MemberDto> membersToMemberDtos(Set<Member> members) {
-        return members.stream().map(this::memberToMemberDto).collect(Collectors.toSet());
+        if(members !=null && !members.isEmpty()){
+            return members.stream().map(this::memberToMemberDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

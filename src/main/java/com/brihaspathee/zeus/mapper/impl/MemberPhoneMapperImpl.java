@@ -77,7 +77,11 @@ public class MemberPhoneMapperImpl implements MemberPhoneMapper {
      */
     @Override
     public Set<MemberPhone> phoneDtosToPhones(Set<MemberPhoneDto> phoneDtos) {
-        return phoneDtos.stream().map(this::phoneDtoToPhone).collect(Collectors.toSet());
+        if(phoneDtos !=null && !phoneDtos.isEmpty()){
+            return phoneDtos.stream().map(this::phoneDtoToPhone).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -87,6 +91,10 @@ public class MemberPhoneMapperImpl implements MemberPhoneMapper {
      */
     @Override
     public Set<MemberPhoneDto> phonesToPhoneDtos(Set<MemberPhone> phones) {
-        return phones.stream().map(this::phoneToPhoneDto).collect(Collectors.toSet());
+        if(phones !=null && !phones.isEmpty()){
+            return phones.stream().map(this::phoneToPhoneDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

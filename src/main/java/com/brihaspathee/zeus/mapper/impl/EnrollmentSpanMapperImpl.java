@@ -73,6 +73,7 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
         if(enrollmentSpan == null){
             return null;
         }
+        log.info("to be mapped enrollment span:{}", enrollmentSpan);
         EnrollmentSpanDto enrollmentSpanDto = EnrollmentSpanDto.builder()
                 .enrollmentSpanSK(enrollmentSpan.getEnrollmentSpanSK())
                 .accountSK(enrollmentSpan.getAccount().getAccountSK())
@@ -92,6 +93,7 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
                 .createdDate(enrollmentSpan.getCreatedDate())
                 .updatedDate(enrollmentSpan.getUpdatedDate())
                 .build();
+        log.info("mapped enrollment span dto:{}", enrollmentSpanDto);
         return enrollmentSpanDto;
     }
 
@@ -102,7 +104,11 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
      */
     @Override
     public Set<EnrollmentSpan> enrollmentSpanDtosToEnrollmentSpans(Set<EnrollmentSpanDto> enrollmentSpanDtos) {
-        return enrollmentSpanDtos.stream().map(this::enrollmentSpanDtoToEnrollmentSpan).collect(Collectors.toSet());
+        if(enrollmentSpanDtos !=null && !enrollmentSpanDtos.isEmpty()){
+            return enrollmentSpanDtos.stream().map(this::enrollmentSpanDtoToEnrollmentSpan).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -112,6 +118,10 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
      */
     @Override
     public Set<EnrollmentSpanDto> enrollmentSpansToEnrollmentSpanDtos(Set<EnrollmentSpan> enrollmentSpans) {
-        return enrollmentSpans.stream().map(this::enrollmentSpanToEnrollmentSpanDto).collect(Collectors.toSet());
+        if(enrollmentSpans !=null && !enrollmentSpans.isEmpty()){
+            return enrollmentSpans.stream().map(this::enrollmentSpanToEnrollmentSpanDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

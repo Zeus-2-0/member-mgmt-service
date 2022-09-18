@@ -1,17 +1,23 @@
 package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.domain.entity.Account;
+import com.brihaspathee.zeus.domain.entity.PremiumSpan;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
+import com.brihaspathee.zeus.exception.MemberNotFoundException;
+import com.brihaspathee.zeus.helper.interfaces.EnrollmentSpanHelper;
+import com.brihaspathee.zeus.helper.interfaces.PremiumSpanHelper;
 import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
-import com.brihaspathee.zeus.web.model.AccountDto;
-import com.brihaspathee.zeus.web.model.AccountList;
+import com.brihaspathee.zeus.service.interfaces.MemberService;
+import com.brihaspathee.zeus.web.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -38,9 +44,52 @@ public class AccountServiceImpl implements AccountService {
      */
     private final AccountMapper accountMapper;
 
+    /**
+     * Enrollment span helper to perform operations on the enrollment span
+     */
+    private final EnrollmentSpanHelper enrollmentSpanHelper;
+
+    /**
+     * Premium span helper to perform operations on the premium span
+     */
+    private final PremiumSpanHelper premiumSpanHelper;
+
+    /**
+     * Member service to perform operations on the member entity
+     */
+    private final MemberService memberService;
+
+    /**
+     * Create a new account
+     * @param accountDto
+     * @return
+     */
     @Override
-    public Account createAccount(AccountDto accountDto) {
-        return null;
+    public AccountDto createAccount(AccountDto accountDto) {
+        final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
+        accountDto.setAccountSK(account.getAccountSK());
+        accountDto.getMembers().stream().forEach(memberDto -> {
+            memberDto.setAccountSK(account.getAccountSK());
+            memberDto.setMemberSK(memberService.createMember(memberDto).getMemberSK());
+        });
+        accountDto.getEnrollmentSpans().stream().forEach(enrollmentSpanDto -> {
+            enrollmentSpanDto.setAccountSK(account.getAccountSK());
+            UUID enrollmentSpanSK = enrollmentSpanHelper.createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
+            enrollmentSpanDto.setEnrollmentSpanSK(
+                    enrollmentSpanSK);
+            enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
+                premiumSpanDto.getMemberPremiumSpans().stream().forEach(memberPremiumDto -> {
+                    if(memberPremiumDto.getMemberSK() == null){
+                        populateMemberSK(memberPremiumDto, accountDto.getMembers());
+                    }
+                });
+                premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
+                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+            });
+
+        });
+        return accountDto;
     }
 
     /**
@@ -53,6 +102,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findAccountsByAccountNumber(accountNumber).orElseThrow(() -> {
             throw new AccountNotFoundException("Account with account number " + accountNumber + " not found" );
         });
+        log.info("Retrieved account:{}",account);
         return accountMapper.accountToAccountDto(account);
     }
 
@@ -70,8 +120,16 @@ public class AccountServiceImpl implements AccountService {
         return accountList;
     }
 
-    @Override
-    public Account updateAccount(AccountDto accountDto) {
-        return null;
+    private void populateMemberSK(MemberPremiumDto memberPremiumDto, Set<MemberDto> memberDtos){
+       MemberDto retrievedMember = memberDtos.stream()
+               .filter(
+                       memberDto ->
+                               memberDto.getMemberCode().equals(memberPremiumDto.getMemberCode()))
+               .findFirst()
+               .orElseThrow(() -> {
+                   throw new MemberNotFoundException("Member with member code " + memberPremiumDto.getMemberCode() + " not found");
+               });
+       memberPremiumDto.setMemberSK(retrievedMember.getMemberSK());
     }
+
 }

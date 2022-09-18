@@ -89,7 +89,12 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      */
     @Override
     public Set<PremiumSpan> premiumSpanDtosToPremiumSpans(Set<PremiumSpanDto> premiumSpanDtos) {
-        return premiumSpanDtos.stream().map(this::premiumSpanDtoToPremiumSpan).collect(Collectors.toSet());
+        if(premiumSpanDtos !=null && !premiumSpanDtos.isEmpty()){
+            return premiumSpanDtos.stream().map(this::premiumSpanDtoToPremiumSpan).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
+
     }
 
     /**
@@ -99,7 +104,11 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      */
     @Override
     public Set<PremiumSpanDto> premiumSpansToPremiumSpanDtos(Set<PremiumSpan> premiumSpans) {
-        return premiumSpans.stream().map(this::premiumSpanToPremiumSpanDto).collect(Collectors.toSet());
+        if(premiumSpans !=null && !premiumSpans.isEmpty()){
+            return premiumSpans.stream().map(this::premiumSpanToPremiumSpanDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -153,7 +162,11 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      * @return
      */
     private Set<MemberPremiumDto> getMemberPremiumDtos(Set<MemberPremium> memberPremiums){
-        return memberPremiums.stream().map(this::getMemberPremiumDto).collect(Collectors.toSet());
+        if(memberPremiums !=null && !memberPremiums.isEmpty()){
+            return memberPremiums.stream().map(this::getMemberPremiumDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -162,6 +175,10 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      * @return
      */
     private Set<MemberPremium> getMemberPremiums(Set<MemberPremiumDto> memberPremiumDtos){
-        return memberPremiumDtos.stream().map(this::getMemberPremium).collect(Collectors.toSet());
+        if(memberPremiumDtos !=null && !memberPremiumDtos.isEmpty()){
+            return memberPremiumDtos.stream().map(this::getMemberPremium).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

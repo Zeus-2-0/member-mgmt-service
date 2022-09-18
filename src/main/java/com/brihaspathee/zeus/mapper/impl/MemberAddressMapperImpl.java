@@ -84,7 +84,11 @@ public class MemberAddressMapperImpl implements MemberAddressMapper {
      */
     @Override
     public Set<MemberAddress> addressDtosToAddresses(Set<MemberAddressDto> addressDtos) {
-        return addressDtos.stream().map(this::addressDtoToAddress).collect(Collectors.toSet());
+        if(addressDtos !=null && !addressDtos.isEmpty()){
+            return addressDtos.stream().map(this::addressDtoToAddress).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -94,6 +98,10 @@ public class MemberAddressMapperImpl implements MemberAddressMapper {
      */
     @Override
     public Set<MemberAddressDto> addressesToAddressDtos(Set<MemberAddress> addresses) {
-        return addresses.stream().map(this::addressToAddressDto).collect(Collectors.toSet());
+        if(addresses !=null && !addresses.isEmpty()){
+            return addresses.stream().map(this::addressToAddressDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

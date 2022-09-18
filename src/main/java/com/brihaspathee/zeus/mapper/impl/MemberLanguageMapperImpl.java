@@ -76,7 +76,11 @@ public class MemberLanguageMapperImpl implements MemberLanguageMapper {
      */
     @Override
     public Set<MemberLanguage> languageDtosToLanguages(Set<MemberLanguageDto> languageDtos) {
-        return languageDtos.stream().map(this::languageDtoToLanguage).collect(Collectors.toSet());
+        if(languageDtos !=null && !languageDtos.isEmpty()){
+            return languageDtos.stream().map(this::languageDtoToLanguage).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -86,6 +90,10 @@ public class MemberLanguageMapperImpl implements MemberLanguageMapper {
      */
     @Override
     public Set<MemberLanguageDto> languagesToLanguageDtos(Set<MemberLanguage> languages) {
-        return languages.stream().map(this::languageToLanguageDto).collect(Collectors.toSet());
+        if(languages !=null && !languages.isEmpty()){
+            return languages.stream().map(this::languageToLanguageDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

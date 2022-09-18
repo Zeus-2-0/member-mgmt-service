@@ -95,7 +95,11 @@ public class AccountMapperImpl implements AccountMapper {
      */
     @Override
     public Set<Account> accountDtosToAccount(Set<AccountDto> accountDtos) {
-        return accountDtos.stream().map(this::accountDtoToAccount).collect(Collectors.toSet());
+        if(accountDtos !=null && !accountDtos.isEmpty()){
+            return accountDtos.stream().map(this::accountDtoToAccount).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -105,6 +109,10 @@ public class AccountMapperImpl implements AccountMapper {
      */
     @Override
     public Set<AccountDto> accountToAccountDtos(Set<Account> accounts) {
-        return accounts.stream().map(this::accountToAccountDto).collect(Collectors.toSet());
+        if(accounts !=null && !accounts.isEmpty()){
+            return accounts.stream().map(this::accountToAccountDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }
