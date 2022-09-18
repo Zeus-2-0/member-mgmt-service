@@ -6,6 +6,7 @@ import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.domain.repository.MemberRepository;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
+import com.brihaspathee.zeus.helper.interfaces.MemberAddressHelper;
 import com.brihaspathee.zeus.mapper.interfaces.MemberMapper;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
 import com.brihaspathee.zeus.web.model.MemberDto;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created in Intellij IDEA
@@ -43,6 +45,11 @@ public class MemberServiceImpl implements MemberService {
      * The account repository to get the details from the account
      */
     private final AccountRepository accountRepository;
+
+    /**
+     * Address helper class
+     */
+    private final MemberAddressHelper memberAddressHelper;
 
     /**
      * Get member by the member code
@@ -80,6 +87,21 @@ public class MemberServiceImpl implements MemberService {
     public MemberDto createMember(MemberDto memberDto) {
         Member member = memberMapper.memberDtoToMember(memberDto);
         member = memberRepository.save(member);
+        createMemberAddress(memberDto, member.getMemberSK());
         return memberMapper.memberToMemberDto(member);
+    }
+
+    /**
+     * Call member address helper to create address if any present for the member
+     * @param memberDto
+     * @param memberSK
+     */
+    private void createMemberAddress(MemberDto memberDto, UUID memberSK){
+        if (memberDto.getMemberAddresses() != null && !memberDto.getMemberAddresses().isEmpty()){
+            memberDto.getMemberAddresses().stream().forEach(memberAddressDto -> {
+                memberAddressDto.setMemberSK(memberSK);
+                memberAddressHelper.createMemberAddress(memberAddressDto);
+            });
+        }
     }
 }

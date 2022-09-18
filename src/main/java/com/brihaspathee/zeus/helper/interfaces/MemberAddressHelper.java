@@ -1,0 +1,22 @@
+package com.brihaspathee.zeus.helper.interfaces;
+
+import com.brihaspathee.zeus.web.model.MemberAddressDto;
+
+/**
+ * Created in Intellij IDEA
+ * User: Balaji Varadharajan
+ * Date: 18, September 2022
+ * Time: 7:31 AM
+ * Project: Zeus
+ * Package Name: com.brihaspathee.zeus.helper.interfaces
+ * To change this template use File | Settings | File and Code Template
+ */
+public interface MemberAddressHelper {
+
+    /**
+     * Create member address
+     * @param memberAddressDto
+     * @return Return the created member address
+     */
+    MemberAddressDto createMemberAddress(MemberAddressDto memberAddressDto);
+}

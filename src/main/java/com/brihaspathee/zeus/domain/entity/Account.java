@@ -96,7 +96,7 @@ public class Account {
                 ", members=" + members +
                 ", enrollmentSpans=" + enrollmentSpans +
                 ", accountAttributes=" + accountAttributes +
-                ", accountNumber='" + accountNumber + '\'' +
+                ", accountNumber='" + accountNumber +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
