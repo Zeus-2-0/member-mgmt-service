@@ -73,7 +73,11 @@ public class AccountAttributeMapperImpl implements AccountAttributeMapper {
      */
     @Override
     public Set<AccountAttribute> accountAttributeDtosToAccountAttributes(Set<AccountAttributeDto> accountAttributeDtos) {
-        return accountAttributeDtos.stream().map(this::accountAttributeDtoToAccountAttribute).collect(Collectors.toSet());
+        if(accountAttributeDtos !=null && !accountAttributeDtos.isEmpty()){
+            return accountAttributeDtos.stream().map(this::accountAttributeDtoToAccountAttribute).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -83,6 +87,10 @@ public class AccountAttributeMapperImpl implements AccountAttributeMapper {
      */
     @Override
     public Set<AccountAttributeDto> accountAttributesToAccountAttributeDtos(Set<AccountAttribute> accountAttributes) {
-        return accountAttributes.stream().map(this::accountAttributeToAccountAttributeDto).collect(Collectors.toSet());
+        if(accountAttributes !=null && !accountAttributes.isEmpty()){
+            return accountAttributes.stream().map(this::accountAttributeToAccountAttributeDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

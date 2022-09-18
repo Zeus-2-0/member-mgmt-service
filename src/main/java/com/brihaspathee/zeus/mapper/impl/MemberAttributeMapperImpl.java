@@ -73,7 +73,11 @@ public class MemberAttributeMapperImpl implements MemberAttributeMapper {
      */
     @Override
     public Set<MemberAttribute> memberAttributeDtosToMemberAttributes(Set<MemberAttributeDto> memberAttributeDtos) {
-        return memberAttributeDtos.stream().map(this::memberAttributeDtoToMemberAttribute).collect(Collectors.toSet());
+        if(memberAttributeDtos !=null && !memberAttributeDtos.isEmpty()){
+            return memberAttributeDtos.stream().map(this::memberAttributeDtoToMemberAttribute).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -83,6 +87,10 @@ public class MemberAttributeMapperImpl implements MemberAttributeMapper {
      */
     @Override
     public Set<MemberAttributeDto> memberAttributesToMemberAttributeDtos(Set<MemberAttribute> memberAttributes) {
-        return memberAttributes.stream().map(this::memberAttributeToMemberAttributeDto).collect(Collectors.toSet());
+        if(memberAttributes !=null && !memberAttributes.isEmpty()){
+            return memberAttributes.stream().map(this::memberAttributeToMemberAttributeDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

@@ -17,8 +17,24 @@ import java.util.Set;
  */
 public interface AccountService {
 
-    Account createAccount(AccountDto accountDto);
+    /**
+     * Create a new account
+     * @param accountDto
+     * @return
+     */
+    AccountDto createAccount(AccountDto accountDto);
+
+    /**
+     * Get account by account number
+     * @param accountNumber
+     * @return
+     */
     AccountDto getAccountByNumber(String accountNumber);
+
+    /**
+     * Get all the accounts
+     * @return
+     */
     AccountList getAllAccounts();
-    Account updateAccount(AccountDto accountDto);
+
 }

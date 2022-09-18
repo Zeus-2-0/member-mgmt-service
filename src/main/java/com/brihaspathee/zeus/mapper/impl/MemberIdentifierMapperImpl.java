@@ -72,7 +72,11 @@ public class MemberIdentifierMapperImpl implements MemberIdentifierMapper {
      */
     @Override
     public Set<MemberIdentifier> identifierDtosToIdentifiers(Set<MemberIdentifierDto> memberIdentifierDtos) {
-        return memberIdentifierDtos.stream().map(this::identifierDtoToIdentifier).collect(Collectors.toSet());
+        if(memberIdentifierDtos !=null && !memberIdentifierDtos.isEmpty()){
+            return memberIdentifierDtos.stream().map(this::identifierDtoToIdentifier).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -82,6 +86,10 @@ public class MemberIdentifierMapperImpl implements MemberIdentifierMapper {
      */
     @Override
     public Set<MemberIdentifierDto> identifiersToIdentifierDtos(Set<MemberIdentifier> memberIdentifiers) {
-        return memberIdentifiers.stream().map(this::identifierToIdentifierDto).collect(Collectors.toSet());
+        if(memberIdentifiers !=null && !memberIdentifiers.isEmpty()){
+            return memberIdentifiers.stream().map(this::identifierToIdentifierDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

@@ -80,7 +80,11 @@ public class MemberEmailMapperImpl implements MemberEmailMapper {
      */
     @Override
     public Set<MemberEmail> emailDtosToEmails(Set<MemberEmailDto> emailDtos) {
-        return emailDtos.stream().map(this::emailDtoToEmail).collect(Collectors.toSet());
+        if(emailDtos !=null && !emailDtos.isEmpty()){
+            return emailDtos.stream().map(this::emailDtoToEmail).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -90,6 +94,10 @@ public class MemberEmailMapperImpl implements MemberEmailMapper {
      */
     @Override
     public Set<MemberEmailDto> emailsToEmailDtos(Set<MemberEmail> emails) {
-        return emails.stream().map(this::emailToEmailDto).collect(Collectors.toSet());
+        if(emails !=null && !emails.isEmpty()){
+            return emails.stream().map(this::emailToEmailDto).collect(Collectors.toSet());
+        }else{
+            return null;
+        }
     }
 }

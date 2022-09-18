@@ -70,4 +70,16 @@ public class MemberServiceImpl implements MemberService {
         Set<Member> members = account.getMembers();
         return memberMapper.membersToMemberDtos(members);
     }
+
+    /**
+     * Create a member
+     * @param memberDto
+     * @return
+     */
+    @Override
+    public MemberDto createMember(MemberDto memberDto) {
+        Member member = memberMapper.memberDtoToMember(memberDto);
+        member = memberRepository.save(member);
+        return memberMapper.memberToMemberDto(member);
+    }
 }
