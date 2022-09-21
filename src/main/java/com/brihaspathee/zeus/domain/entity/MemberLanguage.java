@@ -112,7 +112,7 @@ public class MemberLanguage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberLanguage that = (MemberLanguage) o;
-        return memberLanguageSK.equals(that.memberLanguageSK);
+        return Objects.equals(memberLanguageSK, that.memberLanguageSK);
     }
 
     /**

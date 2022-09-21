@@ -103,21 +103,21 @@ public class Account {
     }
 
     /**
-     * the equals method
-     * @param o account sk used for equals method
-     * @return returns true or false
+     * equals method
+     * @param o
+     * @return
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return accountSK.equals(account.accountSK);
+        return Objects.equals(accountSK, account.accountSK);
     }
 
     /**
      * hashcode method
-     * @return returns a unique hashcode value
+     * @return
      */
     @Override
     public int hashCode() {

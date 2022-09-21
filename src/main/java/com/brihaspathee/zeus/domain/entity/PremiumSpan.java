@@ -118,30 +118,24 @@ public class PremiumSpan {
     private LocalDateTime updatedDate;
 
     /**
-     * toString method
+     * equals method
+     * @param o
      * @return
      */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PremiumSpan that = (PremiumSpan) o;
+        return Objects.equals(premiumSpanSK, that.premiumSpanSK);
+    }
 
-
-//    /**
-//     * equals method
-//     * @param o
-//     * @return
-//     */
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        PremiumSpan that = (PremiumSpan) o;
-//        return premiumSpanSK.equals(that.premiumSpanSK);
-//    }
-//
-//    /**
-//     * hashcode method
-//     * @return
-//     */
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(premiumSpanSK);
-//    }
+    /**
+     * hashcode method
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(premiumSpanSK);
+    }
 }

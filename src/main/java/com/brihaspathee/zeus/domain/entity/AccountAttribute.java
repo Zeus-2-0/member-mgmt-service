@@ -87,8 +87,9 @@ public class AccountAttribute {
                 '}';
     }
 
+
     /**
-     * Equals method
+     * equals method
      * @param o
      * @return
      */
@@ -97,11 +98,11 @@ public class AccountAttribute {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountAttribute that = (AccountAttribute) o;
-        return accountAttributeSK.equals(that.accountAttributeSK);
+        return Objects.equals(accountAttributeSK, that.accountAttributeSK);
     }
 
     /**
-     * Hash code method
+     * hashcode method
      * @return
      */
     @Override

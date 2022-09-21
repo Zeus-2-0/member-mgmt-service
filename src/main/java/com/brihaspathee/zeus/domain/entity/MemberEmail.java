@@ -119,11 +119,11 @@ public class MemberEmail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberEmail that = (MemberEmail) o;
-        return memberEmailSK.equals(that.memberEmailSK);
+        return Objects.equals(memberEmailSK, that.memberEmailSK);
     }
 
     /**
-     * hashcode method
+     * hascode method
      * @return
      */
     @Override

@@ -194,7 +194,7 @@ public class Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return memberSK.equals(member.memberSK);
+        return Objects.equals(memberSK, member.memberSK);
     }
 
     /**

@@ -129,6 +129,7 @@ public class MemberAddress {
                 '}';
     }
 
+
     /**
      * equals method
      * @param o
@@ -139,7 +140,7 @@ public class MemberAddress {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberAddress that = (MemberAddress) o;
-        return memberAddressSK.equals(that.memberAddressSK);
+        return Objects.equals(memberAddressSK, that.memberAddressSK);
     }
 
     /**

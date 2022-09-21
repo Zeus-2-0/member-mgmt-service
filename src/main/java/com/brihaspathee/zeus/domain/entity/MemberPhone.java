@@ -112,11 +112,11 @@ public class MemberPhone {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberPhone that = (MemberPhone) o;
-        return memberPhoneSK.equals(that.memberPhoneSK);
+        return Objects.equals(memberPhoneSK, that.memberPhoneSK);
     }
 
     /**
-     * hashcode method
+     * hascode method
      * @return
      */
     @Override
