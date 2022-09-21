@@ -97,11 +97,11 @@ public class MemberIdentifier {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberIdentifier that = (MemberIdentifier) o;
-        return memberIdentifierSK.equals(that.memberIdentifierSK);
+        return Objects.equals(memberIdentifierSK, that.memberIdentifierSK);
     }
 
     /**
-     * hashcode method
+     * hashcode
      * @return
      */
     @Override

@@ -9,6 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -45,5 +51,49 @@ public class MemberAddressHelperImpl implements MemberAddressHelper {
         // log.info("Member sk:{}", memberAddress.getMember().getMemberSK());
         memberAddress = memberAddressRepository.save(memberAddress);
         return memberAddressMapper.addressToAddressDto(memberAddress);
+    }
+
+    @Override
+    public void validateMemberAddresses(Set<MemberAddressDto> memberAddressDtos){
+        log.info("All Addresses:{}", memberAddressDtos);
+        Set<MemberAddressDto> residentialAddresses = memberAddressDtos.stream()
+                .filter(
+                        memberAddressDto -> memberAddressDto.getAddressTypeCode().equals("RES") )
+                .collect(Collectors.toSet());
+        log.info("Residential Addresses:{}", residentialAddresses);
+        List<MemberAddressDto> sortedResAddresses = residentialAddresses.stream()
+                .sorted(Comparator.comparing(MemberAddressDto::getStartDate))
+                .collect(Collectors.toList());
+//        sortedResAddresses.stream().
+//                forEach(
+//                        memberAddressDto ->
+//                                log.info(String.valueOf(memberAddressDto.getStartDate())));
+        long addressesWithNullEndDate = sortedResAddresses.stream().filter(memberAddressDto ->
+                memberAddressDto.getEndDate() == null).count();
+        log.info("Address with NULL end date:{}", addressesWithNullEndDate);
+        MemberAddressDto prevAddress = sortedResAddresses.get(0);
+        for(int i=1; i < sortedResAddresses.size(); i++){
+            log.info("Inside the for loop");
+            MemberAddressDto currAddress = sortedResAddresses.get(i);
+            if(isDateOverlap(prevAddress.getEndDate(), currAddress.getStartDate())){
+                log.info("Dates overlap");
+            }
+            prevAddress = currAddress;
+        }
+
+    }
+
+    private boolean isDateOverlap(final LocalDate previousSpanEnDate, final LocalDate currentSpanStartDate){
+        log.info("Previous span end date:{}", previousSpanEnDate);
+        log.info("Current span start date:{}", currentSpanStartDate);
+        log.info("previousSpanEnDate.isAfter(currentSpanStartDate):{}", previousSpanEnDate.isAfter(currentSpanStartDate));
+        if(previousSpanEnDate == null || currentSpanStartDate == null){
+            return false;
+        }
+        if (previousSpanEnDate.equals(currentSpanStartDate) || previousSpanEnDate.isAfter(currentSpanStartDate)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

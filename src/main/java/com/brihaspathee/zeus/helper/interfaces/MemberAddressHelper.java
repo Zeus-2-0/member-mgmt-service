@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.web.model.MemberAddressDto;
 
+import java.util.Set;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -19,4 +21,6 @@ public interface MemberAddressHelper {
      * @return Return the created member address
      */
     MemberAddressDto createMemberAddress(MemberAddressDto memberAddressDto);
+
+    void validateMemberAddresses(Set<MemberAddressDto> memberAddressDtos);
 }

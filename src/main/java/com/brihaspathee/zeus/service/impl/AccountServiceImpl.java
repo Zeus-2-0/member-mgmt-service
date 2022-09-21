@@ -10,6 +10,7 @@ import com.brihaspathee.zeus.helper.interfaces.PremiumSpanHelper;
 import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
+import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
 import com.brihaspathee.zeus.web.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,11 @@ public class AccountServiceImpl implements AccountService {
     private final PremiumSpanHelper premiumSpanHelper;
 
     /**
+     * The account validator instance to validate the account details before the changes are saved
+     */
+    private final AccountValidator accountValidator;
+
+    /**
      * Member service to perform operations on the member entity
      */
     private final MemberService memberService;
@@ -66,6 +72,9 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccountDto createAccount(AccountDto accountDto) {
+        // validate the account details provided before saving the account
+        accountValidator.validateAccount(accountDto);
+        // save the account to the repository
         final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
         accountDto.setAccountSK(account.getAccountSK());
         accountDto.getMembers().stream().forEach(memberDto -> {
@@ -120,6 +129,11 @@ public class AccountServiceImpl implements AccountService {
         return accountList;
     }
 
+    /**
+     * Populate the member surrogate key to the member premium objects
+     * @param memberPremiumDto
+     * @param memberDtos
+     */
     private void populateMemberSK(MemberPremiumDto memberPremiumDto, Set<MemberDto> memberDtos){
        MemberDto retrievedMember = memberDtos.stream()
                .filter(

@@ -173,11 +173,11 @@ public class EnrollmentSpan {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EnrollmentSpan that = (EnrollmentSpan) o;
-        return enrollmentSpanSK.equals(that.enrollmentSpanSK);
+        return Objects.equals(enrollmentSpanSK, that.enrollmentSpanSK);
     }
 
     /**
-     * hash code method
+     * hashcode method
      * @return
      */
     @Override

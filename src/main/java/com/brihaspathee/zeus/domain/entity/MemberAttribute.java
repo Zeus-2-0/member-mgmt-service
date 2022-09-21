@@ -98,11 +98,11 @@ public class MemberAttribute {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberAttribute that = (MemberAttribute) o;
-        return memberAttributeSK.equals(that.memberAttributeSK);
+        return Objects.equals(memberAttributeSK, that.memberAttributeSK);
     }
 
     /**
-     * hash   code method
+     * hashcode method
      * @return
      */
     @Override

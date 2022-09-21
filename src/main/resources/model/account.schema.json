@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+  "$id": "https://www.codeinvestigator.com/spaceshiprequest.schema.json",
+  "title": "Account",
+  "description": "Account Object",
+  "type": "object",
+  "properties": {
+    "accountSK": {
+      "type": ["string","null"],
+      "format": "uuid"
+    },
+    "accountNumber": {
+      "type": "string"
+    },
+    "members": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/member"},
+      "description": "Members associated with the account"
+    }
+  },
+  "definitions": {
+
+  }
+}

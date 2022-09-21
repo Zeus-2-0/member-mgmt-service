@@ -105,7 +105,7 @@ public class MemberPremium {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberPremium that = (MemberPremium) o;
-        return memberPremiumSK.equals(that.memberPremiumSK);
+        return Objects.equals(memberPremiumSK, that.memberPremiumSK);
     }
 
     /**
