@@ -38,6 +38,12 @@ paths:
               $ref: '#/components/schemas/AccountDto'
         required: true
       responses:
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
         "201":
           description: Successfully created the account
           content:
@@ -46,12 +52,6 @@ paths:
                 $ref: '#/components/schemas/AccountDto'
         "400":
           description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
-        "409":
-          description: Conflict
           content:
             application/json:
               schema:
