@@ -1,4 +1,4 @@
-package com.brihaspathee.zeus.consumer;
+package com.brihaspathee.zeus.broker.consumer;
 
 import com.brihaspathee.zeus.message.AccountValidationAcknowledgement;
 import com.brihaspathee.zeus.message.AccountValidationRequest;

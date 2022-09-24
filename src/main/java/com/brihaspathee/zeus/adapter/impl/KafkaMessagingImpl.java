@@ -2,7 +2,7 @@ package com.brihaspathee.zeus.adapter.impl;
 
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
 import com.brihaspathee.zeus.message.AccountValidationRequest;
-import com.brihaspathee.zeus.producer.AccountValidationProducer;
+import com.brihaspathee.zeus.broker.producer.AccountValidationProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

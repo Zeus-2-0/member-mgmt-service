@@ -1,4 +1,4 @@
-package com.brihaspathee.zeus.producer;
+package com.brihaspathee.zeus.broker.producer;
 
 import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
