@@ -1,22 +1,23 @@
 package com.brihaspathee.zeus.service.impl;
 
+import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
 import com.brihaspathee.zeus.domain.entity.Account;
-import com.brihaspathee.zeus.domain.entity.PremiumSpan;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.EnrollmentSpanHelper;
 import com.brihaspathee.zeus.helper.interfaces.PremiumSpanHelper;
 import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
+import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
+import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
 import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
 import com.brihaspathee.zeus.web.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -66,6 +67,11 @@ public class AccountServiceImpl implements AccountService {
     private final MemberService memberService;
 
     /**
+     * Message Adapter to call the Kafka messaging topic
+     */
+    private final MessageAdapter messageAdapter;
+
+    /**
      * Create a new account
      * @param accountDto
      * @return
@@ -74,6 +80,12 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto createAccount(AccountDto accountDto) {
         // validate the account details provided before saving the account
         accountValidator.validateAccount(accountDto);
+        String validationMessageId = ZeusRandomStringGenerator.randomString(15);
+        log.info("validationMessageId:{}",validationMessageId);
+        messageAdapter.publishAccountValidationMessage(AccountValidationRequest.builder()
+                        .validationMessageId(validationMessageId)
+                        .accountDto(accountDto)
+                .build());
         // save the account to the repository
         final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
         accountDto.setAccountSK(account.getAccountSK());
