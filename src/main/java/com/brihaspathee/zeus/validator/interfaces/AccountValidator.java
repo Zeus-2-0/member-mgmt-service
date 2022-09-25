@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.validator.interfaces;
 
 import com.brihaspathee.zeus.web.model.AccountDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * Created in Intellij IDEA
@@ -18,5 +19,5 @@ public interface AccountValidator {
      * @param accountDto
      * @return
      */
-    boolean validateAccount(AccountDto accountDto);
+    boolean validateAccount(AccountDto accountDto) throws JsonProcessingException;
 }

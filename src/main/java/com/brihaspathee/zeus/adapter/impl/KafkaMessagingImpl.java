@@ -3,6 +3,7 @@ package com.brihaspathee.zeus.adapter.impl;
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
 import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.broker.producer.AccountValidationProducer;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ public class KafkaMessagingImpl implements MessageAdapter {
      * @param validationMessage - the account validation message
      */
     @Override
-    public void publishAccountValidationMessage(AccountValidationRequest validationMessage) {
+    public void publishAccountValidationMessage(AccountValidationRequest validationMessage) throws JsonProcessingException {
         accountValidationProducer.publishAccountDetails(validationMessage);
     }
 }
