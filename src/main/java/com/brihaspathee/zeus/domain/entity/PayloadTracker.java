@@ -47,6 +47,12 @@ public class PayloadTracker {
     private String payloadId;
 
     /**
+     * The account number for which the payload was sent
+     */
+    @Column(name = "acct_number", columnDefinition = "varchar", length = 50, nullable = false)
+    private String accountNumber;
+
+    /**
      * The payload data in JSON format
      */
     @Lob

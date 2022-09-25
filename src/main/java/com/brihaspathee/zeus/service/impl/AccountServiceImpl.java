@@ -14,6 +14,7 @@ import com.brihaspathee.zeus.service.interfaces.MemberService;
 import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
 import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
 import com.brihaspathee.zeus.web.model.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -77,15 +78,15 @@ public class AccountServiceImpl implements AccountService {
      * @return
      */
     @Override
-    public AccountDto createAccount(AccountDto accountDto) {
+    public AccountDto createAccount(AccountDto accountDto) throws JsonProcessingException {
         // validate the account details provided before saving the account
         accountValidator.validateAccount(accountDto);
-        String validationMessageId = ZeusRandomStringGenerator.randomString(15);
-        log.info("validationMessageId:{}",validationMessageId);
-        messageAdapter.publishAccountValidationMessage(AccountValidationRequest.builder()
-                        .validationMessageId(validationMessageId)
-                        .accountDto(accountDto)
-                .build());
+//        String validationMessageId = ZeusRandomStringGenerator.randomString(15);
+//        log.info("validationMessageId:{}",validationMessageId);
+//        messageAdapter.publishAccountValidationMessage(AccountValidationRequest.builder()
+//                        .validationMessageId(validationMessageId)
+//                        .accountDto(accountDto)
+//                .build());
         // save the account to the repository
         final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
         accountDto.setAccountSK(account.getAccountSK());

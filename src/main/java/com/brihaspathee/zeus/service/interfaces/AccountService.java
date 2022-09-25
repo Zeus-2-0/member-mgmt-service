@@ -3,6 +3,7 @@ package com.brihaspathee.zeus.service.interfaces;
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.web.model.AccountDto;
 import com.brihaspathee.zeus.web.model.AccountList;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public interface AccountService {
      * @param accountDto
      * @return
      */
-    AccountDto createAccount(AccountDto accountDto);
+    AccountDto createAccount(AccountDto accountDto) throws JsonProcessingException;
 
     /**
      * Get account by account number

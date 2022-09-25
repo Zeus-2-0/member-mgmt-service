@@ -2,6 +2,7 @@ package com.brihaspathee.zeus.helper.impl;
 
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.repository.PayloadTrackerRepository;
+import com.brihaspathee.zeus.exception.PayloadTrackerNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +36,19 @@ public class PayloadTrackerHelperImpl implements PayloadTrackerHelper {
     public PayloadTracker createPayloadTracker(PayloadTracker payloadTracker) {
         PayloadTracker savedPayloadTracker = payloadTrackerRepository.save(payloadTracker);
         return savedPayloadTracker;
+    }
+
+    /**
+     * Get payload tracker by payload id
+     * @param payloadId
+     * @return
+     */
+    @Override
+    public PayloadTracker getPayloadTracker(String payloadId) {
+        PayloadTracker payloadTracker = payloadTrackerRepository.findPayloadTrackerByPayloadId(payloadId).orElseThrow(
+                () -> {
+                   throw new PayloadTrackerNotFoundException("Paylod with payload id " + payloadId + " not found");
+                });
+        return payloadTracker;
     }
 }

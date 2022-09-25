@@ -1,10 +1,15 @@
 package com.brihaspathee.zeus.broker.producer;
 
+import com.brihaspathee.zeus.domain.entity.PayloadTracker;
+import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.message.MessageMetadata;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -40,10 +45,20 @@ public class AccountValidationProducer {
     private final AccountValidationCallback accountValidationCallback;
 
     /**
+     * Payload tracker to track the payload before sending it out
+     */
+    private final PayloadTrackerHelper payloadTrackerHelper;
+
+    /**
+     * Object mapper to convert the payload to string
+     */
+    private final ObjectMapper objectMapper;
+
+    /**
      * The method that publishes the messages to the kafka topic
      * @param accountValidationMessage
      */
-    public void publishAccountDetails(AccountValidationRequest accountValidationMessage){
+    public void publishAccountDetails(AccountValidationRequest accountValidationMessage) throws JsonProcessingException {
         String[] messageDestinations = {"VALIDATION-SERVICE"};
         ZeusMessagePayload<AccountValidationRequest> messagePayload = ZeusMessagePayload.<AccountValidationRequest>builder()
                 .messageMetadata(MessageMetadata.builder()
@@ -54,6 +69,7 @@ public class AccountValidationProducer {
                 .payload(accountValidationMessage)
                 .build();
         accountValidationCallback.setMessagePayload(accountValidationMessage);
+        createPayloadTracker(messagePayload);
         ProducerRecord<String, ZeusMessagePayload<AccountValidationRequest>> producerRecord =
                 buildProducerRecord(messagePayload);
         kafkaTemplate.send(producerRecord).addCallback(accountValidationCallback);
@@ -72,5 +88,22 @@ public class AccountValidationProducer {
                 "test payload id 2",
                 messagePayload,
                 Arrays.asList(messageHeader));
+    }
+
+    /**
+     * Invokes the helper to create the payload tracker
+     * @param payload
+     */
+    private void createPayloadTracker(ZeusMessagePayload<AccountValidationRequest> payload) throws JsonProcessingException {
+        String payloadAsString = objectMapper.writeValueAsString(payload);
+        PayloadTracker payloadTracker = PayloadTracker.builder()
+                .accountNumber(payload.getPayload().getAccountDto().getAccountNumber())
+                .payloadId(payload.getPayload().getValidationMessageId())
+                .payloadDirectionTypeCode("OUTBOUND")
+                .sourceDestinations(StringUtils.join(payload.getMessageMetadata().getMessageDestination()))
+                .payload(payloadAsString)
+                .build();
+        payloadTrackerHelper.createPayloadTracker(payloadTracker);
+
     }
 }

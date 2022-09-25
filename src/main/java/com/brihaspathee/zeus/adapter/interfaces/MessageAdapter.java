@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.adapter.interfaces;
 
 import com.brihaspathee.zeus.message.AccountValidationRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * Created in Intellij IDEA
@@ -17,5 +18,5 @@ public interface MessageAdapter {
      * The method to publish validation messages
      * @param validationMessage - the account validation message
      */
-    void publishAccountValidationMessage(AccountValidationRequest validationMessage);
+    void publishAccountValidationMessage(AccountValidationRequest validationMessage) throws JsonProcessingException;
 }

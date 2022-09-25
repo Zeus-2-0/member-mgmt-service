@@ -1,8 +1,15 @@
 package com.brihaspathee.zeus.validator.impl;
 
+import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
+import com.brihaspathee.zeus.domain.entity.PayloadTracker;
+import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
+import com.brihaspathee.zeus.message.AccountValidationRequest;
+import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
+import com.brihaspathee.zeus.validator.AccountValidationResult;
 import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
 import com.brihaspathee.zeus.validator.interfaces.EnrollmentSpanValidator;
 import com.brihaspathee.zeus.web.model.AccountDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,9 +29,9 @@ import org.springframework.stereotype.Component;
 public class AccountValidatorImpl implements AccountValidator {
 
     /**
-     * Enrollment span validator instance to validate the enrollment spans
+     * The message adapter to send the message for validation
      */
-    private final EnrollmentSpanValidator enrollmentSpanValidator;
+    private final MessageAdapter messageAdapter;
 
     /**
      * Validates the details of the account
@@ -32,8 +39,14 @@ public class AccountValidatorImpl implements AccountValidator {
      * @return
      */
     @Override
-    public boolean validateAccount(AccountDto accountDto) {
-        enrollmentSpanValidator.validateEnrollmentSpans(accountDto.getEnrollmentSpans());
+    public boolean validateAccount(AccountDto accountDto) throws JsonProcessingException {
+        String validationPayloadId = ZeusRandomStringGenerator.randomString(15);
+        AccountValidationRequest accountValidationRequest =
+                AccountValidationRequest.builder()
+                        .accountDto(accountDto)
+                        .validationMessageId(validationPayloadId)
+                        .build();
+        messageAdapter.publishAccountValidationMessage(accountValidationRequest);
         return false;
     }
 }
