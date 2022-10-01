@@ -89,18 +89,18 @@ public class Account {
      * toString method
      * @return returns a string
      */
-    @Override
-    public String toString() {
-        return "Account{" +
-                "accountSK=" + accountSK +
-                ", members=" + members +
-                ", enrollmentSpans=" + enrollmentSpans +
-                ", accountAttributes=" + accountAttributes +
-                ", accountNumber='" + accountNumber +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Account{" +
+//                "accountSK=" + accountSK +
+//                ", members=" + members +
+//                ", enrollmentSpans=" + enrollmentSpans +
+//                ", accountAttributes=" + accountAttributes +
+//                ", accountNumber='" + accountNumber +
+//                ", createdDate=" + createdDate +
+//                ", updatedDate=" + updatedDate +
+//                '}';
+//    }
 
     /**
      * equals method

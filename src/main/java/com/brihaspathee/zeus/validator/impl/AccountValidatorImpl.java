@@ -1,13 +1,9 @@
 package com.brihaspathee.zeus.validator.impl;
 
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
-import com.brihaspathee.zeus.domain.entity.PayloadTracker;
-import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
-import com.brihaspathee.zeus.validator.AccountValidationResult;
 import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
-import com.brihaspathee.zeus.validator.interfaces.EnrollmentSpanValidator;
 import com.brihaspathee.zeus.web.model.AccountDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
