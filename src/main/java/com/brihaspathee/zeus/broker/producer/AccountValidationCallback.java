@@ -24,18 +24,27 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Setter
 @Component
 @RequiredArgsConstructor
-public class AccountValidationCallback implements ListenableFutureCallback<SendResult<String, ZeusMessagePayload<AccountValidationRequest>>> {
+public class AccountValidationCallback implements
+        ListenableFutureCallback<SendResult<String, ZeusMessagePayload<AccountValidationRequest>>> {
 
     /**
      * The message payload that was sent to the topic
      */
     private AccountValidationRequest messagePayload;
 
+    /**
+     * Executed when there is a failure to publish the message
+     * @param ex
+     */
     @Override
     public void onFailure(Throwable ex) {
         log.info("The message failed to publish");
     }
 
+    /**
+     * Executed when the message was published successfully
+     * @param result
+     */
     @Override
     public void onSuccess(SendResult<String, ZeusMessagePayload<AccountValidationRequest>> result) {
         log.info("The message successfully published");
