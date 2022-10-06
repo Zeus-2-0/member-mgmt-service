@@ -1,12 +1,11 @@
 package com.brihaspathee.zeus.broker.consumer;
 
-import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.entity.PayloadTrackerDetail;
 import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerDetailHelper;
 import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
 import com.brihaspathee.zeus.message.AccountValidationAcknowledgement;
-import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
+import com.brihaspathee.zeus.validator.AccountValidationResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +45,7 @@ public class ValidationResponseListener {
     private final PayloadTrackerDetailHelper payloadTrackerDetailHelper;
 
     /**
-     * kafka consumer to consume the messages
+     * kafka consumer to consume the acknowledgement messages
      * @param consumerRecord
      * @throws JsonProcessingException
      */
@@ -59,23 +58,56 @@ public class ValidationResponseListener {
         ZeusMessagePayload<AccountValidationAcknowledgement> ackZeusMessagePayload =
                 objectMapper.readValue(valueAsString,
                         new TypeReference<ZeusMessagePayload<AccountValidationAcknowledgement>>(){});
-        createPayloadTrackerDetail(ackZeusMessagePayload);
+        createPayloadTrackerAckDetail(ackZeusMessagePayload);
         log.info("Request payload id:{}", ackZeusMessagePayload.getPayload().getRequestPayloadId());
         log.info("Ack id:{}",ackZeusMessagePayload.getPayload().getAckId());
 
     }
 
     /**
-     * Log the details of the payload that was received
+     * Kafka listener to consume the validation service responses
+     * @param consumerRecord
+     * @throws JsonProcessingException
+     */
+    @KafkaListener(topics = "ZEUS.VALIDATOR.ACCOUNT.RESP")
+    public void listenForValidationResponse(
+            ConsumerRecord<String, ZeusMessagePayload<AccountValidationResult>> consumerRecord
+    ) throws JsonProcessingException {
+        log.info("Validation Response received");
+        String valueAsString = objectMapper.writeValueAsString(consumerRecord.value());
+        ZeusMessagePayload<AccountValidationResult> accountValidationResultPayload =
+                objectMapper.readValue(valueAsString,
+                        new TypeReference<ZeusMessagePayload<AccountValidationResult>>() {});
+        createPayloadTrackerRespDetail(accountValidationResultPayload);
+
+    }
+
+    /**
+     * Log the details of the acknowledgment payload that was received
      * @param payload
      */
-    private void createPayloadTrackerDetail(
+    private void createPayloadTrackerAckDetail(
             ZeusMessagePayload<AccountValidationAcknowledgement> payload) throws JsonProcessingException {
         String payloadAsString = objectMapper.writeValueAsString(payload);
         PayloadTrackerDetail payloadTrackerDetail = PayloadTrackerDetail.builder()
                 .payloadTracker(payloadTrackerHelper.getPayloadTracker(payload.getPayload().getRequestPayloadId()))
                 .responsePayload(payloadAsString)
                 .responseTypeCode("ACKNOWLEDGEMENT")
+                .build();
+        payloadTrackerDetailHelper.createPayloadTrackerDetail(payloadTrackerDetail);
+    }
+
+    /**
+     * Log the details of the response payload that was received
+     * @param payload
+     */
+    private void createPayloadTrackerRespDetail(
+            ZeusMessagePayload<AccountValidationResult> payload) throws JsonProcessingException {
+        String payloadAsString = objectMapper.writeValueAsString(payload);
+        PayloadTrackerDetail payloadTrackerDetail = PayloadTrackerDetail.builder()
+                .payloadTracker(payloadTrackerHelper.getPayloadTracker(payload.getPayload().getRequestPayloadId()))
+                .responsePayload(payloadAsString)
+                .responseTypeCode("RESPONSE")
                 .build();
         payloadTrackerDetailHelper.createPayloadTrackerDetail(payloadTrackerDetail);
     }
