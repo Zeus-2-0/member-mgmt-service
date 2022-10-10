@@ -93,6 +93,7 @@ public class ValidationResponseListener {
                 .payloadTracker(payloadTrackerHelper.getPayloadTracker(payload.getPayload().getRequestPayloadId()))
                 .responsePayload(payloadAsString)
                 .responseTypeCode("ACKNOWLEDGEMENT")
+                .responsePayloadId(payload.getPayload().getAckId())
                 .build();
         payloadTrackerDetailHelper.createPayloadTrackerDetail(payloadTrackerDetail);
     }
@@ -108,6 +109,7 @@ public class ValidationResponseListener {
                 .payloadTracker(payloadTrackerHelper.getPayloadTracker(payload.getPayload().getRequestPayloadId()))
                 .responsePayload(payloadAsString)
                 .responseTypeCode("RESPONSE")
+                .responsePayloadId(payload.getPayload().getResponseId())
                 .build();
         payloadTrackerDetailHelper.createPayloadTrackerDetail(payloadTrackerDetail);
     }
