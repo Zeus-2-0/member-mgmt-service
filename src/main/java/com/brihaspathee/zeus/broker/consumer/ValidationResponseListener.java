@@ -3,7 +3,7 @@ package com.brihaspathee.zeus.broker.consumer;
 import com.brihaspathee.zeus.domain.entity.PayloadTrackerDetail;
 import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerDetailHelper;
 import com.brihaspathee.zeus.helper.interfaces.PayloadTrackerHelper;
-import com.brihaspathee.zeus.message.AccountValidationAcknowledgement;
+import com.brihaspathee.zeus.message.Acknowledgement;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
 import com.brihaspathee.zeus.validator.AccountValidationResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,13 +51,13 @@ public class ValidationResponseListener {
      */
     @KafkaListener(topics = "ZEUS.VALIDATOR.ACCOUNT.ACK")
     public void listenForValidationAcks(
-            ConsumerRecord<String, ZeusMessagePayload<AccountValidationAcknowledgement>> consumerRecord
+            ConsumerRecord<String, ZeusMessagePayload<Acknowledgement>> consumerRecord
     ) throws JsonProcessingException {
         log.info("ACK received");
         String valueAsString = objectMapper.writeValueAsString(consumerRecord.value());
-        ZeusMessagePayload<AccountValidationAcknowledgement> ackZeusMessagePayload =
+        ZeusMessagePayload<Acknowledgement> ackZeusMessagePayload =
                 objectMapper.readValue(valueAsString,
-                        new TypeReference<ZeusMessagePayload<AccountValidationAcknowledgement>>(){});
+                        new TypeReference<ZeusMessagePayload<Acknowledgement>>(){});
         createPayloadTrackerAckDetail(ackZeusMessagePayload);
         log.info("Request payload id:{}", ackZeusMessagePayload.getPayload().getRequestPayloadId());
         log.info("Ack id:{}",ackZeusMessagePayload.getPayload().getAckId());
@@ -87,13 +87,15 @@ public class ValidationResponseListener {
      * @param payload
      */
     private void createPayloadTrackerAckDetail(
-            ZeusMessagePayload<AccountValidationAcknowledgement> payload) throws JsonProcessingException {
+            ZeusMessagePayload<Acknowledgement> payload) throws JsonProcessingException {
         String payloadAsString = objectMapper.writeValueAsString(payload);
         PayloadTrackerDetail payloadTrackerDetail = PayloadTrackerDetail.builder()
                 .payloadTracker(payloadTrackerHelper.getPayloadTracker(payload.getPayload().getRequestPayloadId()))
                 .responsePayload(payloadAsString)
                 .responseTypeCode("ACKNOWLEDGEMENT")
                 .responsePayloadId(payload.getPayload().getAckId())
+                .payloadDirectionTypeCode("INBOUND")
+                .sourceDestinations(payload.getMessageMetadata().getMessageSource())
                 .build();
         payloadTrackerDetailHelper.createPayloadTrackerDetail(payloadTrackerDetail);
     }
@@ -108,8 +110,10 @@ public class ValidationResponseListener {
         PayloadTrackerDetail payloadTrackerDetail = PayloadTrackerDetail.builder()
                 .payloadTracker(payloadTrackerHelper.getPayloadTracker(payload.getPayload().getRequestPayloadId()))
                 .responsePayload(payloadAsString)
-                .responseTypeCode("RESPONSE")
+                .responseTypeCode("RESULT")
                 .responsePayloadId(payload.getPayload().getResponseId())
+                .payloadDirectionTypeCode("INBOUND")
+                .sourceDestinations(payload.getMessageMetadata().getMessageSource())
                 .build();
         payloadTrackerDetailHelper.createPayloadTrackerDetail(payloadTrackerDetail);
     }
