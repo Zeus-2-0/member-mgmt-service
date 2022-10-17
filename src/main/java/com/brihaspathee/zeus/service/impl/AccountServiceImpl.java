@@ -2,6 +2,7 @@ package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
 import com.brihaspathee.zeus.domain.entity.Account;
+import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
@@ -12,13 +13,16 @@ import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
 import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
+import com.brihaspathee.zeus.validator.AccountProcessingResponse;
 import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
 import com.brihaspathee.zeus.web.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -143,6 +147,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Process the account information
+     * @param payloadTracker
+     * @param accountDto
+     * @return
+     */
+    @Override
+    public Mono<AccountProcessingResponse> processAccount(PayloadTracker payloadTracker,
+                                                          AccountDto accountDto) {
+        log.info("Inside the account service for account:{}", accountDto.getAccountNumber());
+        AccountProcessingResponse accountProcessingResponse =
+                constructAccountProcessingResponse(payloadTracker, accountDto);
+        return Mono.just(accountProcessingResponse).delayElement(Duration.ofSeconds(30));
+    }
+
+    /**
      * Populate the member surrogate key to the member premium objects
      * @param memberPremiumDto
      * @param memberDtos
@@ -157,6 +176,21 @@ public class AccountServiceImpl implements AccountService {
                    throw new MemberNotFoundException("Member with member code " + memberPremiumDto.getMemberCode() + " not found");
                });
        memberPremiumDto.setMemberSK(retrievedMember.getMemberSK());
+    }
+
+    /**
+     * Construct the account processing response
+     * @param payloadTracker
+     * @param accountDto
+     * @return
+     */
+    private AccountProcessingResponse constructAccountProcessingResponse(PayloadTracker payloadTracker,
+                                                    AccountDto accountDto){
+        return AccountProcessingResponse.builder()
+                .responseId(ZeusRandomStringGenerator.randomString(15))
+                .requestPayloadId(payloadTracker.getPayloadId())
+                .accountNumber(accountDto.getAccountNumber())
+                .build();
     }
 
 }

@@ -1,9 +1,12 @@
 package com.brihaspathee.zeus.service.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.Account;
+import com.brihaspathee.zeus.domain.entity.PayloadTracker;
+import com.brihaspathee.zeus.validator.AccountProcessingResponse;
 import com.brihaspathee.zeus.web.model.AccountDto;
 import com.brihaspathee.zeus.web.model.AccountList;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import reactor.core.publisher.Mono;
 
 import java.util.Set;
 
@@ -37,5 +40,14 @@ public interface AccountService {
      * @return
      */
     AccountList getAllAccounts();
+
+    /**
+     * Process the account information
+     * @param payloadTracker
+     * @param accountDto
+     * @return
+     */
+    Mono<AccountProcessingResponse> processAccount(PayloadTracker payloadTracker,
+                                                   AccountDto accountDto);
 
 }
