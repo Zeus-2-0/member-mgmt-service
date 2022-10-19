@@ -1,6 +1,5 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
-import com.brihaspathee.zeus.web.model.MemberDto;
 import com.brihaspathee.zeus.web.model.WelcomeDto;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import io.swagger.v3.oas.annotations.Operation;

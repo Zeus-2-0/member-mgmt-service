@@ -2,8 +2,8 @@ package com.brihaspathee.zeus.mapper.impl;
 
 import com.brihaspathee.zeus.domain.entity.Member;
 import com.brihaspathee.zeus.domain.entity.MemberLanguage;
+import com.brihaspathee.zeus.dto.account.MemberLanguageDto;
 import com.brihaspathee.zeus.mapper.interfaces.MemberLanguageMapper;
-import com.brihaspathee.zeus.web.model.MemberLanguageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

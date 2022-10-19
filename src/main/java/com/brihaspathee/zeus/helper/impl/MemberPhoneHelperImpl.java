@@ -2,9 +2,9 @@ package com.brihaspathee.zeus.helper.impl;
 
 import com.brihaspathee.zeus.domain.entity.MemberPhone;
 import com.brihaspathee.zeus.domain.repository.MemberPhoneRepository;
+import com.brihaspathee.zeus.dto.account.MemberPhoneDto;
 import com.brihaspathee.zeus.helper.interfaces.MemberPhoneHelper;
 import com.brihaspathee.zeus.mapper.interfaces.MemberPhoneMapper;
-import com.brihaspathee.zeus.web.model.MemberPhoneDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

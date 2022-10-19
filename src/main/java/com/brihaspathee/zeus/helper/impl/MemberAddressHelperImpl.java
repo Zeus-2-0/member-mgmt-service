@@ -2,9 +2,9 @@ package com.brihaspathee.zeus.helper.impl;
 
 import com.brihaspathee.zeus.domain.entity.MemberAddress;
 import com.brihaspathee.zeus.domain.repository.MemberAddressRepository;
+import com.brihaspathee.zeus.dto.account.MemberAddressDto;
 import com.brihaspathee.zeus.helper.interfaces.MemberAddressHelper;
 import com.brihaspathee.zeus.mapper.interfaces.MemberAddressMapper;
-import com.brihaspathee.zeus.web.model.MemberAddressDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

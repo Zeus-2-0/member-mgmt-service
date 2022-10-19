@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.MemberLanguage;
-import com.brihaspathee.zeus.web.model.MemberLanguageDto;
+import com.brihaspathee.zeus.dto.account.MemberLanguageDto;
 
 import java.util.Set;
 

@@ -3,8 +3,8 @@ package com.brihaspathee.zeus.mapper.impl;
 import com.brihaspathee.zeus.domain.entity.Attribute;
 import com.brihaspathee.zeus.domain.entity.Member;
 import com.brihaspathee.zeus.domain.entity.MemberAttribute;
+import com.brihaspathee.zeus.dto.account.MemberAttributeDto;
 import com.brihaspathee.zeus.mapper.interfaces.MemberAttributeMapper;
-import com.brihaspathee.zeus.web.model.MemberAttributeDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

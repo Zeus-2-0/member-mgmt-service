@@ -1,11 +1,11 @@
 package com.brihaspathee.zeus.mapper.impl;
 
 import com.brihaspathee.zeus.domain.entity.Account;
+import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.mapper.interfaces.AccountAttributeMapper;
 import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
 import com.brihaspathee.zeus.mapper.interfaces.EnrollmentSpanMapper;
 import com.brihaspathee.zeus.mapper.interfaces.MemberMapper;
-import com.brihaspathee.zeus.web.model.AccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

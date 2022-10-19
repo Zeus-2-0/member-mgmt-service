@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.PremiumSpan;
-import com.brihaspathee.zeus.web.model.PremiumSpanDto;
+import com.brihaspathee.zeus.dto.account.PremiumSpanDto;
 
 import java.util.Set;
 

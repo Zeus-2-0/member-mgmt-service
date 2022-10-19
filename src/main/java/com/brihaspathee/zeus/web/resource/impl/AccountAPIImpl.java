@@ -1,9 +1,9 @@
 package com.brihaspathee.zeus.web.resource.impl;
 
 import com.brihaspathee.zeus.constants.ApiResponseConstants;
+import com.brihaspathee.zeus.dto.account.AccountDto;
+import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
-import com.brihaspathee.zeus.web.model.AccountDto;
-import com.brihaspathee.zeus.web.model.AccountList;
 import com.brihaspathee.zeus.web.resource.interfaces.AccountAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;

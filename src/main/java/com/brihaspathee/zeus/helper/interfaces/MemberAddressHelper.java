@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
-import com.brihaspathee.zeus.web.model.MemberAddressDto;
+import com.brihaspathee.zeus.dto.account.MemberAddressDto;
 
 import java.util.Set;
 

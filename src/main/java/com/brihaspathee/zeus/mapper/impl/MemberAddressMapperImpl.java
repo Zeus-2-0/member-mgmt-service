@@ -2,8 +2,8 @@ package com.brihaspathee.zeus.mapper.impl;
 
 import com.brihaspathee.zeus.domain.entity.Member;
 import com.brihaspathee.zeus.domain.entity.MemberAddress;
+import com.brihaspathee.zeus.dto.account.MemberAddressDto;
 import com.brihaspathee.zeus.mapper.interfaces.MemberAddressMapper;
-import com.brihaspathee.zeus.web.model.MemberAddressDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

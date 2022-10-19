@@ -1,9 +1,7 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.MemberEmail;
-import com.brihaspathee.zeus.web.model.MemberEmailDto;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import com.brihaspathee.zeus.dto.account.MemberEmailDto;
 
 import java.util.Set;
 
