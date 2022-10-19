@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
-import com.brihaspathee.zeus.web.model.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 
 import java.util.Set;
 

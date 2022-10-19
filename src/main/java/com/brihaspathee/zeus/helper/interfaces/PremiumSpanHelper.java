@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
-import com.brihaspathee.zeus.web.model.PremiumSpanDto;
+import com.brihaspathee.zeus.dto.account.PremiumSpanDto;
 
 /**
  * Created in Intellij IDEA

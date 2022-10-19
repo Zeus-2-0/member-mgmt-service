@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
-import com.brihaspathee.zeus.web.model.MemberEmailDto;
+import com.brihaspathee.zeus.dto.account.MemberEmailDto;
 
 /**
  * Created in Intellij IDEA

@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.MemberAddress;
-import com.brihaspathee.zeus.web.model.MemberAddressDto;
+import com.brihaspathee.zeus.dto.account.MemberAddressDto;
 
 import java.util.Set;
 

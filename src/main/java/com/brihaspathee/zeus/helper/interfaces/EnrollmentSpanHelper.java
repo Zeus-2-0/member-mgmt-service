@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
-import com.brihaspathee.zeus.web.model.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 
 /**
  * Created in Intellij IDEA

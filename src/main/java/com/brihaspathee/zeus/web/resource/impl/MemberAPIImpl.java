@@ -1,11 +1,9 @@
 package com.brihaspathee.zeus.web.resource.impl;
 
 import com.brihaspathee.zeus.constants.ApiResponseConstants;
+import com.brihaspathee.zeus.dto.account.MemberDto;
+import com.brihaspathee.zeus.dto.account.MemberList;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
-import com.brihaspathee.zeus.web.model.AccountDto;
-import com.brihaspathee.zeus.web.model.AccountList;
-import com.brihaspathee.zeus.web.model.MemberDto;
-import com.brihaspathee.zeus.web.model.MemberList;
 import com.brihaspathee.zeus.web.resource.interfaces.MemberAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import lombok.RequiredArgsConstructor;

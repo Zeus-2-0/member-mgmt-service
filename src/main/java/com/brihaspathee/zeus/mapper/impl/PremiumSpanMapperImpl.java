@@ -4,9 +4,9 @@ import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
 import com.brihaspathee.zeus.domain.entity.Member;
 import com.brihaspathee.zeus.domain.entity.MemberPremium;
 import com.brihaspathee.zeus.domain.entity.PremiumSpan;
+import com.brihaspathee.zeus.dto.account.MemberPremiumDto;
+import com.brihaspathee.zeus.dto.account.PremiumSpanDto;
 import com.brihaspathee.zeus.mapper.interfaces.PremiumSpanMapper;
-import com.brihaspathee.zeus.web.model.MemberPremiumDto;
-import com.brihaspathee.zeus.web.model.PremiumSpanDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

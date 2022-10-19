@@ -1,9 +1,7 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
-import com.brihaspathee.zeus.web.model.AccountDto;
-import com.brihaspathee.zeus.web.model.AccountList;
-import com.brihaspathee.zeus.web.model.MemberDto;
-import com.brihaspathee.zeus.web.model.MemberList;
+import com.brihaspathee.zeus.dto.account.MemberDto;
+import com.brihaspathee.zeus.dto.account.MemberList;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

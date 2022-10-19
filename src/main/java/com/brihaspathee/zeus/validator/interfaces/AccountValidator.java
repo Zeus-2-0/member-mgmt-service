@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.validator.interfaces;
 
-import com.brihaspathee.zeus.web.model.AccountDto;
+import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**

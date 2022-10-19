@@ -1,6 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
-import com.brihaspathee.zeus.web.model.MemberLanguageDto;
+import com.brihaspathee.zeus.dto.account.MemberLanguageDto;
 
 /**
  * Created in Intellij IDEA
