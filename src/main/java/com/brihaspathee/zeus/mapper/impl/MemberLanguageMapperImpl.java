@@ -35,6 +35,7 @@ public class MemberLanguageMapperImpl implements MemberLanguageMapper {
         }
         MemberLanguage language = MemberLanguage.builder()
                 .memberLanguageSK(languageDto.getMemberLanguageSK())
+                .memberLanguageCode(languageDto.getMemberLanguageCode())
                 .member(Member.builder().memberSK(languageDto.getMemberSK()).build())
                 .languageTypeCode(languageDto.getLanguageTypeCode())
                 .languageCode(languageDto.getLanguageCode())
@@ -58,6 +59,7 @@ public class MemberLanguageMapperImpl implements MemberLanguageMapper {
         }
         MemberLanguageDto languageDto = MemberLanguageDto.builder()
                 .memberLanguageSK(language.getMemberLanguageSK())
+                .memberLanguageCode(language.getMemberLanguageCode())
                 .memberSK(language.getMember().getMemberSK())
                 .languageTypeCode(language.getLanguageTypeCode())
                 .languageCode(language.getLanguageCode())

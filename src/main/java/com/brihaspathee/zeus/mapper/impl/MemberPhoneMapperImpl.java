@@ -36,6 +36,7 @@ public class MemberPhoneMapperImpl implements MemberPhoneMapper {
         }
         MemberPhone phone = MemberPhone.builder()
                 .memberPhoneSK(phoneDto.getMemberPhoneSK())
+                .memberPhoneCode(phoneDto.getMemberPhoneCode())
                 .member(Member.builder().memberSK(phoneDto.getMemberSK()).build())
                 .phoneTypeCode(phoneDto.getPhoneTypeCode())
                 .phoneNumber(phoneDto.getPhoneNumber())
@@ -59,6 +60,7 @@ public class MemberPhoneMapperImpl implements MemberPhoneMapper {
         }
         MemberPhoneDto phoneDto = MemberPhoneDto.builder()
                 .memberPhoneSK(phone.getMemberPhoneSK())
+                .memberPhoneCode(phone.getMemberPhoneCode())
                 .memberSK(phone.getMember().getMemberSK())
                 .phoneTypeCode(phone.getPhoneTypeCode())
                 .phoneNumber(phone.getPhoneNumber())

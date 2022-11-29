@@ -3,6 +3,7 @@ package com.brihaspathee.zeus.service.impl;
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
+import com.brihaspathee.zeus.domain.entity.Sponsor;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
@@ -10,8 +11,7 @@ import com.brihaspathee.zeus.dto.account.MemberDto;
 import com.brihaspathee.zeus.dto.account.MemberPremiumDto;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
-import com.brihaspathee.zeus.helper.interfaces.EnrollmentSpanHelper;
-import com.brihaspathee.zeus.helper.interfaces.PremiumSpanHelper;
+import com.brihaspathee.zeus.helper.interfaces.*;
 import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
 import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
@@ -66,6 +66,21 @@ public class AccountServiceImpl implements AccountService {
     private final PremiumSpanHelper premiumSpanHelper;
 
     /**
+     * Broker helper to perform operations on the broker
+     */
+    private final BrokerHelper brokerHelper;
+
+    /**
+     * Sponsor helper to perform operations on the sponsor
+     */
+    private final SponsorHelper sponsorHelper;
+
+    /**
+     * Payer helper to perform operations on the payer
+     */
+    private final PayerHelper payerHelper;
+
+    /**
      * The account validator instance to validate the account details before the changes are saved
      */
     private final AccountValidator accountValidator;
@@ -118,6 +133,21 @@ public class AccountServiceImpl implements AccountService {
                 premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
             });
 
+        });
+        accountDto.getBrokers().stream().forEach(brokerDto -> {
+            brokerDto.setAccountSK(account.getAccountSK());
+            UUID brokerSK = brokerHelper.createBroker(brokerDto).getBrokerSK();
+            brokerDto.setBrokerSK(brokerSK);
+        });
+        accountDto.getPayers().stream().forEach(payerDto -> {
+            payerDto.setAccountSK(account.getAccountSK());
+            UUID payerSK = payerHelper.createPayer(payerDto).getPayerSK();
+            payerDto.setPayerSK(payerSK);
+        });
+        accountDto.getSponsors().stream().forEach(sponsorDto -> {
+            sponsorDto.setAccountSK(account.getAccountSK());
+            UUID sponsorSK = sponsorHelper.createSponsor(sponsorDto).getSponsorSK();
+            sponsorDto.setSponsorSK(sponsorSK);
         });
         return accountDto;
     }

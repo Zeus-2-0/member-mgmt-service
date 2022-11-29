@@ -43,6 +43,7 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
         }
         EnrollmentSpan enrollmentSpan = EnrollmentSpan.builder()
                 .enrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK())
+                .enrollmentSpanCode(enrollmentSpanDto.getEnrollmentSpanCode())
                 .account(Account.builder().accountSK(enrollmentSpanDto.getAccountSK()).build())
                 .businessUnitTypeCode(enrollmentSpanDto.getBusinessUnitTypeCode())
                 .planId(enrollmentSpanDto.getPlanId())
@@ -76,6 +77,7 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
         log.info("to be mapped enrollment span:{}", enrollmentSpan);
         EnrollmentSpanDto enrollmentSpanDto = EnrollmentSpanDto.builder()
                 .enrollmentSpanSK(enrollmentSpan.getEnrollmentSpanSK())
+                .enrollmentSpanCode(enrollmentSpan.getEnrollmentSpanCode())
                 .accountSK(enrollmentSpan.getAccount().getAccountSK())
                 .businessUnitTypeCode(enrollmentSpan.getBusinessUnitTypeCode())
                 .planId(enrollmentSpan.getPlanId())

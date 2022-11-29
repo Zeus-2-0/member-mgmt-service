@@ -40,6 +40,12 @@ public class MemberPhone {
     private UUID memberPhoneSK;
 
     /**
+     * The unique code for the member phone in MMS
+     */
+    @Column(name = "member_phone_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String memberPhoneCode;
+
+    /**
      * The member to whom the phone is associated
      */
     @ManyToOne

@@ -38,6 +38,7 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
         }
         PremiumSpan premiumSpan = PremiumSpan.builder()
                 .premiumSpanSK(premiumSpanDto.getPremiumSpanSK())
+                .premiumSpanCode(premiumSpanDto.getPremiumSpanCode())
                 .enrollmentSpan(EnrollmentSpan.builder().enrollmentSpanSK(premiumSpanDto.getEnrollmentSpanSK()).build())
                 .startDate(premiumSpanDto.getStartDate())
                 .endDate(premiumSpanDto.getEndDate())
@@ -66,6 +67,7 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
         }
         PremiumSpanDto premiumSpanDto = PremiumSpanDto.builder()
                 .premiumSpanSK(premiumSpan.getPremiumSpanSK())
+                .premiumSpanCode(premiumSpan.getPremiumSpanCode())
                 .enrollmentSpanSK(premiumSpan.getEnrollmentSpan().getEnrollmentSpanSK())
                 .startDate(premiumSpan.getStartDate())
                 .endDate(premiumSpan.getEndDate())

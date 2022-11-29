@@ -35,6 +35,7 @@ public class MemberAddressMapperImpl implements MemberAddressMapper {
         }
         MemberAddress address = MemberAddress.builder()
                 .memberAddressSK(addressDto.getMemberAddressSK())
+                .memberAddressCode(addressDto.getMemberAddressCode())
                 .member(Member.builder().memberSK(addressDto.getMemberSK()).build())
                 .addressTypeCode(addressDto.getAddressTypeCode())
                 .addressLine1(addressDto.getAddressLine1())
@@ -62,6 +63,7 @@ public class MemberAddressMapperImpl implements MemberAddressMapper {
         }
         MemberAddressDto addressDto = MemberAddressDto.builder()
                 .memberAddressSK(address.getMemberAddressSK())
+                .memberAddressCode(address.getMemberAddressCode())
                 .memberSK(address.getMember().getMemberSK())
                 .addressTypeCode(address.getAddressTypeCode())
                 .addressLine1(address.getAddressLine1())

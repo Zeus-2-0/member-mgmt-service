@@ -40,6 +40,12 @@ public class MemberAddress {
     private UUID memberAddressSK;
 
     /**
+     * The unique code for the member address in MMS
+     */
+    @Column(name = "member_address_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String memberAddressCode;
+
+    /**
      * The member that is associated with the address
      */
     @ManyToOne

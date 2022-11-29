@@ -53,6 +53,10 @@ public class MemberAddressHelperImpl implements MemberAddressHelper {
         return memberAddressMapper.addressToAddressDto(memberAddress);
     }
 
+    /**
+     * Validate the member address
+     * @param memberAddressDtos
+     */
     @Override
     public void validateMemberAddresses(Set<MemberAddressDto> memberAddressDtos){
         log.info("All Addresses:{}", memberAddressDtos);
@@ -83,6 +87,12 @@ public class MemberAddressHelperImpl implements MemberAddressHelper {
 
     }
 
+    /**
+     * Check of the dates of the address overlap
+     * @param previousSpanEnDate
+     * @param currentSpanStartDate
+     * @return
+     */
     private boolean isDateOverlap(final LocalDate previousSpanEnDate, final LocalDate currentSpanStartDate){
         log.info("Previous span end date:{}", previousSpanEnDate);
         log.info("Current span start date:{}", currentSpanStartDate);

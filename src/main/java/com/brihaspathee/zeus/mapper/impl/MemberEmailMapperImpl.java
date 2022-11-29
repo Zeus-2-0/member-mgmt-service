@@ -37,6 +37,7 @@ public class MemberEmailMapperImpl implements MemberEmailMapper {
         }
         MemberEmail email = MemberEmail.builder()
                 .memberEmailSK(emailDto.getMemberEmailSK())
+                .memberEmailCode(emailDto.getMemberEmailCode())
                 .member(Member.builder().memberSK(emailDto.getMemberSK()).build())
                 .emailTypeCode(emailDto.getEmailTypeCode())
                 .email(emailDto.getEmail())
@@ -61,6 +62,7 @@ public class MemberEmailMapperImpl implements MemberEmailMapper {
         }
         MemberEmailDto emailDto = MemberEmailDto.builder()
                 .memberEmailSK(email.getMemberEmailSK())
+                .memberEmailCode(email.getMemberEmailCode())
                 .memberSK(email.getMember().getMemberSK())
                 .emailTypeCode(email.getEmailTypeCode())
                 .email(email.getEmail())
