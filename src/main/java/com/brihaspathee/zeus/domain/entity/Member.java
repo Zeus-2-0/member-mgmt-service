@@ -145,6 +145,12 @@ public class Member {
     private Set<MemberPremium> memberPremiums;
 
     /**
+     * The list of all the alternate contacts associated with the member
+     */
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    private Set<AlternateContact> alternateContacts;
+
+    /**
      * Date when the record was created
      */
     @CreationTimestamp

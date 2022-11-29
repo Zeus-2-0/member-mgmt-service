@@ -39,6 +39,12 @@ public class MemberIdentifier {
     private UUID memberIdentifierSK;
 
     /**
+     * The unique code for the member identifier in MMS
+     */
+    @Column(name = "member_identifier_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String memberIdentifierCode;
+
+    /**
      * The member to whom the identifier is associated
      */
     @ManyToOne

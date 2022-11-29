@@ -43,6 +43,12 @@ public class PremiumSpan {
     private UUID premiumSpanSK;
 
     /**
+     * The unique code for the premium span in MMS
+     */
+    @Column(name = "premium_span_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String premiumSpanCode;
+
+    /**
      * The enrollment span associated with the premium span
      */
     @ManyToOne

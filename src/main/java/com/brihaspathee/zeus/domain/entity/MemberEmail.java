@@ -40,6 +40,12 @@ public class MemberEmail {
     private UUID memberEmailSK;
 
     /**
+     * The unique code for the member email in MMS
+     */
+    @Column(name = "member_email_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String memberEmailCode;
+
+    /**
      * The member to whom the email is associated
      */
     @ManyToOne

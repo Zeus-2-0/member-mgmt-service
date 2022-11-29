@@ -40,6 +40,12 @@ public class MemberLanguage {
     private UUID memberLanguageSK;
 
     /**
+     * The unique code for the member language in MMS
+     */
+    @Column(name = "member_language_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String memberLanguageCode;
+
+    /**
      * The member to whom the language is associated
      */
     @ManyToOne

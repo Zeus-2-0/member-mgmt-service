@@ -42,6 +42,12 @@ public class EnrollmentSpan {
     private UUID enrollmentSpanSK;
 
     /**
+     * The unique code for the enrollment span in MMS
+     */
+    @Column(name = "enrollment_span_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
+    private String enrollmentSpanCode;
+
+    /**
      * The account that the enrollment span is associated with
      */
     @ManyToOne

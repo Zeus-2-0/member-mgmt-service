@@ -54,6 +54,24 @@ public class Account {
     private Set<EnrollmentSpan> enrollmentSpans;
 
     /**
+     * The list of all the brokers associated with the account
+     */
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<Broker> brokers;
+
+    /**
+     * The list of all the payers associated with the account
+     */
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<Payer> payers;
+
+    /**
+     * The list of all the sponsors associated with the account
+     */
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<Sponsor> sponsors;
+
+    /**
      * The list of all the attributes associated with the account
      */
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)

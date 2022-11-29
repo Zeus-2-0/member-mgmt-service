@@ -8,6 +8,7 @@ import com.brihaspathee.zeus.dto.account.MemberDto;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.*;
+import com.brihaspathee.zeus.mapper.interfaces.AlternateContactMapper;
 import com.brihaspathee.zeus.mapper.interfaces.MemberMapper;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,12 @@ public class MemberServiceImpl implements MemberService {
     private final MemberEmailHelper memberEmailHelper;
 
     /**
+     * Alternate Contact helper instance
+     */
+    private final AlternateContactHelper alternateContactHelper;
+
+
+    /**
      * Get member by the member code
      * @param memberCode the member code of the member
      * @return the member entity associated with the member code
@@ -112,6 +119,7 @@ public class MemberServiceImpl implements MemberService {
         createMemberLanguage(memberDto, member.getMemberSK());
         createMemberPhone(memberDto, member.getMemberSK());
         createMemberEmail(memberDto, member.getMemberSK());
+        createAlternateContact(memberDto, member.getMemberSK());
         return memberMapper.memberToMemberDto(member);
     }
 
@@ -182,6 +190,20 @@ public class MemberServiceImpl implements MemberService {
             memberDto.getMemberEmails().stream().forEach(memberEmailDto -> {
                 memberEmailDto.setMemberSK(memberSK);
                 memberEmailHelper.createMemberEmail(memberEmailDto);
+            });
+        }
+    }
+
+    /**
+     * Call alternate contact helper to create alternate contacts if any present for the member
+     * @param memberDto
+     * @param memberSK
+     */
+    private void createAlternateContact(MemberDto memberDto, UUID memberSK){
+        if (memberDto.getAlternateContacts() != null && !memberDto.getAlternateContacts().isEmpty()){
+            memberDto.getAlternateContacts().stream().forEach(alternateContactDto -> {
+                alternateContactDto.setMemberSK(memberSK);
+                alternateContactHelper.createAlternateContact(alternateContactDto);
             });
         }
     }

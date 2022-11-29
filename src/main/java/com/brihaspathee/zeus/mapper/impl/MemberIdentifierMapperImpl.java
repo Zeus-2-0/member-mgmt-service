@@ -35,6 +35,7 @@ public class MemberIdentifierMapperImpl implements MemberIdentifierMapper {
         }
         MemberIdentifier memberIdentifier = MemberIdentifier.builder()
                 .memberIdentifierSK(memberIdentifierDto.getMemberIdentifierSK())
+                .memberIdentifierCode(memberIdentifierDto.getMemberIdentifierCode())
                 .member(Member.builder().memberSK(memberIdentifierDto.getMemberSK()).build())
                 .identifierTypeCode(memberIdentifierDto.getIdentifierTypeCode())
                 .identifierValue(memberIdentifierDto.getIdentifierValue())
@@ -56,6 +57,7 @@ public class MemberIdentifierMapperImpl implements MemberIdentifierMapper {
         }
         MemberIdentifierDto memberIdentifierDto = MemberIdentifierDto.builder()
                 .memberIdentifierSK(memberIdentifier.getMemberIdentifierSK())
+                .memberIdentifierCode(memberIdentifier.getMemberIdentifierCode())
                 .memberSK(memberIdentifier.getMember().getMemberSK())
                 .identifierTypeCode(memberIdentifier.getIdentifierTypeCode())
                 .identifierValue(memberIdentifier.getIdentifierValue())
