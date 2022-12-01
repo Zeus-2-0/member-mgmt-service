@@ -141,27 +141,30 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
     ENGINE = InnoDB
     COMMENT = 'Enrollment spans that are associated with the account';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`premium_span` (
-  `premium_span_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
-  `enrollment_span_sk` VARCHAR(36) NULL COMMENT 'The enrollment span that the premium span belongs to',
-  `start_date` DATETIME NOT NULL,
-  `end_date` DATETIME NOT NULL,
-  `csr_variant` VARCHAR(10) NOT NULL,
-  `total_prem_amt` DECIMAL(10,2) NOT NULL COMMENT 'The total premium amount per month for the plan chosen by the member',
-  `total_resp_amt` DECIMAL(10,2) NOT NULL COMMENT 'Total amount that the member is responsible for payment towards the premium',
-  `aptc_amt` DECIMAL(10,2) NULL COMMENT 'Federal contribution towards the premium',
-  `other_pay_amt` DECIMAL(10,2) NULL COMMENT 'The amounts contributed by other sources (like the state) towards the premium',
-  `csr_amt` DECIMAL(10,2) NULL COMMENT 'The Cost Sharing Reduction amount',
-  `created_Date` DATETIME NULL COMMENT 'Date when the record was created',
-  `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
-  PRIMARY KEY (`premium_span_sk`),
-  INDEX `prem_enrlmnt_fk_idx` (`enrollment_span_sk` ASC) VISIBLE,
-  CONSTRAINT `prem_enrlmnt_fk`
+    `premium_span_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
+    `premium_span_code` VARCHAR(50) NOT NULL COMMENT 'Unique premium span code created for the premium span',
+    `ztcn` VARCHAR(50) NOT NULL COMMENT 'The transaction control number that created the premium span',
+    `enrollment_span_sk` VARCHAR(36) NULL COMMENT 'The enrollment span that the premium span belongs to',
+    `start_date` DATETIME NOT NULL,
+    `end_date` DATETIME NOT NULL,
+    `csr_variant` VARCHAR(10) NOT NULL,
+    `total_prem_amt` DECIMAL(10,2) NOT NULL COMMENT 'The total premium amount per month for the plan chosen by the member',
+    `total_resp_amt` DECIMAL(10,2) NOT NULL COMMENT 'Total amount that the member is responsible for payment towards the premium',
+    `aptc_amt` DECIMAL(10,2) NULL COMMENT 'Federal contribution towards the premium',
+    `other_pay_amt` DECIMAL(10,2) NULL COMMENT 'The amounts contributed by other sources (like the state) towards the premium',
+    `csr_amt` DECIMAL(10,2) NULL COMMENT 'The Cost Sharing Reduction amount',
+    `created_Date` DATETIME NULL COMMENT 'Date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
+    PRIMARY KEY (`premium_span_sk`),
+    INDEX `prem_enrlmnt_fk_idx` (`enrollment_span_sk` ASC) VISIBLE,
+    UNIQUE INDEX `premium_span_code_UNIQUE` (`premium_span_code` ASC) VISIBLE,
+    CONSTRAINT `prem_enrlmnt_fk`
     FOREIGN KEY (`enrollment_span_sk`)
     REFERENCES `membermgmtdb`.`enrollment_span` (`enrlmnt_span_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = 'Premium spans associated with the account';
+    ENGINE = InnoDB
+    COMMENT = 'Premium spans associated with the account';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member` (
                                                        `member_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
                                                        `account_sk` VARCHAR(36) NOT NULL,

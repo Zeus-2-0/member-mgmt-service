@@ -43,6 +43,12 @@ public class PremiumSpan {
     private UUID premiumSpanSK;
 
     /**
+     * The zeus transaction control number of the transaction that created the enrollment span
+     */
+    @Column(name = "ztcn", length = 20, columnDefinition = "varchar", nullable = false)
+    private String ztcn;
+
+    /**
      * The unique code for the premium span in MMS
      */
     @Column(name = "premium_span_code", columnDefinition = "varchar", length = 50, updatable = false, nullable = false)
