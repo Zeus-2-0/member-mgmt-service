@@ -53,6 +53,67 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`account_attributes` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 COMMENT = 'Contains account level attributes';
+CREATE TABLE IF NOT EXISTS `membermgmtdb`.`broker` (
+    `broker_sk` VARCHAR(36) NOT NULL COMMENT 'The primary key of the table',
+    `account_sk` VARCHAR(36) NOT NULL COMMENT 'The account to which the broker is associated',
+    `broker_code` VARCHAR(50) NOT NULL COMMENT 'The unique code for the broker in MMS',
+    `broker_name` VARCHAR(100) NOT NULL COMMENT 'The name of the broker',
+    `broker_id` VARCHAR(100) NOT NULL COMMENT 'The id of the broker',
+    `agency_name` VARCHAR(100) NULL COMMENT 'The agency name of the broker',
+    `agency_id` VARCHAR(50) NULL COMMENT 'The agency id of the broker',
+    `account_number_1` VARCHAR(50) NULL COMMENT 'The first account number of the broker',
+    `account_number_2` VARCHAR(50) NULL COMMENT 'The second account number of the broker',
+    `start_date` DATE NOT NULL COMMENT 'The start date of the broker',
+    `end_date` DATE NULL COMMENT 'The end date of the broker',
+    `created_date` DATETIME NULL COMMENT 'The date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'The date when the record was updated',
+    PRIMARY KEY (`broker_sk`),
+    INDEX `fk_broker_account1_idx` (`account_sk` ASC) VISIBLE,
+    CONSTRAINT `fk_broker_account1`
+    FOREIGN KEY (`account_sk`)
+    REFERENCES `membermgmtdb`.`account` (`account_sk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+    ENGINE = InnoDB
+    COMMENT = 'The brokers associated with the account';
+CREATE TABLE IF NOT EXISTS `membermgmtdb`.`sponsor` (
+    `sponsor_sk` VARCHAR(36) NOT NULL COMMENT 'The primary key of the table',
+    `account_sk` VARCHAR(36) NOT NULL COMMENT 'The account to which the sponsor is associated',
+    `sponsor_code` VARCHAR(50) NOT NULL COMMENT 'The unique code for the sponsor in MMS',
+    `sponsor_id` VARCHAR(50) NOT NULL COMMENT 'The id of the sponsor',
+    `sponsor_name` VARCHAR(50) NOT NULL COMMENT 'The name of the sponsor',
+    `start_date` DATE NOT NULL COMMENT 'The start date of the sponsor',
+    `end_date` DATE NULL COMMENT 'The end date of the sponsor',
+    `created_date` DATETIME NULL COMMENT 'The date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'The date when the record was updated',
+    PRIMARY KEY (`sponsor_sk`),
+    INDEX `fk_sponsor_account1_idx` (`account_sk` ASC) VISIBLE,
+    CONSTRAINT `fk_sponsor_account1`
+    FOREIGN KEY (`account_sk`)
+    REFERENCES `membermgmtdb`.`account` (`account_sk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+    ENGINE = InnoDB
+    COMMENT = 'The sponsors associated with the account';
+CREATE TABLE IF NOT EXISTS `membermgmtdb`.`payer` (
+    `payer_sk` VARCHAR(36) NOT NULL COMMENT 'The primary key of the table',
+    `account_sk` VARCHAR(36) NOT NULL COMMENT 'The account to which the payer is associated',
+    `payer_code` VARCHAR(50) NOT NULL COMMENT 'The unique code assigned to the payer in MMS',
+    `payer_name` VARCHAR(100) NOT NULL COMMENT 'The name of the payer',
+    `payer_id` VARCHAR(50) NULL COMMENT 'The id of the payer',
+    `start_date` DATE NOT NULL COMMENT 'The start date of the payer',
+    `end_date` DATE NULL COMMENT 'The end date of the payer',
+    `created_date` DATETIME NULL COMMENT 'The date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'The date when the record was updated',
+    PRIMARY KEY (`payer_sk`),
+    INDEX `fk_payer_account1_idx` (`account_sk` ASC) VISIBLE,
+    CONSTRAINT `fk_payer_account1`
+    FOREIGN KEY (`account_sk`)
+    REFERENCES `membermgmtdb`.`account` (`account_sk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+    ENGINE = InnoDB
+    COMMENT = 'The payers that are associated with the account';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
                                                                 `enrlmnt_span_sk` VARCHAR(36) NOT NULL,
                                                                 `account_sk` VARCHAR(36) NOT NULL,
@@ -170,21 +231,25 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_address` (
 ENGINE = InnoDB
 COMMENT = 'Addresses associated with the member.';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_identifier` (
-  `member_identifier_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
-  `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key of the member table',
-  `identifier_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of identifier',
-  `identifier_value` VARCHAR(50) NOT NULL COMMENT 'Value of the identifier',
-  `created_date` DATETIME NULL COMMENT 'Date when the record was created',
-  `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
-  PRIMARY KEY (`member_identifier_sk`),
-  INDEX `member_identifier_fk_idx` (`member_sk` ASC) VISIBLE,
-  CONSTRAINT `member_identifier_fk`
+    `member_identifier_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
+    `member_identifier_code` VARCHAR(50) NOT NULL COMMENT 'Unique member identifier code created for the identifier',
+    `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key of the member table',
+    `identifier_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of identifier',
+    `identifier_value` VARCHAR(50) NOT NULL COMMENT 'Value of the identifier',
+    `is_active` BOOLEAN NULL COMMENT 'Identifies if the identifier is active',
+    `created_date` DATETIME NULL COMMENT 'Date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
+    PRIMARY KEY (`member_identifier_sk`),
+    INDEX `member_identifier_fk_idx` (`member_sk` ASC) VISIBLE,
+    UNIQUE INDEX `member_identifier_code_UNIQUE` (`member_identifier_code` ASC) VISIBLE,
+    UNIQUE INDEX `is_active_UNIQUE` (`is_active` ASC) VISIBLE,
+    CONSTRAINT `member_identifier_fk`
     FOREIGN KEY (`member_sk`)
     REFERENCES `membermgmtdb`.`member` (`member_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = 'Identifiers associated with the member';
+    ENGINE = InnoDB
+    COMMENT = 'Identifiers associated with the member\n'
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_email` (
   `member_email_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
   `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key to the member table',
@@ -240,6 +305,36 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_phone` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 COMMENT = 'Phone numbers associated with the member';
+CREATE TABLE IF NOT EXISTS `membermgmtdb`.`alternate_contact` (
+    `alternate_contact_sk` VARCHAR(36) NOT NULL COMMENT 'The primary key of the table',
+    `member_sk` VARCHAR(36) NOT NULL COMMENT 'The member to whom the alternate contact is associated',
+    `alternate_contact_code` VARCHAR(50) NOT NULL COMMENT 'The unique code of the alternate contact',
+    `alternate_contact_type_code` VARCHAR(50) NOT NULL COMMENT 'The type of alternate contact',
+    `first_name` VARCHAR(100) NULL COMMENT 'The first name of the alternate contact',
+    `middle_name` VARCHAR(50) NULL COMMENT 'The middle name of the alternate contact',
+    `last_name` VARCHAR(100) NOT NULL COMMENT 'The last name of the alternate contact',
+    `identifier_type_code` VARCHAR(50) NULL COMMENT 'The identifier type of the identifier for the alternate contact',
+    `identifier_value` VARCHAR(100) NULL COMMENT 'The identifier alternate contact',
+    `phone_type_code` VARCHAR(50) NULL COMMENT 'The type of phone number of the alternate contact',
+    `phone_number` VARCHAR(50) NULL COMMENT 'The phone number of the alternate contact',
+    `email` VARCHAR(100) NULL COMMENT 'The email of the alternate contact',
+    `address_line_1` VARCHAR(100) NULL COMMENT 'The address line 1 of the alternate contact address',
+    `address_line_2` VARCHAR(50) NULL COMMENT 'The address line 2 of the alternate contact address',
+    `city` VARCHAR(50) NULL COMMENT 'The city of the alternate contact address',
+    `state_type_code` VARCHAR(50) NULL COMMENT 'The state of the alternate contact address',
+    `zip_code` VARCHAR(50) NULL COMMENT 'The zip code of the alternate contact address',
+    `start_date` DATE NULL COMMENT 'The start date of the alternate contact',
+    `end_date` DATE NULL COMMENT 'The end date of the alternate contact',
+    `created_date` DATETIME NULL COMMENT 'The date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'The date when the record was updated',
+    PRIMARY KEY (`alternate_contact_sk`),
+    INDEX `fk_alternate_contact_member1_idx` (`member_sk` ASC) VISIBLE,
+    CONSTRAINT `fk_alternate_contact_member1`
+    FOREIGN KEY (`member_sk`)
+    REFERENCES `membermgmtdb`.`member` (`member_sk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+    ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_premiums` (
                                                                 `member_premium_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
                                                                 `premium_span_sk` VARCHAR(36) NOT NULL COMMENT 'The premium span that the premium is associated with',

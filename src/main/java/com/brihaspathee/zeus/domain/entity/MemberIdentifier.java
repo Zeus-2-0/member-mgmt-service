@@ -64,6 +64,12 @@ public class MemberIdentifier {
     private String identifierValue;
 
     /**
+     * Identifies if the identifier is active
+     */
+    @Column(name="is_Active")
+    private boolean isActive;
+
+    /**
      * Date when the record was created
      */
     @CreationTimestamp
