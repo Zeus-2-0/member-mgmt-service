@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.broker.producer;
 
+import com.brihaspathee.zeus.broker.message.AccountUpdateResponse;
 import com.brihaspathee.zeus.message.ZeusMessagePayload;
-import com.brihaspathee.zeus.validator.AccountProcessingResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,12 +25,12 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Component
 @RequiredArgsConstructor
 public class TransactionResponseCallback implements
-        ListenableFutureCallback<SendResult<String, ZeusMessagePayload<AccountProcessingResponse>>> {
+        ListenableFutureCallback<SendResult<String, ZeusMessagePayload<AccountUpdateResponse>>> {
 
     /**
-     * The payload that is sent to the transaction manager service
+     * The payload that is sent to the account processor service
      */
-    private AccountProcessingResponse accountProcessingResponse;
+    private AccountUpdateResponse accountUpdateResponse;
 
     /**
      * This is invoked when there was a failure to publish the message
@@ -38,7 +38,7 @@ public class TransactionResponseCallback implements
      */
     @Override
     public void onFailure(Throwable ex) {
-        log.info("The message failed to publish");
+        log.info("The message failed to publish to APS");
     }
 
     /**
@@ -46,7 +46,7 @@ public class TransactionResponseCallback implements
      * @param result
      */
     @Override
-    public void onSuccess(SendResult<String, ZeusMessagePayload<AccountProcessingResponse>> result) {
-        log.info("The message successfully published");
+    public void onSuccess(SendResult<String, ZeusMessagePayload<AccountUpdateResponse>> result) {
+        log.info("The message successfully published to APS");
     }
 }

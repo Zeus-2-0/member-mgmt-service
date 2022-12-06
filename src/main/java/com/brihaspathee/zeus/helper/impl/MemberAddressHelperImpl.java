@@ -62,7 +62,7 @@ public class MemberAddressHelperImpl implements MemberAddressHelper {
         log.info("All Addresses:{}", memberAddressDtos);
         Set<MemberAddressDto> residentialAddresses = memberAddressDtos.stream()
                 .filter(
-                        memberAddressDto -> memberAddressDto.getAddressTypeCode().equals("RES") )
+                        memberAddressDto -> memberAddressDto.getAddressTypeCode().equals("RESIDENCE") )
                 .collect(Collectors.toSet());
         log.info("Residential Addresses:{}", residentialAddresses);
         List<MemberAddressDto> sortedResAddresses = residentialAddresses.stream()

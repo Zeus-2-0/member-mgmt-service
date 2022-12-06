@@ -115,29 +115,31 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`payer` (
     ENGINE = InnoDB
     COMMENT = 'The payers that are associated with the account';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
-                                                                `enrlmnt_span_sk` VARCHAR(36) NOT NULL,
-                                                                `account_sk` VARCHAR(36) NOT NULL,
-                                                                `state_type_code` VARCHAR(45) NOT NULL,
-                                                                `marketplace_type_code` VARCHAR(45) NOT NULL,
-                                                                `business_unit_type_code` VARCHAR(50) NOT NULL,
-                                                                `start_date` DATETIME NOT NULL,
-                                                                `end_date` DATETIME NOT NULL,
-                                                                `exchange_subscriber_id` VARCHAR(50) NOT NULL COMMENT 'Exchange subscriber id associated with the enrollment span',
-                                                                `plan_id` VARCHAR(100) NOT NULL,
-                                                                `group_policy_id` VARCHAR(100) NOT NULL,
-                                                                `product_type_code` VARCHAR(100) NOT NULL,
-                                                                `effectuation_date` DATETIME NULL,
-                                                                `status_type_code` VARCHAR(50) NOT NULL,
-                                                                `ztcn` VARCHAR(20) NOT NULL,
-                                                                `created_date` DATETIME NULL,
-                                                                `updated_date` DATETIME NULL,
-                                                                PRIMARY KEY (`enrlmnt_span_sk`),
-                                                                INDEX `acct_enrlmnt_fk_idx` (`account_sk` ASC) VISIBLE,
-                                                                CONSTRAINT `acct_enrlmnt_fk`
-                                                                    FOREIGN KEY (`account_sk`)
-                                                                        REFERENCES `membermgmtdb`.`account` (`account_sk`)
-                                                                        ON DELETE NO ACTION
-                                                                        ON UPDATE NO ACTION)
+    `enrlmnt_span_sk` VARCHAR(36) NOT NULL,
+    `enrollment_span_code` VARCHAR(50) NOT NULL COMMENT 'A unique code created for the enrollment span',
+    `account_sk` VARCHAR(36) NOT NULL,
+    `state_type_code` VARCHAR(45) NOT NULL,
+    `marketplace_type_code` VARCHAR(45) NOT NULL,
+    `business_unit_type_code` VARCHAR(50) NOT NULL,
+    `start_date` DATETIME NOT NULL,
+    `end_date` DATETIME NOT NULL,
+    `exchange_subscriber_id` VARCHAR(50) NOT NULL COMMENT 'Exchange subscriber id associated with the enrollment span',
+    `plan_id` VARCHAR(100) NOT NULL,
+    `group_policy_id` VARCHAR(100) NOT NULL,
+    `product_type_code` VARCHAR(100) NOT NULL,
+    `effectuation_date` DATETIME NULL,
+    `status_type_code` VARCHAR(50) NOT NULL,
+    `ztcn` VARCHAR(20) NOT NULL,
+    `created_date` DATETIME NULL,
+    `updated_date` DATETIME NULL,
+    PRIMARY KEY (`enrlmnt_span_sk`),
+    INDEX `acct_enrlmnt_fk_idx` (`account_sk` ASC) VISIBLE,
+    UNIQUE INDEX `enrollment_span_code_UNIQUE` (`enrollment_span_code` ASC) VISIBLE,
+    CONSTRAINT `acct_enrlmnt_fk`
+    FOREIGN KEY (`account_sk`)
+    REFERENCES `membermgmtdb`.`account` (`account_sk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
     ENGINE = InnoDB
     COMMENT = 'Enrollment spans that are associated with the account';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`premium_span` (
@@ -212,27 +214,29 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_attribute` (
 ENGINE = InnoDB
 COMMENT = 'Attributes associated with the member';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_address` (
-  `member_address_sk` VARCHAR(36) NOT NULL,
-  `member_sk` VARCHAR(36) NOT NULL,
-  `address_type_code` VARCHAR(20) NOT NULL COMMENT 'The type of address',
-  `address_line_1` VARCHAR(100) NOT NULL COMMENT 'Address line 1 of the address',
-  `address_line_2` VARCHAR(100) NULL COMMENT 'Address line 2 of the address',
-  `city` VARCHAR(100) NOT NULL COMMENT 'City of the address',
-  `state_type_code` VARCHAR(20) NOT NULL COMMENT 'State of the address',
-  `zip_code` VARCHAR(10) NOT NULL COMMENT 'Zip code of the address',
-  `start_date` DATETIME NOT NULL COMMENT 'Start date of the address',
-  `end_date` DATETIME NULL,
-  `created_date` DATETIME NULL,
-  `updated_date` DATETIME NULL,
-  PRIMARY KEY (`member_address_sk`),
-  INDEX `member_address_fk_idx` (`member_sk` ASC) VISIBLE,
-  CONSTRAINT `member_address_fk`
+    `member_address_sk` VARCHAR(36) NOT NULL,
+    `member_address_code` VARCHAR(50) NOT NULL COMMENT 'Unique member address code for the address',
+    `member_sk` VARCHAR(36) NOT NULL,
+    `address_type_code` VARCHAR(20) NOT NULL COMMENT 'The type of address',
+    `address_line_1` VARCHAR(100) NOT NULL COMMENT 'Address line 1 of the address',
+    `address_line_2` VARCHAR(100) NULL COMMENT 'Address line 2 of the address',
+    `city` VARCHAR(100) NOT NULL COMMENT 'City of the address',
+    `state_type_code` VARCHAR(20) NOT NULL COMMENT 'State of the address',
+    `zip_code` VARCHAR(10) NOT NULL COMMENT 'Zip code of the address',
+    `start_date` DATETIME NOT NULL COMMENT 'Start date of the address',
+    `end_date` DATETIME NULL,
+    `created_date` DATETIME NULL,
+    `updated_date` DATETIME NULL,
+    PRIMARY KEY (`member_address_sk`),
+    INDEX `member_address_fk_idx` (`member_sk` ASC) VISIBLE,
+    UNIQUE INDEX `member_address_code_UNIQUE` (`member_address_code` ASC) VISIBLE,
+    CONSTRAINT `member_address_fk`
     FOREIGN KEY (`member_sk`)
     REFERENCES `membermgmtdb`.`member` (`member_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = 'Addresses associated with the member.';
+    ENGINE = InnoDB
+    COMMENT = 'Addresses associated with the member.';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_identifier` (
     `member_identifier_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
     `member_identifier_code` VARCHAR(50) NOT NULL COMMENT 'Unique member identifier code created for the identifier',
@@ -245,69 +249,74 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_identifier` (
     PRIMARY KEY (`member_identifier_sk`),
     INDEX `member_identifier_fk_idx` (`member_sk` ASC) VISIBLE,
     UNIQUE INDEX `member_identifier_code_UNIQUE` (`member_identifier_code` ASC) VISIBLE,
-    UNIQUE INDEX `is_active_UNIQUE` (`is_active` ASC) VISIBLE,
     CONSTRAINT `member_identifier_fk`
     FOREIGN KEY (`member_sk`)
     REFERENCES `membermgmtdb`.`member` (`member_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
-    COMMENT = 'Identifiers associated with the member\n'
+    COMMENT = 'Identifiers associated with the member';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_email` (
-  `member_email_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
-  `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key to the member table',
-  `email_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of email (e.g. personal, work, school)\n',
-  `email` VARCHAR(100) NOT NULL COMMENT 'The email',
-  `is_primary` BOOLEAN NOT NULL,
-  `start_date` DATETIME NOT NULL COMMENT 'The start date of the email',
-  `end_date` DATETIME NULL COMMENT 'The end date of the email',
-  `created_date` DATETIME NULL COMMENT 'Date when the record was created',
-  `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
-  PRIMARY KEY (`member_email_sk`),
-  INDEX `member_email_fk_idx` (`member_sk` ASC) VISIBLE,
-  CONSTRAINT `member_email_fk`
+    `member_email_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
+    `member_email_code` VARCHAR(50) NOT NULL COMMENT 'Unique member email code that is created for the email',
+    `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key to the member table',
+    `email_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of email (e.g. personal, work, school)\n',
+    `email` VARCHAR(100) NOT NULL COMMENT 'The email',
+    `is_primary` BOOLEAN NOT NULL,
+    `start_date` DATETIME NOT NULL COMMENT 'The start date of the email',
+    `end_date` DATETIME NULL COMMENT 'The end date of the email',
+    `created_date` DATETIME NULL COMMENT 'Date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
+    PRIMARY KEY (`member_email_sk`),
+    INDEX `member_email_fk_idx` (`member_sk` ASC) VISIBLE,
+    UNIQUE INDEX `member_email_code_UNIQUE` (`member_email_code` ASC) VISIBLE,
+    CONSTRAINT `member_email_fk`
     FOREIGN KEY (`member_sk`)
     REFERENCES `membermgmtdb`.`member` (`member_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = 'Emails associated with the member';
+    ENGINE = InnoDB
+    COMMENT = 'Emails associated with the member';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_language` (
-  `member_language_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
-  `member_sk` VARCHAR(36) NULL COMMENT 'Foreign key to the member table',
-  `language_type_code` VARCHAR(20) NULL COMMENT 'The type of language (like Written and Spoken)',
-  `language_code` VARCHAR(30) NULL COMMENT 'The language (i.e. English, Spanish etc)',
-  `start_date` DATETIME NOT NULL COMMENT 'Date when the language was effective ',
-  `end_date` DATETIME NULL,
-  `created_date` DATETIME NULL COMMENT 'Date when the record was created',
-  `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
-  PRIMARY KEY (`member_language_sk`),
-  INDEX `member_lang_fk_idx` (`member_sk` ASC) VISIBLE,
-  CONSTRAINT `member_lang_fk`
+    `member_language_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
+    `member_language_code` VARCHAR(50) NOT NULL COMMENT 'Unique code created for the language',
+    `member_sk` VARCHAR(36) NULL COMMENT 'Foreign key to the member table',
+    `language_type_code` VARCHAR(20) NULL COMMENT 'The type of language (like Written and Spoken)',
+    `language_code` VARCHAR(30) NULL COMMENT 'The language (i.e. English, Spanish etc)',
+    `start_date` DATETIME NOT NULL COMMENT 'Date when the language was effective ',
+    `end_date` DATETIME NULL,
+    `created_date` DATETIME NULL COMMENT 'Date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
+    PRIMARY KEY (`member_language_sk`),
+    INDEX `member_lang_fk_idx` (`member_sk` ASC) VISIBLE,
+    UNIQUE INDEX `member_language_code_UNIQUE` (`member_language_code` ASC) VISIBLE,
+    CONSTRAINT `member_lang_fk`
     FOREIGN KEY (`member_sk`)
     REFERENCES `membermgmtdb`.`member` (`member_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = 'Languages associated with the member';
+    ENGINE = InnoDB
+    COMMENT = 'Languages associated with the member';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_phone` (
-  `member_phone_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
-  `member_sk` VARCHAR(36) NULL COMMENT 'Foreign key to the member table',
-  `phone_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of phone number',
-  `phone_number` VARCHAR(30) NOT NULL COMMENT 'The phone number of the member',
-  `start_date` DATETIME NOT NULL COMMENT 'Date when the phone was effective',
-  `end_date` DATETIME NULL,
-  `created_date` DATETIME NULL COMMENT 'Date when the record was created',
-  `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
-  PRIMARY KEY (`member_phone_sk`),
-  INDEX `member_phone_fk_idx` (`member_sk` ASC) VISIBLE,
-  CONSTRAINT `member_phone_fk`
+    `member_phone_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
+    `member_phone_code` VARCHAR(50) NOT NULL COMMENT 'Unique member phone code created for the phone',
+    `member_sk` VARCHAR(36) NULL COMMENT 'Foreign key to the member table',
+    `phone_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of phone number',
+    `phone_number` VARCHAR(30) NOT NULL COMMENT 'The phone number of the member',
+    `start_date` DATETIME NOT NULL COMMENT 'Date when the phone was effective',
+    `end_date` DATETIME NULL,
+    `created_date` DATETIME NULL COMMENT 'Date when the record was created',
+    `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
+    PRIMARY KEY (`member_phone_sk`),
+    INDEX `member_phone_fk_idx` (`member_sk` ASC) VISIBLE,
+    UNIQUE INDEX `member_phone_code_UNIQUE` (`member_phone_code` ASC) VISIBLE,
+    CONSTRAINT `member_phone_fk`
     FOREIGN KEY (`member_sk`)
     REFERENCES `membermgmtdb`.`member` (`member_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = 'Phone numbers associated with the member';
+    ENGINE = InnoDB
+    COMMENT = 'Phone numbers associated with the member';
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`alternate_contact` (
     `alternate_contact_sk` VARCHAR(36) NOT NULL COMMENT 'The primary key of the table',
     `member_sk` VARCHAR(36) NOT NULL COMMENT 'The member to whom the alternate contact is associated',

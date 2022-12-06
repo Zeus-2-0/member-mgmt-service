@@ -1,6 +1,8 @@
 package com.brihaspathee.zeus.broker.consumer;
 
+import com.brihaspathee.zeus.broker.message.AccountUpdateRequest;
 import com.brihaspathee.zeus.broker.producer.TransactionResponseProducer;
+import com.brihaspathee.zeus.constants.ZeusServiceNames;
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.entity.PayloadTrackerDetail;
 import com.brihaspathee.zeus.dto.account.AccountDto;
@@ -76,21 +78,21 @@ public class TransactionRequestListener {
      * @param consumerRecord
      * @throws JsonProcessingException
      */
-    @KafkaListener(topics = "ZEUS.ACCOUNT.PROCESSING.REQ")
-    @SendTo(value = "ZEUS.ACCOUNT.PROCESSING.ACK")
+    @KafkaListener(topics = "ZEUS.ACCOUNT.UPDATE.REQ")
+    @SendTo(value = "ZEUS.ACCOUNT.UPDATE.ACK")
     public ZeusMessagePayload<Acknowledgement> listenForTransactionRequest(
-            ConsumerRecord<String, ZeusMessagePayload<AccountDto>> consumerRecord
+            ConsumerRecord<String, ZeusMessagePayload<AccountUpdateRequest>> consumerRecord
     ) throws JsonProcessingException {
         log.info("Transaction request received ");
         String valueAsString = objectMapper.writeValueAsString(consumerRecord.value());
-        ZeusMessagePayload<AccountDto> accountRequestPayload =
+        ZeusMessagePayload<AccountUpdateRequest> accountRequestPayload =
                 objectMapper.readValue(valueAsString,
-                        new TypeReference<ZeusMessagePayload<AccountDto>>() {});
+                        new TypeReference<ZeusMessagePayload<AccountUpdateRequest>>() {});
         PayloadTracker payloadTracker = createPayloadTracker(accountRequestPayload);
-        log.info("Account information received in the member management service for processing:{}", accountRequestPayload.getPayload().getAccountNumber());
+        log.info("Account information received in the member management service for processing:{}", accountRequestPayload.getPayload().getAccountDto().getAccountNumber());
         ZeusMessagePayload<Acknowledgement> ack = createAcknowledgment(payloadTracker);
         processAccount(accountRequestPayload, payloadTracker);
-        log.info("Sending the ack for account {}", accountRequestPayload.getPayload().getAccountNumber());
+        log.info("Sending the ack for account {}", accountRequestPayload.getPayload().getAccountDto().getAccountNumber());
         log.info("Ack id is {}", ack.getPayload().getAckId());
         return ack;
     }
@@ -101,9 +103,9 @@ public class TransactionRequestListener {
      * @param messagePayload
      * @param payloadTracker
      */
-    private void processAccount(ZeusMessagePayload<AccountDto> messagePayload, PayloadTracker payloadTracker) {
-        log.info(messagePayload.getPayload().getAccountNumber());
-        AccountDto accountDto = messagePayload.getPayload();
+    private void processAccount(ZeusMessagePayload<AccountUpdateRequest> messagePayload, PayloadTracker payloadTracker) throws JsonProcessingException {
+        log.info(messagePayload.getPayload().getAccountDto().getAccountNumber());
+        AccountDto accountDto = messagePayload.getPayload().getAccountDto();
         log.info("Inside process account method for the account:{}", accountDto.getAccountNumber() );
         log.info("The payload tracker is:{}", payloadTracker.getPayloadId());
 
@@ -111,10 +113,10 @@ public class TransactionRequestListener {
         // Process the account
         // Once processed send the results back to transaction manager
         accountService.processAccount(payloadTracker, accountDto)
-                .subscribe(accountProcessingResponse -> {
+                .subscribe(accountUpdateResponse -> {
                     try {
-                        log.info("About to call the producer for the account:{}", accountProcessingResponse.getAccountNumber());
-                        transactionResponseProducer.sendAccountProcessingResponse(accountProcessingResponse);
+                        log.info("About to call the producer for the account:{}", accountUpdateResponse.getAccountNumber());
+                        transactionResponseProducer.sendAccountProcessingResponse(accountUpdateResponse);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -125,10 +127,10 @@ public class TransactionRequestListener {
      * Invokes the helper to create the payload tracker
      * @param payload
      */
-    private PayloadTracker createPayloadTracker(ZeusMessagePayload<AccountDto> payload) throws JsonProcessingException {
+    private PayloadTracker createPayloadTracker(ZeusMessagePayload<AccountUpdateRequest> payload) throws JsonProcessingException {
         String payloadAsString = objectMapper.writeValueAsString(payload);
         PayloadTracker payloadTracker = PayloadTracker.builder()
-                .accountNumber(payload.getPayload().getAccountNumber())
+                .accountNumber(payload.getPayload().getAccountDto().getAccountNumber())
                 .payloadId(payload.getPayloadId())
                 .payloadDirectionTypeCode("INBOUND")
                 .sourceDestinations(StringUtils.join(payload.getMessageMetadata().getMessageDestination()))
@@ -145,12 +147,12 @@ public class TransactionRequestListener {
      */
     private ZeusMessagePayload<Acknowledgement> createAcknowledgment(
             PayloadTracker payloadTracker) throws JsonProcessingException {
-        String[] messageDestinations = {"TRANSACTION-MANAGER"};
+        String[] messageDestinations = {ZeusServiceNames.ACCOUNT_PROCESSOR_SERVICE};
         String ackId = ZeusRandomStringGenerator.randomString(15);
         ZeusMessagePayload<Acknowledgement> ack = ZeusMessagePayload.<Acknowledgement>builder()
                 .messageMetadata(MessageMetadata.builder()
                         .messageDestination(messageDestinations)
-                        .messageSource("MEMBER-MGMT-SERVICE")
+                        .messageSource(ZeusServiceNames.MEMBER_MGMT_SERVICE)
                         .messageCreationTimestamp(LocalDateTime.now())
                         .build())
                 .payload(Acknowledgement.builder()

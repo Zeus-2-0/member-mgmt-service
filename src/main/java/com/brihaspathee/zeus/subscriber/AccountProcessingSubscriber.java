@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.subscriber;
 
+import com.brihaspathee.zeus.broker.message.AccountUpdateResponse;
 import com.brihaspathee.zeus.broker.producer.TransactionResponseProducer;
-import com.brihaspathee.zeus.validator.AccountProcessingResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +34,9 @@ public class AccountProcessingSubscriber<T> extends BaseSubscriber<T> {
     @Override
     protected void hookOnNext(T value) {
         log.info("Inside the hookOnNext():");
-        AccountProcessingResponse accountProcessingResponse = (AccountProcessingResponse) value;
+        AccountUpdateResponse accountUpdateResponse = (AccountUpdateResponse) value;
         try {
-            transactionResponseProducer.sendAccountProcessingResponse(accountProcessingResponse);
+            transactionResponseProducer.sendAccountProcessingResponse(accountUpdateResponse);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

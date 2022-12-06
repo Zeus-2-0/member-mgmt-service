@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.helper.impl;
 
+import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.Sponsor;
 import com.brihaspathee.zeus.domain.repository.SponsorRepository;
 import com.brihaspathee.zeus.dto.account.SponsorDto;
@@ -39,9 +40,15 @@ public class SponsorHelperImpl implements SponsorHelper {
      * @return
      */
     @Override
-    public SponsorDto createSponsor(SponsorDto sponsorDto) {
-        Sponsor sponsor = sponsorMapper.sponsorDtoToSponsor(sponsorDto);
-        sponsor = sponsorRepository.save(sponsor);
-        return sponsorMapper.sponsorToSponsorDto(sponsor);
+    public SponsorDto createSponsor(SponsorDto sponsorDto, Account account) {
+        if(sponsorDto != null){
+            Sponsor sponsor = sponsorMapper.sponsorDtoToSponsor(sponsorDto);
+            sponsor.setAccount(account);
+            sponsor = sponsorRepository.save(sponsor);
+            return sponsorMapper.sponsorToSponsorDto(sponsor);
+        }else {
+            return null;
+        }
+
     }
 }

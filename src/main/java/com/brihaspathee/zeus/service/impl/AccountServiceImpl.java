@@ -1,6 +1,8 @@
 package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
+import com.brihaspathee.zeus.broker.message.AccountUpdateRequest;
+import com.brihaspathee.zeus.broker.message.AccountUpdateResponse;
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.entity.Sponsor;
@@ -17,7 +19,6 @@ import com.brihaspathee.zeus.message.AccountValidationRequest;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.service.interfaces.MemberService;
 import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
-import com.brihaspathee.zeus.validator.AccountProcessingResponse;
 import com.brihaspathee.zeus.validator.interfaces.AccountValidator;
 import com.brihaspathee.zeus.web.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -136,17 +137,17 @@ public class AccountServiceImpl implements AccountService {
         });
         accountDto.getBrokers().stream().forEach(brokerDto -> {
             brokerDto.setAccountSK(account.getAccountSK());
-            UUID brokerSK = brokerHelper.createBroker(brokerDto).getBrokerSK();
+            UUID brokerSK = brokerHelper.createBroker(brokerDto, account).getBrokerSK();
             brokerDto.setBrokerSK(brokerSK);
         });
         accountDto.getPayers().stream().forEach(payerDto -> {
             payerDto.setAccountSK(account.getAccountSK());
-            UUID payerSK = payerHelper.createPayer(payerDto).getPayerSK();
+            UUID payerSK = payerHelper.createPayer(payerDto, account).getPayerSK();
             payerDto.setPayerSK(payerSK);
         });
         accountDto.getSponsors().stream().forEach(sponsorDto -> {
             sponsorDto.setAccountSK(account.getAccountSK());
-            UUID sponsorSK = sponsorHelper.createSponsor(sponsorDto).getSponsorSK();
+            UUID sponsorSK = sponsorHelper.createSponsor(sponsorDto, account).getSponsorSK();
             sponsorDto.setSponsorSK(sponsorSK);
         });
         return accountDto;
@@ -187,12 +188,13 @@ public class AccountServiceImpl implements AccountService {
      * @return
      */
     @Override
-    public Mono<AccountProcessingResponse> processAccount(PayloadTracker payloadTracker,
-                                                          AccountDto accountDto) {
+    public Mono<AccountUpdateResponse> processAccount(PayloadTracker payloadTracker,
+                                                      AccountDto accountDto) throws JsonProcessingException {
         log.info("Inside the account service for account:{}", accountDto.getAccountNumber());
-        AccountProcessingResponse accountProcessingResponse =
+        createAccount(accountDto);
+        AccountUpdateResponse accountUpdateResponse =
                 constructAccountProcessingResponse(payloadTracker, accountDto);
-        return Mono.just(accountProcessingResponse).delayElement(Duration.ofSeconds(30));
+        return Mono.just(accountUpdateResponse).delayElement(Duration.ofSeconds(30));
     }
 
     /**
@@ -218,9 +220,9 @@ public class AccountServiceImpl implements AccountService {
      * @param accountDto
      * @return
      */
-    private AccountProcessingResponse constructAccountProcessingResponse(PayloadTracker payloadTracker,
+    private AccountUpdateResponse constructAccountProcessingResponse(PayloadTracker payloadTracker,
                                                     AccountDto accountDto){
-        return AccountProcessingResponse.builder()
+        return AccountUpdateResponse.builder()
                 .responseId(ZeusRandomStringGenerator.randomString(15))
                 .requestPayloadId(payloadTracker.getPayloadId())
                 .accountNumber(accountDto.getAccountNumber())

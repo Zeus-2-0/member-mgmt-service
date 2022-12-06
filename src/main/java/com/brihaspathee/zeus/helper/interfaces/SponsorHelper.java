@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
+import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.dto.account.SponsorDto;
 
 /**
@@ -18,5 +19,5 @@ public interface SponsorHelper {
      * @param sponsorDto
      * @return
      */
-    SponsorDto createSponsor(SponsorDto sponsorDto);
+    SponsorDto createSponsor(SponsorDto sponsorDto, Account account);
 }
