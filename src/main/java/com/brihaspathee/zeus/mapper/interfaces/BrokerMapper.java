@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
+import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.Broker;
 import com.brihaspathee.zeus.dto.account.BrokerDto;
 

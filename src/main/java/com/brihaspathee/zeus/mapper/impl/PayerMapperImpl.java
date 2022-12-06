@@ -54,7 +54,20 @@ public class PayerMapperImpl implements PayerMapper {
      */
     @Override
     public Payer payerDtoToPayer(PayerDto payerDto) {
-        return null;
+        if(payerDto == null){
+            return null;
+        }
+        Payer payer = Payer.builder()
+                .payerSK(payerDto.getPayerSK())
+                .payerCode(payerDto.getPayerCode())
+                .payerId(payerDto.getPayerId())
+                .payerName(payerDto.getPayerName())
+                .startDate(payerDto.getStartDate())
+                .endDate(payerDto.getEndDate())
+                .createdDate(payerDto.getCreatedDate())
+                .updatedDate(payerDto.getUpdatedDate())
+                .build();
+        return payer;
     }
 
     /**

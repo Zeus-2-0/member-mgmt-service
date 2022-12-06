@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.helper.impl;
 
+import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.Broker;
 import com.brihaspathee.zeus.domain.repository.BrokerRepository;
 import com.brihaspathee.zeus.dto.account.BrokerDto;
@@ -39,9 +40,15 @@ public class BrokerHelperImpl implements BrokerHelper {
      * @return
      */
     @Override
-    public BrokerDto createBroker(BrokerDto brokerDto) {
-        Broker broker = brokerMapper.brokerDtoToBroker(brokerDto);
-        broker = brokerRepository.save(broker);
-        return brokerMapper.brokerToBrokerDto(broker);
+    public BrokerDto createBroker(BrokerDto brokerDto, Account account) {
+        if(brokerDto != null){
+            Broker broker = brokerMapper.brokerDtoToBroker(brokerDto);
+            broker.setAccount(account);
+            broker = brokerRepository.save(broker);
+            return brokerMapper.brokerToBrokerDto(broker);
+        }else{
+            return null;
+        }
+
     }
 }

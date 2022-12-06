@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.helper.impl;
 
+import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.Payer;
 import com.brihaspathee.zeus.domain.repository.PayerRepository;
 import com.brihaspathee.zeus.dto.account.PayerDto;
@@ -39,9 +40,15 @@ public class PayerHelperImpl implements PayerHelper {
      * @return
      */
     @Override
-    public PayerDto createPayer(PayerDto payerDto) {
-        Payer payer = payerMapper.payerDtoToPayer(payerDto);
-        payer = payerRepository.save(payer);
-        return payerMapper.payerToPayerDto(payer);
+    public PayerDto createPayer(PayerDto payerDto, Account account) {
+        if(payerDto != null){
+            Payer payer = payerMapper.payerDtoToPayer(payerDto);
+            payer.setAccount(account);
+            payer = payerRepository.save(payer);
+            return payerMapper.payerToPayerDto(payer);
+        }else{
+            return null;
+        }
+
     }
 }

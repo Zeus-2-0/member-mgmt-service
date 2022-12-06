@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
+import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.Broker;
 import com.brihaspathee.zeus.dto.account.BrokerDto;
 
@@ -19,5 +20,5 @@ public interface BrokerHelper {
      * @param brokerDto
      * @return
      */
-    BrokerDto createBroker(BrokerDto brokerDto);
+    BrokerDto createBroker(BrokerDto brokerDto, Account account);
 }
