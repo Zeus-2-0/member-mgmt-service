@@ -94,26 +94,4 @@ public class MemberPremium {
                 ", updatedDate=" + updatedDate +
                 '}';
     }
-
-    /**
-     * equals method
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MemberPremium that = (MemberPremium) o;
-        return Objects.equals(memberPremiumSK, that.memberPremiumSK);
-    }
-
-    /**
-     * hashcode method
-     * @return
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(memberPremiumSK);
-    }
 }

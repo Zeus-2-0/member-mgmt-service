@@ -33,6 +33,7 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      */
     @Override
     public PremiumSpan premiumSpanDtoToPremiumSpan(PremiumSpanDto premiumSpanDto) {
+        log.info("Inside premium span dto to premium span conversion:{}", premiumSpanDto);
         if(premiumSpanDto == null){
             return null;
         }
@@ -49,10 +50,12 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
                 .aptcAmount(premiumSpanDto.getAptcAmount())
                 .otherPayAmount(premiumSpanDto.getOtherPayAmount())
                 .csrAmount(premiumSpanDto.getCsrAmount())
-                .members(getMemberPremiums(premiumSpanDto.getMemberPremiumSpans()))
+                //.members(getMemberPremiums(premiumSpanDto.getMemberPremiumSpans()))
                 .createdDate(premiumSpanDto.getCreatedDate())
                 .updatedDate(premiumSpanDto.getUpdatedDate())
                 .build();
+        Set<MemberPremium> memberPremiums = getMemberPremiums(premiumSpanDto.getMemberPremiumSpans());
+        premiumSpan.setMembers(memberPremiums);
         return premiumSpan;
     }
 
@@ -142,6 +145,7 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      * @return
      */
     private MemberPremium getMemberPremium(MemberPremiumDto memberPremiumDto){
+        log.info("Inside get member premium method:{}", memberPremiumDto);
         if(memberPremiumDto == null){
             return null;
         }
@@ -180,7 +184,11 @@ public class PremiumSpanMapperImpl implements PremiumSpanMapper {
      */
     private Set<MemberPremium> getMemberPremiums(Set<MemberPremiumDto> memberPremiumDtos){
         if(memberPremiumDtos !=null && !memberPremiumDtos.isEmpty()){
-            return memberPremiumDtos.stream().map(this::getMemberPremium).collect(Collectors.toSet());
+            Set<MemberPremium> memberPremiums = memberPremiumDtos
+                    .stream()
+                    .map(this::getMemberPremium)
+                    .collect(Collectors.toSet());
+            return memberPremiums;
         }else{
             return null;
         }
