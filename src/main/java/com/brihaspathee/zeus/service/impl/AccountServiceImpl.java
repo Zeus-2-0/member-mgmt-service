@@ -135,21 +135,29 @@ public class AccountServiceImpl implements AccountService {
             });
 
         });
-        accountDto.getBrokers().stream().forEach(brokerDto -> {
-            brokerDto.setAccountSK(account.getAccountSK());
-            UUID brokerSK = brokerHelper.createBroker(brokerDto, account).getBrokerSK();
-            brokerDto.setBrokerSK(brokerSK);
-        });
-        accountDto.getPayers().stream().forEach(payerDto -> {
-            payerDto.setAccountSK(account.getAccountSK());
-            UUID payerSK = payerHelper.createPayer(payerDto, account).getPayerSK();
-            payerDto.setPayerSK(payerSK);
-        });
-        accountDto.getSponsors().stream().forEach(sponsorDto -> {
-            sponsorDto.setAccountSK(account.getAccountSK());
-            UUID sponsorSK = sponsorHelper.createSponsor(sponsorDto, account).getSponsorSK();
-            sponsorDto.setSponsorSK(sponsorSK);
-        });
+        if(accountDto.getBrokers() != null && accountDto.getBrokers().size() > 0){
+            accountDto.getBrokers().stream().forEach(brokerDto -> {
+                brokerDto.setAccountSK(account.getAccountSK());
+                UUID brokerSK = brokerHelper.createBroker(brokerDto, account).getBrokerSK();
+                brokerDto.setBrokerSK(brokerSK);
+            });
+        }
+        if(accountDto.getPayers() != null && accountDto.getPayers().size() > 0){
+            accountDto.getPayers().stream().forEach(payerDto -> {
+                payerDto.setAccountSK(account.getAccountSK());
+                UUID payerSK = payerHelper.createPayer(payerDto, account).getPayerSK();
+                payerDto.setPayerSK(payerSK);
+            });
+        }
+
+        if(accountDto.getSponsors() != null && accountDto.getSponsors().size() > 0){
+            accountDto.getSponsors().stream().forEach(sponsorDto -> {
+                sponsorDto.setAccountSK(account.getAccountSK());
+                UUID sponsorSK = sponsorHelper.createSponsor(sponsorDto, account).getSponsorSK();
+                sponsorDto.setSponsorSK(sponsorSK);
+            });
+        }
+
         return accountDto;
     }
 
