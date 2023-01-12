@@ -127,6 +127,24 @@ public class EnrollmentSpan {
     private String statusTypeCode;
 
     /**
+     * Identifies if the enrollment span is delinquent or not
+     */
+    @Column(name="delinq_ind")
+    private boolean delinqInd;
+
+    /**
+     * The paid through date of the enrollment span
+     */
+    @Column(name = "paid_through_date", nullable = true)
+    private LocalDate paidThroughDate;
+
+    /**
+     * The claim paid through date of the enrollment span
+     */
+    @Column(name = "claim_paid_through_date", nullable = true)
+    private LocalDate claimPaidThroughDate;
+
+    /**
      * The zeus transaction control number of the transaction that created the enrollment span
      */
     @Column(name = "ztcn", length = 20, columnDefinition = "varchar", nullable = false)
@@ -154,16 +172,22 @@ public class EnrollmentSpan {
     public String toString() {
         return "EnrollmentSpan{" +
                 "enrollmentSpanSK=" + enrollmentSpanSK +
+                ", enrollmentSpanCode='" + enrollmentSpanCode + '\'' +
+                ", account=" + account +
                 ", premiumSpans=" + premiumSpans +
                 ", stateTypeCode='" + stateTypeCode + '\'' +
                 ", marketplaceTypeCode='" + marketplaceTypeCode + '\'' +
+                ", businessUnitTypeCode='" + businessUnitTypeCode + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", exchangeSubscriberId='" + exchangeSubscriberId + '\'' +
                 ", effectuationDate=" + effectuationDate +
                 ", planId='" + planId + '\'' +
                 ", groupPolicyId='" + groupPolicyId + '\'' +
                 ", productTypeCode='" + productTypeCode + '\'' +
                 ", statusTypeCode='" + statusTypeCode + '\'' +
+                ", delinqInd=" + delinqInd +
+                ", ztcn='" + ztcn + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';

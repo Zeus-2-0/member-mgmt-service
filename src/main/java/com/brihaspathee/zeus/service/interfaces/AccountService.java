@@ -5,9 +5,13 @@ import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.cglib.core.Local;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,5 +52,51 @@ public interface AccountService {
      */
     Mono<AccountUpdateResponse> processAccount(PayloadTracker payloadTracker,
                                                AccountDto accountDto) throws JsonProcessingException;
+
+    /**
+     * Get enrollment span that matches the plan and group policy id
+     * @param accountNumber
+     * @param planId
+     * @param groupPolicyId
+     * @param startDate
+     * @return
+     */
+    EnrollmentSpanDto getMatchingEnrollmentSpan(String accountNumber,
+                                                String planId,
+                                                String groupPolicyId,
+                                                LocalDate startDate);
+
+    /**
+     * Get the enrollment span that is prior to the start date
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    EnrollmentSpanDto getPriorEnrollmentSpan(String accountNumber,
+                                             LocalDate startDate,
+                                             boolean matchCancelSpans);
+
+    /**
+     * Get matching enrollment spans by the date
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    List<EnrollmentSpanDto> getMatchingEnrollmentSpan(String accountNumber,
+                                                      LocalDate startDate,
+                                                      boolean matchCancelSpans);
+
+    /**
+     * Get matching enrollment spans by the date if available else return the prior enrollment span
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    List<EnrollmentSpanDto> getMatchingOrPriorEnrollmentSpan(String accountNumber,
+                                                      LocalDate startDate,
+                                                      boolean matchCancelSpans);
 
 }
