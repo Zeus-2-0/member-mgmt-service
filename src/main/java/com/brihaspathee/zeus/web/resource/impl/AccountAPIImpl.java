@@ -3,6 +3,8 @@ package com.brihaspathee.zeus.web.resource.impl;
 import com.brihaspathee.zeus.constants.ApiResponseConstants;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.web.resource.interfaces.AccountAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
@@ -13,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -91,5 +95,120 @@ public class AccountAPIImpl implements AccountAPI {
             .developerMessage(ApiResponseConstants.SUCCESS_REASON)
         .build();
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
+
+    /**
+     * Get Enrollment spans by plan id and group policy id
+     * @param accountNumber
+     * @param planId
+     * @param groupPolicyId
+     * @param startDate
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<EnrollmentSpanDto>> matchEnrollmentSpanByPlanAndGroupPolicyId(String accountNumber,
+                                                                                                        String planId,
+                                                                                                        String groupPolicyId,
+                                                                                                        LocalDate startDate) {
+        EnrollmentSpanDto enrollmentSpanDto = accountService.getMatchingEnrollmentSpan(accountNumber,
+                planId,
+                groupPolicyId,
+                startDate);
+        ZeusApiResponse<EnrollmentSpanDto> apiResponse = ZeusApiResponse.<EnrollmentSpanDto>builder()
+                .response(enrollmentSpanDto)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CREATED)
+                .statusCode(200)
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    /**
+     * Get enrollment span that is prior to the start date provided in the input
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<EnrollmentSpanDto>> getPriorEnrollmentSpan(String accountNumber,
+                                                                                     LocalDate startDate,
+                                                                                     boolean matchCancelSpans) {
+        EnrollmentSpanDto enrollmentSpanDto = accountService.getPriorEnrollmentSpan(accountNumber,
+                startDate,
+                matchCancelSpans);
+        ZeusApiResponse<EnrollmentSpanDto> apiResponse = ZeusApiResponse.<EnrollmentSpanDto>builder()
+                .response(enrollmentSpanDto)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CREATED)
+                .statusCode(200)
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    /**
+     * Get Enrollment spans that match the start date provided
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<EnrollmentSpanList>> matchEnrollmentSpanByDate(String accountNumber,
+                                                                                         LocalDate startDate,
+                                                                                         boolean matchCancelSpans) {
+        List<EnrollmentSpanDto> enrollmentSpanDtos = accountService.getMatchingEnrollmentSpan(accountNumber,
+                startDate,
+                matchCancelSpans);
+        EnrollmentSpanList enrollmentSpanList = null;
+        if(enrollmentSpanDtos!=null && enrollmentSpanDtos.size() > 0){
+            enrollmentSpanList = EnrollmentSpanList.builder()
+                    .enrollmentSpans(enrollmentSpanDtos)
+                    .build();
+        }
+        ZeusApiResponse<EnrollmentSpanList> apiResponse = ZeusApiResponse.<EnrollmentSpanList>builder()
+                .response(enrollmentSpanList)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CREATED)
+                .statusCode(200)
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    /**
+     * Get enrollment spans by the date or get the prior enrollment span
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<EnrollmentSpanList>> matchOrGetPriorEnrollmentSpan(String accountNumber,
+                                                                                             LocalDate startDate,
+                                                                                             boolean matchCancelSpans) {
+        List<EnrollmentSpanDto> enrollmentSpanDtos = accountService.getMatchingOrPriorEnrollmentSpan(accountNumber,
+                startDate,
+                matchCancelSpans);
+        EnrollmentSpanList enrollmentSpanList = null;
+        if(enrollmentSpanDtos!=null && enrollmentSpanDtos.size() > 0){
+            enrollmentSpanList = EnrollmentSpanList.builder()
+                    .enrollmentSpans(enrollmentSpanDtos)
+                    .build();
+        }
+        ZeusApiResponse<EnrollmentSpanList> apiResponse = ZeusApiResponse.<EnrollmentSpanList>builder()
+                .response(enrollmentSpanList)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CREATED)
+                .statusCode(200)
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return ResponseEntity.ok(apiResponse);
     }
 }

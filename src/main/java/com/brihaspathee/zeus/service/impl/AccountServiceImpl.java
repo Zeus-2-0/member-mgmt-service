@@ -3,14 +3,12 @@ package com.brihaspathee.zeus.service.impl;
 import com.brihaspathee.zeus.adapter.interfaces.MessageAdapter;
 import com.brihaspathee.zeus.broker.message.AccountUpdateRequest;
 import com.brihaspathee.zeus.broker.message.AccountUpdateResponse;
+import com.brihaspathee.zeus.constants.EnrollmentSpanStatus;
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.entity.Sponsor;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
-import com.brihaspathee.zeus.dto.account.AccountDto;
-import com.brihaspathee.zeus.dto.account.AccountList;
-import com.brihaspathee.zeus.dto.account.MemberDto;
-import com.brihaspathee.zeus.dto.account.MemberPremiumDto;
+import com.brihaspathee.zeus.dto.account.*;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.*;
@@ -28,8 +26,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -203,6 +201,141 @@ public class AccountServiceImpl implements AccountService {
         AccountUpdateResponse accountUpdateResponse =
                 constructAccountProcessingResponse(payloadTracker, accountDto);
         return Mono.just(accountUpdateResponse).delayElement(Duration.ofSeconds(30));
+    }
+
+    /**
+     * Get enrollment span that matches the plan and group policy id
+     * @param accountNumber
+     * @param planId
+     * @param groupPolicyId
+     * @param startDate
+     * @return
+     */
+    @Override
+    public EnrollmentSpanDto getMatchingEnrollmentSpan(String accountNumber,
+                                                       String planId,
+                                                       String groupPolicyId,
+                                                       LocalDate startDate) {
+        AccountDto accountDto = getAccountByNumber(accountNumber);
+        List<EnrollmentSpanDto> enrollmentSpanDtos = accountDto.getEnrollmentSpans().stream().toList();
+        Optional<EnrollmentSpanDto> matchedEnrollmentSpan = enrollmentSpanDtos.stream().filter(enrollmentSpanDto -> {
+            return enrollmentSpanDto.getPlanId().equals(planId) &&
+                    enrollmentSpanDto.getGroupPolicyId().equals(groupPolicyId) &&
+                    enrollmentSpanDto.getStartDate().isEqual(startDate);
+        }).findFirst();
+        enrollmentSpanDtos.stream().sorted(Comparator.comparing(EnrollmentSpanDto::getStartDate)).collect(Collectors.toList());
+        if(matchedEnrollmentSpan.isPresent()){
+            return matchedEnrollmentSpan.get();
+        }
+        return null;
+    }
+
+    /**
+     * Get the enrollment span that is prior to the start date
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Override
+    public EnrollmentSpanDto getPriorEnrollmentSpan(String accountNumber, LocalDate startDate, boolean matchCancelSpans) {
+        AccountDto accountDto = getAccountByNumber(accountNumber);
+        List<EnrollmentSpanDto> enrollmentSpanDtos = accountDto.getEnrollmentSpans().stream().toList();
+        enrollmentSpanDtos =
+                enrollmentSpanDtos.stream()
+                        .sorted(Comparator.comparing(EnrollmentSpanDto::getStartDate))
+                        .collect(Collectors.toList());
+        enrollmentSpanDtos =
+                enrollmentSpanDtos.stream()
+                        .takeWhile(
+                                enrollmentSpanDto ->
+                                        enrollmentSpanDto.getEndDate().isBefore(startDate))
+                        .collect(Collectors.toList());
+        if(!matchCancelSpans){
+            enrollmentSpanDtos = removeCanceledSpans(enrollmentSpanDtos);
+        }
+        if(enrollmentSpanDtos != null && enrollmentSpanDtos.size() > 0){
+            return enrollmentSpanDtos.get(enrollmentSpanDtos.size() - 1);
+        }else {
+            return null;
+        }
+    }
+
+    /**
+     * Get matching enrollment spans by the date
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Override
+    public List<EnrollmentSpanDto> getMatchingEnrollmentSpan(String accountNumber,
+                                                             LocalDate startDate,
+                                                             boolean matchCancelSpans) {
+        AccountDto accountDto = getAccountByNumber(accountNumber);
+        List<EnrollmentSpanDto> enrollmentSpanDtos = accountDto.getEnrollmentSpans().stream().toList();
+        enrollmentSpanDtos =
+                enrollmentSpanDtos.stream()
+                        .sorted(Comparator.comparing(EnrollmentSpanDto::getStartDate))
+                        .collect(Collectors.toList());
+        enrollmentSpanDtos = enrollmentSpanDtos.stream()
+                .dropWhile(
+                        enrollmentSpanDto ->
+                                enrollmentSpanDto.getStartDate().isBefore(startDate))
+                .collect(Collectors.toList());
+        enrollmentSpanDtos = enrollmentSpanDtos.stream()
+                .takeWhile(
+                        enrollmentSpanDto ->
+                                enrollmentSpanDto.getStartDate().getYear() == startDate.getYear())
+                .collect(Collectors.toList());
+        if(!matchCancelSpans){
+            enrollmentSpanDtos = removeCanceledSpans(enrollmentSpanDtos);
+        }
+        if(enrollmentSpanDtos != null && enrollmentSpanDtos.size() > 0){
+            return enrollmentSpanDtos;
+        }
+        return null;
+    }
+
+    /**
+     * Get matching enrollment spans by the date if available else return the prior enrollment span
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Override
+    public List<EnrollmentSpanDto> getMatchingOrPriorEnrollmentSpan(String accountNumber,
+                                                                    LocalDate startDate,
+                                                                    boolean matchCancelSpans) {
+        List<EnrollmentSpanDto> enrollmentSpanDtos = getMatchingEnrollmentSpan(accountNumber, startDate, matchCancelSpans);
+        if(enrollmentSpanDtos != null && enrollmentSpanDtos.size() > 0){
+            return enrollmentSpanDtos;
+        }else{
+            EnrollmentSpanDto enrollmentSpanDto = getPriorEnrollmentSpan(accountNumber,
+                    startDate, matchCancelSpans);
+            if(enrollmentSpanDto != null){
+                List<EnrollmentSpanDto> priorEnrollmentSpanDto = new ArrayList<>();
+                priorEnrollmentSpanDto.add(enrollmentSpanDto);
+                return priorEnrollmentSpanDto;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Remove canceled enrollment span from the list
+     * @param enrollmentSpanDtos
+     * @return
+     */
+    private List<EnrollmentSpanDto> removeCanceledSpans(List<EnrollmentSpanDto> enrollmentSpanDtos){
+        List<EnrollmentSpanDto> nonCanceledEnrollmentSpans = enrollmentSpanDtos.stream()
+                .filter(
+                        enrollmentSpanDto ->
+                                !enrollmentSpanDto.getStatusTypeCode()
+                                        .equals(EnrollmentSpanStatus.CANCELED))
+                .collect(Collectors.toList());
+        return nonCanceledEnrollmentSpans;
     }
 
     /**

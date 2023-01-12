@@ -3,6 +3,8 @@ package com.brihaspathee.zeus.web.resource.interfaces;
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.exception.ApiExceptionList;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 /**
  * Created in Intellij IDEA
@@ -110,4 +113,124 @@ public interface AccountAPI {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ZeusApiResponse<AccountDto>> createAccount(@RequestBody @Valid AccountDto accountDto) throws JsonProcessingException;
+
+    /**
+     * Get matching enrollment spans for the plan id and group policy id
+     * @param accountNumber
+     * @param planId
+     * @param groupPolicyId
+     * @param startDate
+     * @return
+     */
+    @Operation(
+            operationId = "Get Enrollment spans by plan id and group policy id",
+            method = "GET",
+            description = "Get the Enrollment span that match plan id and group policy id",
+            tags = {"enrollment-spans"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved the details of the enrollment span",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountDto.class))
+                            }
+                    )
+            }
+    )
+    @GetMapping("/match/plan/{accountNumber}/{planId}/{groupPolicyId}/{startDate}")
+    ResponseEntity<ZeusApiResponse<EnrollmentSpanDto>> matchEnrollmentSpanByPlanAndGroupPolicyId(@PathVariable String accountNumber,
+                                                                                                 @PathVariable String planId,
+                                                                                                 @PathVariable String groupPolicyId,
+                                                                                                 @PathVariable LocalDate startDate);
+
+    /**
+     * Get enrollment span that is prior to the start date provided in the input
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Operation(
+            operationId = "Get Enrollment spans prior to the date provided",
+            method = "GET",
+            description = "Get Enrollment spans prior to the date provided",
+            tags = {"enrollment-spans"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved the details of the enrollment span",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountDto.class))
+                            }
+                    )
+            }
+    )
+    @GetMapping("/prior/{accountNumber}/{startDate}/{matchCancelSpans}")
+    ResponseEntity<ZeusApiResponse<EnrollmentSpanDto>> getPriorEnrollmentSpan(@PathVariable String accountNumber,
+                                                                              @PathVariable LocalDate startDate,
+                                                                              @PathVariable boolean matchCancelSpans);
+
+    /**
+     * Get enrollment span that matches by the date
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Operation(
+            operationId = "Get Enrollment spans that match the start date provided",
+            method = "GET",
+            description = "Get Enrollment spans that match the start date provided",
+            tags = {"enrollment-spans"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved the details of the enrollment span",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountDto.class))
+                            }
+                    )
+            }
+    )
+    @GetMapping("/match/date/{accountNumber}/{startDate}/{matchCancelSpans}")
+    ResponseEntity<ZeusApiResponse<EnrollmentSpanList>> matchEnrollmentSpanByDate(@PathVariable String accountNumber,
+                                                                                  @PathVariable LocalDate startDate,
+                                                                                  @PathVariable boolean matchCancelSpans);
+
+    /**
+     * Get enrollment spans by the date or get the prior enrollment span
+     * @param accountNumber
+     * @param startDate
+     * @param matchCancelSpans
+     * @return
+     */
+    @Operation(
+            operationId = "Get Enrollment spans by date or get prior enrollment span",
+            method = "GET",
+            description = "Get Enrollment spans by date or get prior enrollment span",
+            tags = {"enrollment-spans"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved the details of the enrollment span",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountDto.class))
+                            }
+                    )
+            }
+    )
+    @GetMapping("/match/prior/{accountNumber}/{startDate}/{matchCancelSpans}")
+    ResponseEntity<ZeusApiResponse<EnrollmentSpanList>> matchOrGetPriorEnrollmentSpan(@PathVariable String accountNumber,
+                                                                                      @PathVariable LocalDate startDate,
+                                                                                      @PathVariable boolean matchCancelSpans);
+
+
 }
