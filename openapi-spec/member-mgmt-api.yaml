@@ -38,8 +38,8 @@ paths:
               $ref: '#/components/schemas/AccountDto'
         required: true
       responses:
-        "409":
-          description: Conflict
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -50,8 +50,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-        "400":
-          description: Bad Request
+        "409":
+          description: Conflict
           content:
             application/json:
               schema:
@@ -127,6 +127,150 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
+  /api/v1/zeus/account/search:
+    get:
+      tags:
+      - account
+      description: Get accounts matching the searching parameters
+      operationId: getMatchingAccounts
+      parameters:
+      - name: accountMatchParam
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountMatchParam'
+      responses:
+        "200":
+          description: Successfully retrieved matching accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountList'
+  /api/v1/zeus/account/prior/{accountNumber}/{startDate}/{matchCancelSpans}:
+    get:
+      tags:
+      - enrollment-spans
+      description: Get Enrollment spans prior to the date provided
+      operationId: Get Enrollment spans prior to the date provided
+      parameters:
+      - name: accountNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: matchCancelSpans
+        in: path
+        required: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Successfully retrieved the details of the enrollment span
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  /api/v1/zeus/account/match/prior/{accountNumber}/{startDate}/{matchCancelSpans}:
+    get:
+      tags:
+      - enrollment-spans
+      description: Get Enrollment spans by date or get prior enrollment span
+      operationId: Get Enrollment spans by date or get prior enrollment span
+      parameters:
+      - name: accountNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: matchCancelSpans
+        in: path
+        required: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Successfully retrieved the details of the enrollment span
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  /api/v1/zeus/account/match/plan/{accountNumber}/{planId}/{groupPolicyId}/{startDate}:
+    get:
+      tags:
+      - enrollment-spans
+      description: Get the Enrollment span that match plan id and group policy id
+      operationId: Get Enrollment spans by plan id and group policy id
+      parameters:
+      - name: accountNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: planId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: groupPolicyId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        "200":
+          description: Successfully retrieved the details of the enrollment span
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+  /api/v1/zeus/account/match/date/{accountNumber}/{startDate}/{matchCancelSpans}:
+    get:
+      tags:
+      - enrollment-spans
+      description: Get Enrollment spans that match the start date provided
+      operationId: Get Enrollment spans that match the start date provided
+      parameters:
+      - name: accountNumber
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: matchCancelSpans
+        in: path
+        required: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Successfully retrieved the details of the enrollment span
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
 components:
   schemas:
     AccountAttributeDto:
@@ -165,21 +309,23 @@ components:
           format: date-time
     AccountDto:
       required:
+      - accountNumber
+      - brokers
       - enrollmentSpans
       - lineOfBusinessTypeCode
       - members
+      - payers
+      - sponsors
       type: object
       properties:
         accountSK:
           type: string
           description: Account SK - This is a UUID value
           format: uuid
-          readOnly: true
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
         accountNumber:
           type: string
           description: Account Number - Unique id that is assigned to the account
-          readOnly: true
           example: DFEV323455DE5S3
         lineOfBusinessTypeCode:
           type: string
@@ -195,6 +341,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MemberDto'
+        brokers:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BrokerDto'
+        sponsors:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SponsorDto'
+        payers:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PayerDto'
         accountAttributes:
           uniqueItems: true
           type: array
@@ -208,21 +369,176 @@ components:
           type: string
           description: The date when the account was updated
           format: date-time
+    AlternateContactDto:
+      required:
+      - addressLine2
+      - alternateContactCode
+      - alternateContactTypeCode
+      - lastName
+      - startDate
+      - stateTypeCode
+      type: object
+      properties:
+        alternateContactSK:
+          type: string
+          description: Alternate Contact SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberSK:
+          type: string
+          description: Member SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        alternateContactCode:
+          type: string
+          description: Alternate Contact Code - Unique id that is assigned to the
+            alternate contact in MMS
+          example: DFEV323455DE5S3
+        alternateContactTypeCode:
+          type: string
+          description: The type of alternate contact
+          example: RESPONSIBLE_PERSON
+        firstName:
+          type: string
+          description: The first name of the alternate contact
+          example: John
+        middleName:
+          type: string
+          description: The middle name of the alternate contact
+          example: Mosley
+        lastName:
+          type: string
+          description: The last name of the alternate contact
+          example: Doe
+        identifierTypeCode:
+          type: string
+          description: The identifier type code of the identifier
+          example: SSN
+        identifierValue:
+          type: string
+          description: The identifier of the alternate contact
+          example: 345-34-6434
+        phoneTypeCode:
+          type: string
+          description: The phone type code of the phone
+          example: MOBILE
+        phoneNumber:
+          type: string
+          description: The phone number of the member
+          example: 813-357-9150
+        email:
+          type: string
+          description: The email of the alternate contact
+          example: vbalaji215@gmail.com
+        addressLine1:
+          type: string
+          description: The address line 1 of the address
+          example: 123 Main Street
+        addressLine2:
+          type: string
+          description: The address line 2 of the address
+          example: Apt 301
+        city:
+          type: string
+          description: The city of the address
+          example: Tampa
+        stateTypeCode:
+          type: string
+          description: The state of the address
+          example: FL
+        zipCode:
+          type: string
+          description: The zipcode of the address
+          example: "33556"
+        startDate:
+          type: string
+          description: The start date of the alternate contact
+          format: date
+        endDate:
+          type: string
+          description: The end date of the alternate contact
+          format: date
+        createdDate:
+          type: string
+          description: The date when the address was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the address was updated
+          format: date-time
+      description: The list of alternate contacts associated with the member
+    BrokerDto:
+      required:
+      - brokerCode
+      - brokerId
+      - brokerName
+      - startDate
+      type: object
+      properties:
+        brokerSK:
+          type: string
+          description: Broker SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        brokerCode:
+          type: string
+          description: Broker Code - Unique id that is assigned to the broker in MMS
+          example: DFEV323455DE5S3
+        brokerName:
+          type: string
+          description: The name of the broker
+          example: John Doe
+        brokerId:
+          type: string
+          description: The id of the broker
+          example: 923-53-6234
+        agencyName:
+          type: string
+          description: The name of the agency
+          example: Broker Inc
+        agencyId:
+          type: string
+          description: The id of the agency
+          example: 923-53-6234
+        accountNumber1:
+          type: string
+          description: The account number 1 of the broker
+          example: "23452345562"
+        accountNumber2:
+          type: string
+          description: The account number 2 of the broker
+          example: "23452345562"
+        startDate:
+          type: string
+          description: Start date of the broker
+          format: date
+        endDate:
+          type: string
+          description: End date of the broker
+          format: date
+        createdDate:
+          type: string
+          description: The date when the account was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the account was updated
+          format: date-time
     EnrollmentSpanDto:
       required:
       - businessUnitTypeCode
-      - effectuationDate
       - endDate
-      - exchangeSubscriberId
       - groupPolicyId
       - marketplaceTypeCode
       - planId
-      - premiumSpans
       - productTypeCode
       - startDate
       - stateTypeCode
-      - statusTypeCode
-      - ztcn
       type: object
       properties:
         enrollmentSpanSK:
@@ -236,6 +552,11 @@ components:
           description: Account SK - This is a UUID value
           format: uuid
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        enrollmentSpanCode:
+          type: string
+          description: Enrollment Span Code - Unique id that is assigned to the enrollment
+            span in MMS
+          example: DFEV323455DE5S3
         premiumSpans:
           uniqueItems: true
           type: array
@@ -281,6 +602,18 @@ components:
           type: string
           description: Product type code of the plan
           example: HMO
+        delinqInd:
+          type: boolean
+          description: Identifies if the enrollment span is delinquent or not
+          example: true
+        paidThroughDate:
+          type: string
+          description: Paid through date associated with the enrollment span
+          format: date
+        claimPaidThroughDate:
+          type: string
+          description: Claim Paid through date associated with the enrollment span
+          format: date
         statusTypeCode:
           type: string
           description: Status of the enrollment span
@@ -304,6 +637,7 @@ components:
       - addressLine2
       - addressTypeCode
       - city
+      - memberAddressCode
       - startDate
       - stateTypeCode
       - zipCode
@@ -313,13 +647,17 @@ components:
           type: string
           description: Member Address SK - This is a UUID value
           format: uuid
-          readOnly: true
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
         memberSK:
           type: string
           description: Member SK - This is a UUID value
           format: uuid
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberAddressCode:
+          type: string
+          description: Member Address Code - Unique id that is assigned to the member
+            address in MMS
+          example: DFEV323455DE5S3
         addressTypeCode:
           type: string
           description: The type of the address
@@ -491,6 +829,12 @@ components:
           description: The list of member emails associated with the member
           items:
             $ref: '#/components/schemas/MemberEmailDto'
+        alternateContacts:
+          uniqueItems: true
+          type: array
+          description: The list of alternate contacts associated with the member
+          items:
+            $ref: '#/components/schemas/AlternateContactDto'
         memberPremiums:
           uniqueItems: true
           type: array
@@ -510,6 +854,7 @@ components:
       - email
       - emailTypeCode
       - isPrimary
+      - memberEmailCode
       - primary
       - startDate
       type: object
@@ -525,6 +870,11 @@ components:
           description: Member SK - This is a UUID value
           format: uuid
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberEmailCode:
+          type: string
+          description: Member Email Code - Unique id that is assigned to the member
+            email in MMS
+          example: DFEV323455DE5S3
         emailTypeCode:
           type: string
           description: The email type code of the email
@@ -558,8 +908,11 @@ components:
       description: The list of member emails associated with the member
     MemberIdentifierDto:
       required:
+      - active
       - identifierTypeCode
       - identifierValue
+      - isActive
+      - memberIdentifierCode
       type: object
       properties:
         memberIdentifierSK:
@@ -573,6 +926,11 @@ components:
           description: Member SK - This is a UUID value
           format: uuid
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberIdentifierCode:
+          type: string
+          description: Member Address Code - Unique id that is assigned to the member
+            address in MMS
+          example: DFEV323455DE5S3
         identifierTypeCode:
           type: string
           description: The identifier type code of the identifier
@@ -581,6 +939,10 @@ components:
           type: string
           description: The identifier of the member
           example: 345-34-6434
+        isActive:
+          type: boolean
+          description: Identifies if the identifier is active
+          example: true
         createdDate:
           type: string
           description: The date when the identifier was created
@@ -589,11 +951,15 @@ components:
           type: string
           description: The date when the identifier was updated
           format: date-time
+        active:
+          type: boolean
       description: The list of member identifiers associated with the member
     MemberLanguageDto:
       required:
+      - endDate
       - languageCode
       - languageTypeCode
+      - memberLanguageCode
       - startDate
       type: object
       properties:
@@ -608,6 +974,11 @@ components:
           description: Member SK - This is a UUID value
           format: uuid
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberLanguageCode:
+          type: string
+          description: Member Language Code - Unique id that is assigned to the member
+            address in MMS
+          example: DFEV323455DE5S3
         languageTypeCode:
           type: string
           description: The language type code of the language
@@ -622,6 +993,7 @@ components:
           format: date
         endDate:
           type: string
+          description: The end date of the language
           format: date
         createdDate:
           type: string
@@ -634,6 +1006,7 @@ components:
       description: The list of member languages associated with the member
     MemberPhoneDto:
       required:
+      - memberPhoneCode
       - phoneNumber
       - phoneTypeCode
       - startDate
@@ -650,6 +1023,11 @@ components:
           description: Member SK - This is a UUID value
           format: uuid
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        memberPhoneCode:
+          type: string
+          description: Member Phone Code - Unique id that is assigned to the member
+            phone in MMS
+          example: DFEV323455DE5S3
         phoneTypeCode:
           type: string
           description: The phone type code of the phone
@@ -714,14 +1092,62 @@ components:
           description: The date when the premium span was updated
           format: date-time
       description: The list of premiums associated with the member
+    PayerDto:
+      required:
+      - payerCode
+      - payerId
+      - payerName
+      - startDate
+      type: object
+      properties:
+        payerSK:
+          type: string
+          description: Payer SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        payerCode:
+          type: string
+          description: Payer Code - Unique id that is assigned to the payer in MMS
+          example: DFEV323455DE5S3
+        payerName:
+          type: string
+          description: The name of the payer
+          example: John Doe
+        payerId:
+          type: string
+          description: The id of the payer
+          example: 923-53-6234
+        startDate:
+          type: string
+          description: Start date of the payer
+          format: date
+        endDate:
+          type: string
+          description: End date of the payer
+          format: date
+        createdDate:
+          type: string
+          description: The date when the account was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the account was updated
+          format: date-time
     PremiumSpanDto:
       required:
       - csrVariant
       - endDate
       - memberPremiumSpans
+      - premiumSpanCode
       - startDate
       - totalPremiumAmount
       - totalResponsibleAmount
+      - ztcn
       type: object
       properties:
         premiumSpanSK:
@@ -736,6 +1162,16 @@ components:
           format: uuid
           readOnly: true
           example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        ztcn:
+          type: string
+          description: The zeus transaction control number of the transaction that
+            created the premium span
+          example: SDFG43456DFG23G
+        premiumSpanCode:
+          type: string
+          description: Premium Span Code - Unique id that is assigned to the premium
+            span in MMS
+          example: DFEV323455DE5S3
         memberPremiumSpans:
           uniqueItems: true
           type: array
@@ -781,6 +1217,53 @@ components:
           type: string
           description: The date when the premium span was updated
           format: date-time
+    SponsorDto:
+      required:
+      - sponsorCode
+      - sponsorId
+      - sponsorName
+      - startDate
+      type: object
+      properties:
+        sponsorSK:
+          type: string
+          description: Sponsor SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        sponsorCode:
+          type: string
+          description: Sponsor Code - Unique id that is assigned to the sponsor in
+            MMS
+          example: DFEV323455DE5S3
+        accountSK:
+          type: string
+          description: Account SK - This is a UUID value
+          format: uuid
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
+        sponsorId:
+          type: string
+          description: The id of the sponsor
+          example: 923-53-6234
+        sponsorName:
+          type: string
+          description: The name of the sponsor
+          example: John Doe
+        startDate:
+          type: string
+          description: Start date of the sponsor
+          format: date
+        endDate:
+          type: string
+          description: End date of the sponsor
+          format: date
+        createdDate:
+          type: string
+          description: The date when the account was created
+          format: date-time
+        updatedDate:
+          type: string
+          description: The date when the account was updated
+          format: date-time
     ApiException:
       type: object
       properties:
@@ -816,3 +1299,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountDto'
+    AccountMatchParam:
+      required:
+      - exchangeSubscriberId
+      - stateTypeCode
+      type: object
+      properties:
+        exchangeSubscriberId:
+          type: string
+        stateTypeCode:
+          type: string
