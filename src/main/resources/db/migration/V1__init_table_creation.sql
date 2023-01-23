@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
     `group_policy_id` VARCHAR(100) NOT NULL,
     `product_type_code` VARCHAR(100) NOT NULL,
     `effectuation_date` DATETIME NULL,
-    `delinq_ind` TINYINT NOT NULL DEFAULT 0 COMMENT 'Indicates if the enrollment span is delinquent.',
+    `delinq_ind` BOOLEAN NOT NULL DEFAULT 0 COMMENT 'Indicates if the enrollment span is delinquent.',
     `paid_through_date` DATE NULL COMMENT 'The paid through date associated with the enrollment span',
     `claim_paid_through_date` DATE NULL COMMENT 'The claim paid through date associated with the enrollment span',
     `status_type_code` VARCHAR(50) NOT NULL,

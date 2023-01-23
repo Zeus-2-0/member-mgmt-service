@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -45,5 +48,19 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
         enrollmentSpan = enrollmentSpanRepository.save(enrollmentSpan);
         log.info("Created Enrollment span:{}", enrollmentSpan);
         return enrollmentSpanMapper.enrollmentSpanToEnrollmentSpanDto(enrollmentSpan);
+    }
+
+    /**
+     * Get enrollment spans that match exchange subscriber id and state type code
+     * @param exchangeSubscriberId
+     * @param stateTypeCode
+     * @return
+     */
+    @Override
+    public List<EnrollmentSpan> getMatchingEnrollmentSpan(String exchangeSubscriberId, String stateTypeCode) {
+        List<EnrollmentSpan> enrollmentSpans = enrollmentSpanRepository
+                .findEnrollmentSpansByExchangeSubscriberIdAndStateTypeCode(exchangeSubscriberId,
+                        stateTypeCode);
+        return enrollmentSpans;
     }
 }

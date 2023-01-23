@@ -1,6 +1,9 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
+import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+
+import java.util.List;
 
 /**
  * Created in Intellij IDEA
@@ -19,4 +22,12 @@ public interface EnrollmentSpanHelper {
      * @return
      */
     EnrollmentSpanDto createEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
+
+    /**
+     * Get enrollment spans that match the exchange subcriber id and state type code
+     * @param exchangeSubscriberId
+     * @param stateTypeCode
+     * @return
+     */
+    List<EnrollmentSpan> getMatchingEnrollmentSpan(String exchangeSubscriberId, String stateTypeCode);
 }

@@ -4,6 +4,8 @@ import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -17,4 +19,13 @@ import java.util.UUID;
  */
 @Repository
 public interface EnrollmentSpanRepository extends JpaRepository<EnrollmentSpan, UUID> {
+
+    /**
+     * Find all the enrollment spans that match the exchange subscriber id and state type code
+     * @param exchangeSubscriberId
+     * @param stateTypeCode
+     * @return
+     */
+    List<EnrollmentSpan> findEnrollmentSpansByExchangeSubscriberIdAndStateTypeCode(String exchangeSubscriberId,
+                                                                   String stateTypeCode);
 }

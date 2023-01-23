@@ -1,11 +1,11 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
-import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.exception.ApiExceptionList;
+import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -231,6 +231,27 @@ public interface AccountAPI {
     ResponseEntity<ZeusApiResponse<EnrollmentSpanList>> matchOrGetPriorEnrollmentSpan(@PathVariable String accountNumber,
                                                                                       @PathVariable LocalDate startDate,
                                                                                       @PathVariable boolean matchCancelSpans);
+
+    /**
+     * Match accounts by the search parameters
+     * @param accountMatchParam
+     * @return
+     */
+    @Operation(
+            method = "GET",
+            description = "Get accounts matching the searching parameters",
+            tags = {"account"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully retrieved matching accounts",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,schema = @Schema(implementation = AccountList.class))
+                    })
+    })
+    @GetMapping("/search")
+    ResponseEntity<ZeusApiResponse<AccountList>> getMatchingAccounts(
+            AccountMatchParam accountMatchParam);
 
 
 }

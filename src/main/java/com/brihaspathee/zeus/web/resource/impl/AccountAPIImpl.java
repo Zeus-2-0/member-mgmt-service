@@ -6,6 +6,7 @@ import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
+import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.brihaspathee.zeus.web.resource.interfaces.AccountAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created in Intellij IDEA
@@ -211,4 +213,27 @@ public class AccountAPIImpl implements AccountAPI {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+
+    /**
+     * Match accounts by search parameters
+     * @param accountMatchParam
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<AccountList>> getMatchingAccounts(AccountMatchParam accountMatchParam) {
+        log.info("Account Match Parameters:{}", accountMatchParam);
+        AccountList accountList = accountService.getMatchingAccounts(accountMatchParam);
+        log.info("Account List:{}",accountList);
+        ZeusApiResponse<AccountList> apiResponse = ZeusApiResponse.<AccountList>builder()
+                .response(accountList)
+                .timestamp(LocalDateTime.now(ZoneId.systemDefault()))
+                .status(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+
 }

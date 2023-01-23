@@ -6,6 +6,7 @@ import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.cglib.core.Local;
 import reactor.core.publisher.Mono;
@@ -98,5 +99,12 @@ public interface AccountService {
     List<EnrollmentSpanDto> getMatchingOrPriorEnrollmentSpan(String accountNumber,
                                                       LocalDate startDate,
                                                       boolean matchCancelSpans);
+
+    /**
+     * Get accounts that match the exchange subscriber id and state type code
+     * @param accountMatchParam
+     * @return
+     */
+    AccountList getMatchingAccounts(AccountMatchParam accountMatchParam);
 
 }
