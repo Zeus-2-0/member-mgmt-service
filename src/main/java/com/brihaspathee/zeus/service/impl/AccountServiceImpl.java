@@ -5,6 +5,7 @@ import com.brihaspathee.zeus.broker.message.AccountUpdateRequest;
 import com.brihaspathee.zeus.broker.message.AccountUpdateResponse;
 import com.brihaspathee.zeus.constants.EnrollmentSpanStatus;
 import com.brihaspathee.zeus.domain.entity.Account;
+import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
 import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.domain.entity.Sponsor;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
@@ -321,6 +322,37 @@ public class AccountServiceImpl implements AccountService {
             }
         }
         return null;
+    }
+
+    /**
+     * Get accounts that match the exchange subscriber id and state type code
+     * @param accountMatchParam
+     * @return
+     */
+    @Override
+    public AccountList getMatchingAccounts(AccountMatchParam accountMatchParam) {
+        List<EnrollmentSpan> enrollmentSpans = enrollmentSpanHelper
+                .getMatchingEnrollmentSpan(accountMatchParam.getExchangeSubscriberId(),
+                        accountMatchParam.getStateTypeCode());
+        AccountList accountList = AccountList.builder().build();
+        if(enrollmentSpans !=null && enrollmentSpans.size() > 0){
+            if(enrollmentSpans.size() > 1){
+                // This removes enrollment spans for the same account and keeps only one enrollment span per account
+                enrollmentSpans = enrollmentSpans.stream()
+                        .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(enrollmentSpan -> {
+                            Account account = enrollmentSpan.getAccount();
+                            return account.getAccountSK();
+                        })))).stream().toList();
+            }
+            Set<AccountDto> accountDtos =
+                    enrollmentSpans.stream()
+                            .map(enrollmentSpan -> {
+                                Account account = enrollmentSpan.getAccount();
+                                return accountMapper.accountToAccountDto(account);
+                            }).collect(Collectors.toSet());
+            accountList.setAccountDtos(accountDtos);
+        }
+        return accountList;
     }
 
     /**

@@ -1,0 +1,58 @@
+{
+  "testClassName": "AccountAPIIntTest,",
+  "testMethods": [
+    {
+      "testMethodName": "testGetMatchedAccounts",
+      "testData": [
+        {
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "accountMatchParam": {
+              "exchangeSubscriberId": "245247345",
+              "stateTypeCode": "FL"
+            },
+            "expectedAccountList": {
+              "accountDtos": [
+                {
+                  "accountSK": "e29f6d8d-51c8-4259-b789-1aac0e5fcfe7",
+                  "accountNumber": "5LOQKYBP1NQX17E"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "accountMatchParam": {
+              "exchangeSubscriberId": "64574573",
+              "stateTypeCode": "FL"
+            },
+            "expectedAccountList": {
+              "accountDtos": [
+                {
+                  "accountSK": "c601259a-6b0f-4a18-882f-d645e934d092",
+                  "accountNumber": "652C183K1DEBCNC"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "accountMatchParam": {
+              "exchangeSubscriberId": "invalid id",
+              "stateTypeCode": "FL"
+            },
+            "expectedAccountList": {
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
