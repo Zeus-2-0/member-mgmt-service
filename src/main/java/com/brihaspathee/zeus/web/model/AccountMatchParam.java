@@ -2,7 +2,7 @@ package com.brihaspathee.zeus.web.model;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Created in Intellij IDEA
