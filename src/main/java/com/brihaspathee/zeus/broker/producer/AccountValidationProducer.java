@@ -72,7 +72,7 @@ public class AccountValidationProducer {
         createPayloadTracker(messagePayload);
         ProducerRecord<String, ZeusMessagePayload<AccountValidationRequest>> producerRecord =
                 buildProducerRecord(messagePayload);
-        kafkaTemplate.send(producerRecord).addCallback(accountValidationCallback);
+        kafkaTemplate.send(producerRecord);//.addCallback(accountValidationCallback);
         log.info("After the send method is called");
     }
 
