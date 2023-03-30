@@ -2,8 +2,6 @@ package com.brihaspathee.zeus.integration;
 
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
-import com.brihaspathee.zeus.security.model.AuthorityDto;
-import com.brihaspathee.zeus.security.model.AuthorityList;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
@@ -18,11 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,13 +39,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AccountAPIIntTest {
+public class AccountMatchAPIIntTest {
 
     /**
      * Object mapper to read the file and convert it to an object
      */
-    @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Rest template to call the api endpoint
@@ -62,7 +55,7 @@ public class AccountAPIIntTest {
     /**
      * The file that contains the test data
      */
-    @Value("classpath:com/brihaspathee/zeus/integration/AccountAPIIntTest.json")
+    @Value("classpath:com/brihaspathee/zeus/integration/AccountMatchAPIIntTest.json")
     Resource resourceFile;
 
     /**
@@ -77,7 +70,7 @@ public class AccountAPIIntTest {
     private BuildTestData<TestAccountMatchRequest> buildTestData;
 
     /**
-     * The list of test user requests
+     * The list of test requests
      */
     private List<TestAccountMatchRequest> requests = new ArrayList<>();
 
@@ -94,6 +87,7 @@ public class AccountAPIIntTest {
 
         // Build the test data for the test method that is to be executed
         this.requests = buildTestData.buildData(testInfo.getTestMethod().get().getName(),this.accountMatchRequestTestClass);
+        objectMapper.findAndRegisterModules();
     }
 
     /**
@@ -105,10 +99,9 @@ public class AccountAPIIntTest {
     void testGetMatchedAccounts(RepetitionInfo repetitionInfo){
         log.info("Current Repetition:{}", repetitionInfo.getCurrentRepetition());
 
-        // Retrieve the authority request for the repetition
+        // Retrieve the account match request for the repetition
         TestAccountMatchRequest testAccountMatchRequest = requests.get(repetitionInfo.getCurrentRepetition() - 1);
-        // validateAuthorityRequest(testAccountMatchRequest);
-        log.info("Test authority request:{}", testAccountMatchRequest);
+        log.info("Test account match request:{}", testAccountMatchRequest);
         // Get the expected account list from the test data
         AccountList expectedAccountList = testAccountMatchRequest.getExpectedAccountList();
         log.info("Account Match params present:{}", testAccountMatchRequest.getAccountMatchParam());
