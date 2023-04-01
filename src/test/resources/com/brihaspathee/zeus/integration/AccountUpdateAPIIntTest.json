@@ -1,0 +1,23 @@
+{
+  "testClassName": "AccountMatchAPIIntTest",
+  "testMethods": [
+    {
+      "testMethodName": "testCreateAccount",
+      "testData": [
+        {
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "inputAccountDto": {
+
+            },
+            "expectedAccountUpdateDto": {
+
+            }
+          }
+        }
+      ]
+    }
+  ]
+
+}
