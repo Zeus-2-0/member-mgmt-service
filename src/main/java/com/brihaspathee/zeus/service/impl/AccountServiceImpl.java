@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.nio.file.LinkOption;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
@@ -111,6 +112,7 @@ public class AccountServiceImpl implements AccountService {
 //                        .accountDto(accountDto)
 //                .build());
         // save the account to the repository
+        log.info("About to save the account:{}", accountDto.getAccountNumber());
         final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
         accountDto.setAccountSK(account.getAccountSK());
         accountDto.getMembers().stream().forEach(memberDto -> {
