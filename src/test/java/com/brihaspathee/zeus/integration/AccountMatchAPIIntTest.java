@@ -4,11 +4,13 @@ import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
+import com.brihaspathee.zeus.validation.AccountValidation;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.brihaspathee.zeus.web.model.TestAccountMatchRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +77,11 @@ public class AccountMatchAPIIntTest {
     private List<TestAccountMatchRequest> requests = new ArrayList<>();
 
     /**
+     * The account validation instance to validate the details of the account
+     */
+    private AccountValidation accountValidation = new AccountValidation();
+
+    /**
      * The setup method is executed before each test method is executed
      * @param testInfo
      * @throws IOException
@@ -108,7 +115,13 @@ public class AccountMatchAPIIntTest {
         AccountMatchParam accountMatchParam = testAccountMatchRequest.getAccountMatchParam();
         String exchangeSubscriberId = accountMatchParam.getExchangeSubscriberId();
         String stateTypeCode = accountMatchParam.getStateTypeCode();
-        String uri = "/api/v1/zeus/account/search?exchangeSubscriberId="+exchangeSubscriberId+"&stateTypeCode="+stateTypeCode;
+        String accountNumber = accountMatchParam.getAccountNumber();
+        String uri = "";
+        if(accountNumber != null){
+            uri = "/api/v1/zeus/account/search?accountNumber="+accountNumber;
+        }else{
+            uri = "/api/v1/zeus/account/search?exchangeSubscriberId="+exchangeSubscriberId+"&stateTypeCode="+stateTypeCode;
+        }
         ResponseEntity<ZeusApiResponse> responseEntity  =
                 testRestTemplate.getForEntity(
                         uri,
@@ -121,45 +134,11 @@ public class AccountMatchAPIIntTest {
         log.info("Account List:{}", actualAccountList);
         if(expectedAccountList.getAccountDtos()!=null && expectedAccountList.getAccountDtos().size() > 0){
             assertEquals(expectedAccountList.getAccountDtos().size(), actualAccountList.getAccountDtos().size());
-            assertAccountList(expectedAccountList, actualAccountList);
+            accountValidation.assertAccount(expectedAccountList, actualAccountList);
         }else{
             assertNull(actualAccountList.getAccountDtos());
         }
 
 
-    }
-
-    /**
-     * Assert the details of the accounts
-     * @param expectedAccountList
-     * @param actualAccountList
-     */
-    private void assertAccountList(AccountList expectedAccountList, AccountList actualAccountList){
-        Set<AccountDto> expectedAccountDtos = expectedAccountList.getAccountDtos();
-        Set<AccountDto> actualAccountDtos = actualAccountList.getAccountDtos();
-        log.info("Ex Accounts:{}", expectedAccountDtos);
-        log.info("Ac Account:{}", actualAccountDtos);
-        expectedAccountDtos.stream().forEach( (expectedAccountDto -> {
-            AccountDto actualAccount = actualAccountDtos.stream().filter(
-                            (actualAccountDto) -> {
-                                return expectedAccountDto.getAccountSK().equals(actualAccountDto.getAccountSK());
-                            })
-                    .findFirst().orElse(AccountDto.builder()
-                            .accountSK(UUID.randomUUID())
-                            .accountNumber("Random Account")
-                            .build());
-            assetAccountDetails(expectedAccountDto, actualAccount);
-        }));
-    }
-
-    /**
-     * Compare the account details
-     * @param expectedAccountDto
-     * @param actualAccountDto
-     */
-    private void assetAccountDetails(AccountDto expectedAccountDto, AccountDto actualAccountDto){
-        log.info("Expected Account:{}", expectedAccountDto);
-        log.info("Actual Account:{}", actualAccountDto);
-        assertEquals(expectedAccountDto.getAccountNumber(), actualAccountDto.getAccountNumber());
     }
 }

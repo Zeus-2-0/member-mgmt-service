@@ -34,6 +34,13 @@ public interface AccountService {
     AccountDto createAccount(AccountDto accountDto) throws JsonProcessingException;
 
     /**
+     * Update an existing account
+     * @param accountDto
+     * @return
+     */
+    AccountDto updateAccount(AccountDto accountDto) throws JsonProcessingException;
+
+    /**
      * Get account by account number
      * @param accountNumber
      * @return

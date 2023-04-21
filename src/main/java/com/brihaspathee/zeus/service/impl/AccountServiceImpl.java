@@ -112,7 +112,6 @@ public class AccountServiceImpl implements AccountService {
 //                        .accountDto(accountDto)
 //                .build());
         // save the account to the repository
-        log.info("About to save the account:{}", accountDto.getAccountNumber());
         final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
         accountDto.setAccountSK(account.getAccountSK());
         accountDto.getMembers().stream().forEach(memberDto -> {
@@ -120,20 +119,21 @@ public class AccountServiceImpl implements AccountService {
             memberDto.setMemberSK(memberService.createMember(memberDto).getMemberSK());
         });
         accountDto.getEnrollmentSpans().stream().forEach(enrollmentSpanDto -> {
-            enrollmentSpanDto.setAccountSK(account.getAccountSK());
-            UUID enrollmentSpanSK = enrollmentSpanHelper.createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
-            enrollmentSpanDto.setEnrollmentSpanSK(
-                    enrollmentSpanSK);
-            enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
-                premiumSpanDto.getMemberPremiumSpans().stream().forEach(memberPremiumDto -> {
-                    if(memberPremiumDto.getMemberSK() == null){
-                        populateMemberSK(memberPremiumDto, accountDto.getMembers());
-                    }
-                });
-                premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
-                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
-                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
-            });
+//            enrollmentSpanDto.setAccountSK(account.getAccountSK());
+//            UUID enrollmentSpanSK = enrollmentSpanHelper.createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
+//            enrollmentSpanDto.setEnrollmentSpanSK(
+//                    enrollmentSpanSK);
+//            enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
+//                premiumSpanDto.getMemberPremiumSpans().stream().forEach(memberPremiumDto -> {
+//                    if(memberPremiumDto.getMemberSK() == null){
+//                        populateMemberSK(memberPremiumDto, accountDto.getMembers());
+//                    }
+//                });
+//                premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
+//                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+//                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+//            });
+            createEnrollmentSpan(accountDto, enrollmentSpanDto);
 
         });
         if(accountDto.getBrokers() != null && accountDto.getBrokers().size() > 0){
@@ -160,6 +160,77 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return accountDto;
+    }
+
+    /**
+     * Update an existing account
+     * @param accountDto
+     * @return
+     */
+    @Override
+    public AccountDto updateAccount(AccountDto accountDto) throws JsonProcessingException {
+        log.info("Inside the update account method");
+        if(accountDto.getEnrollmentSpans() != null && !accountDto.getEnrollmentSpans().isEmpty()){
+            accountDto.getEnrollmentSpans().stream().forEach(enrollmentSpanDto -> {
+                if(enrollmentSpanDto.getEnrollmentSpanSK() == null){
+                    // The enrollment span does not exist for the account
+                    // it has to be created
+                    createEnrollmentSpan(accountDto, enrollmentSpanDto);
+                }else{
+                    // Enrollment span exist for the account
+                    if(enrollmentSpanDto.getChanged().get() == true){
+                        enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
+                        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK()));
+                        // Enrollment span has changed hence it has to be updated
+                        enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto, accountDto);
+                        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
+                            // premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK());
+                            // Check if the premium span already exists
+                            if(premiumSpanDto.getPremiumSpanSK() == null){
+                                // Premium span does not exist for the enrollment span
+                                // so create it
+                                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+                                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+                            }else{
+                                // Premium span exist check if it has to be updated
+                                if(premiumSpanDto.getChanged().get() == true){
+                                    // premium span has to be updated
+                                    premiumSpanHelper.updatePremiumSpan(premiumSpanDto);
+                                }
+                            }
+                        });
+                    }else{
+                        // enrollment span is not updated
+                        // check if premium spans are updated
+                    }
+                }
+
+                //enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto, accountDto);
+            });
+        }
+        return accountDto;
+    }
+
+    /**
+     * Create a new enrollment span for the account
+     * @param accountDto
+     * @param enrollmentSpanDto
+     */
+    private void createEnrollmentSpan(AccountDto accountDto, EnrollmentSpanDto enrollmentSpanDto) {
+        enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
+        UUID enrollmentSpanSK = enrollmentSpanHelper.createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
+        enrollmentSpanDto.setEnrollmentSpanSK(
+                enrollmentSpanSK);
+        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
+            premiumSpanDto.getMemberPremiumSpans().stream().forEach(memberPremiumDto -> {
+                if(memberPremiumDto.getMemberSK() == null){
+                    populateMemberSK(memberPremiumDto, accountDto.getMembers());
+                }
+            });
+            premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
+            UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+            premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+        });
     }
 
     /**
@@ -199,8 +270,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Mono<AccountUpdateResponse> processAccount(PayloadTracker payloadTracker,
                                                       AccountDto accountDto) throws JsonProcessingException {
-        log.info("Inside the account service for account:{}", accountDto.getAccountNumber());
-        createAccount(accountDto);
+
+        String accountNumber = accountDto.getAccountNumber();
+        UUID accountSK = accountDto.getAccountSK();
+        log.info("Inside the account service for account:{}", accountNumber);
+        if(accountSK == null){
+            // If account sk is null, then the account needs to be created
+            createAccount(accountDto);
+        }else{
+            // if account sk is not null, then the account needs to be updated
+            updateAccount(accountDto);
+        }
         AccountUpdateResponse accountUpdateResponse =
                 constructAccountProcessingResponse(payloadTracker, accountDto);
         return Mono.just(accountUpdateResponse).delayElement(Duration.ofSeconds(30));
@@ -333,6 +413,10 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccountList getMatchingAccounts(AccountMatchParam accountMatchParam) {
+        if(accountMatchParam.getAccountNumber() != null){
+            AccountDto accountDto = getAccountByNumber(accountMatchParam.getAccountNumber());
+            return AccountList.builder().accountDtos(Set.of(accountDto)).build();
+        }
         List<EnrollmentSpan> enrollmentSpans = enrollmentSpanHelper
                 .getMatchingEnrollmentSpan(accountMatchParam.getExchangeSubscriberId(),
                         accountMatchParam.getStateTypeCode());

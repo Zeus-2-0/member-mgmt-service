@@ -1,9 +1,12 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
+import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.MemberDto;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created in Intellij IDEA
@@ -30,4 +33,10 @@ public interface EnrollmentSpanHelper {
      * @return
      */
     List<EnrollmentSpan> getMatchingEnrollmentSpan(String exchangeSubscriberId, String stateTypeCode);
+
+    /**
+     * Update an enrollment span
+     * @param enrollmentSpanDto
+     */
+    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto);
 }

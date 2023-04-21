@@ -63,5 +63,15 @@ public class PremiumSpanHelperImpl implements PremiumSpanHelper {
         return premiumSpanMapper.premiumSpanToPremiumSpanDto(premiumSpan);
     }
 
+    /**
+     * Update an existing premium span
+     * @param premiumSpanDto
+     */
+    @Override
+    public void updatePremiumSpan(PremiumSpanDto premiumSpanDto) {
+        final PremiumSpan premiumSpan = premiumSpanRepository.save(
+                premiumSpanMapper.premiumSpanDtoToPremiumSpan(premiumSpanDto));
+    }
+
 
 }

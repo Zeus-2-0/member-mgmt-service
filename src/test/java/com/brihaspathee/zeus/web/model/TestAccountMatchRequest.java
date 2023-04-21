@@ -40,7 +40,7 @@ public class TestAccountMatchRequest {
     private String httpStatusCode;
 
     /**
-     * The account match params that will be passed in a input
+     * The account match params that will be passed in an input
      */
     private AccountMatchParam accountMatchParam;
 

@@ -153,6 +153,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`premium_span` (
     `enrollment_span_sk` VARCHAR(36) NULL COMMENT 'The enrollment span that the premium span belongs to',
     `start_date` DATETIME NOT NULL,
     `end_date` DATETIME NOT NULL,
+    `status_type_code` VARCHAR(50) NOT NULL COMMENT 'The status of the premium span',
     `csr_variant` VARCHAR(10) NOT NULL,
     `total_prem_amt` DECIMAL(10,2) NOT NULL COMMENT 'The total premium amount per month for the plan chosen by the member',
     `total_resp_amt` DECIMAL(10,2) NOT NULL COMMENT 'Total amount that the member is responsible for payment towards the premium',
