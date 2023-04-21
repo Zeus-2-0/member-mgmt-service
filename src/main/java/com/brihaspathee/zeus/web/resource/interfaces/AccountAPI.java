@@ -57,7 +57,7 @@ public interface AccountAPI {
             }
     )
     @GetMapping("/{accountNumber}")
-    ResponseEntity<ZeusApiResponse<AccountDto>> getAccountByNumber(@PathVariable("accountNumber") String accountNumber);
+    ResponseEntity<ZeusApiResponse<AccountList>> getAccountByNumber(@PathVariable("accountNumber") String accountNumber);
 
     /**
      * Get all the accounts in the system
@@ -113,6 +113,37 @@ public interface AccountAPI {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ZeusApiResponse<AccountDto>> createAccount(@RequestBody @Valid AccountDto accountDto) throws JsonProcessingException;
+
+    /**
+     * Update an existing account
+     * @param accountDto
+     * @return
+     */
+    @Operation(
+            operationId = "Update an existing account",
+            method = "POST",
+            description = "Update an existing account",
+            tags = {"account"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Successfully update the account",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = AccountDto.class))
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Bad Request",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = ApiExceptionList.class))
+                    }),
+            @ApiResponse(responseCode = "409",
+                    description = "Conflict",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = ApiExceptionList.class))
+                    })
+    })
+    @PostMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ZeusApiResponse<AccountDto>> updateAccount(@RequestBody @Valid AccountDto accountDto) throws JsonProcessingException;
 
     /**
      * Get matching enrollment spans for the plan id and group policy id

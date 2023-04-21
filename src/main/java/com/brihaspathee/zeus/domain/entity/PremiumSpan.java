@@ -57,6 +57,12 @@ public class PremiumSpan {
     private String premiumSpanCode;
 
     /**
+     * The status of the premium span
+     */
+    @Column(name = "status_type_code", length = 50, columnDefinition = "varchar", nullable = false)
+    private String statusTypeCode;
+
+    /**
      * The enrollment span associated with the premium span
      */
     @ManyToOne
@@ -66,7 +72,8 @@ public class PremiumSpan {
     /**
      * The members associated with the enrollment span
      */
-    @OneToMany(mappedBy = "premiumSpan", fetch = FetchType.EAGER)
+    //@OneToMany(mappedBy = "premiumSpan", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "premiumSpan")
     private Set<MemberPremium> members;
 
     /**

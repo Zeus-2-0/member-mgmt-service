@@ -61,7 +61,7 @@ public class EnrollmentSpanMapperImpl implements EnrollmentSpanMapper {
                 .ztcn(enrollmentSpanDto.getZtcn())
                 .paidThroughDate(enrollmentSpanDto.getPaidThroughDate())
                 .claimPaidThroughDate(enrollmentSpanDto.getClaimPaidThroughDate())
-                .premiumSpans(premiumSpanMapper.premiumSpanDtosToPremiumSpans(enrollmentSpanDto.getPremiumSpans()))
+                //.premiumSpans(premiumSpanMapper.premiumSpanDtosToPremiumSpans(enrollmentSpanDto.getPremiumSpans()))
                 .createdDate(enrollmentSpanDto.getCreatedDate())
                 .updatedDate(enrollmentSpanDto.getUpdatedDate())
                 .build();

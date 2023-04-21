@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created in Intellij IDEA
@@ -48,10 +49,13 @@ public class AccountAPIImpl implements AccountAPI {
      * @return The account details of the account
      */
     @Override
-    public ResponseEntity<ZeusApiResponse<AccountDto>> getAccountByNumber(String accountNumber) {
+    public ResponseEntity<ZeusApiResponse<AccountList>> getAccountByNumber(String accountNumber) {
         AccountDto accountDto = accountService.getAccountByNumber(accountNumber);
-        ZeusApiResponse<AccountDto> apiResponse = ZeusApiResponse.<AccountDto>builder()
-                .response(accountDto)
+        AccountList accountList = AccountList.builder()
+                .accountDtos(Set.of(accountDto))
+                .build();
+        ZeusApiResponse<AccountList> apiResponse = ZeusApiResponse.<AccountList>builder()
+                .response(accountList)
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.OK)
                 .statusCode(200)
@@ -98,6 +102,27 @@ public class AccountAPIImpl implements AccountAPI {
             .developerMessage(ApiResponseConstants.SUCCESS_REASON)
         .build();
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+    }
+
+    /**
+     * Update an existing account
+     * @param accountDto
+     * @return
+     * @throws JsonProcessingException
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<AccountDto>> updateAccount(AccountDto accountDto) throws JsonProcessingException {
+        AccountDto updatedAccount = accountService.updateAccount(accountDto);
+        log.info("Updated Account:{}",updatedAccount);
+        ZeusApiResponse<AccountDto> apiResponse = ZeusApiResponse.<AccountDto>builder()
+                .response(updatedAccount)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.ACCEPTED)
+                .statusCode(201)
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
     }
 
     /**

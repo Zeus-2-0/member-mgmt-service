@@ -19,4 +19,10 @@ public interface PremiumSpanHelper {
      * @return
      */
     PremiumSpanDto createPremiumSpan(PremiumSpanDto premiumSpanDto);
+
+    /**
+     * Update an existing premium span
+     * @param premiumSpanDto
+     */
+    void updatePremiumSpan(PremiumSpanDto premiumSpanDto);
 }

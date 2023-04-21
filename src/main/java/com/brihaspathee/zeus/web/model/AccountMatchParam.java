@@ -21,6 +21,9 @@ import jakarta.validation.constraints.NotBlank;
 public class AccountMatchParam {
 
     @NotBlank
+    private String accountNumber;
+
+    @NotBlank
     private String exchangeSubscriberId;
 
     @NotBlank
@@ -29,7 +32,8 @@ public class AccountMatchParam {
     @Override
     public String toString() {
         return "AccountMatchParam{" +
-                "exchangeSubscriberId='" + exchangeSubscriberId + '\'' +
+                "accountNumber='" + accountNumber + '\'' +
+                ", exchangeSubscriberId='" + exchangeSubscriberId + '\'' +
                 ", stateTypeCode='" + stateTypeCode + '\'' +
                 '}';
     }
