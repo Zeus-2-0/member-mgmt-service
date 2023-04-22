@@ -107,7 +107,7 @@ public class AccountUpdateAPIIntTest {
      * This method tests the get matched account end point
      * @param repetitionInfo
      */
-    @RepeatedTest(5)
+    @RepeatedTest(7)
     @Order(1)
     void testUpdateAccount(RepetitionInfo repetitionInfo) throws JsonProcessingException {
         log.info("Current Repetition:{}", repetitionInfo.getCurrentRepetition());
