@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.validation;
 
+import com.brihaspathee.zeus.domain.entity.MemberPremium;
 import com.brihaspathee.zeus.dto.account.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,10 +112,76 @@ public class AccountValidation {
                             actualEnrollmentSpanDto.getClaimPaidThroughDate());
                     assertEquals(expectedEnrollmentSpanDto.getPaidThroughDate(),
                             actualEnrollmentSpanDto.getPaidThroughDate());
+                    assertPremiumSpanDetails(expectedEnrollmentSpanDto.getPremiumSpans(),
+                            actualEnrollmentSpanDto.getPremiumSpans());
                 }
             });
         }
+    }
 
+    /**
+     * Assert the details of the premium spans
+     * @param expectedPremiumSpans
+     * @param actualPremiumSpans
+     */
+    private void assertPremiumSpanDetails(Set<PremiumSpanDto> expectedPremiumSpans,
+                                          Set<PremiumSpanDto> actualPremiumSpans){
+        int expectedPremiumSpanSize = expectedPremiumSpans.size();
+        int actualPremiumSpanSize = actualPremiumSpans.size();
+        assertEquals(expectedPremiumSpanSize, actualPremiumSpanSize);
+        if(expectedPremiumSpanSize == actualPremiumSpanSize){
+            expectedPremiumSpans.stream().forEach(expectedPremiumSpanDto -> {
+                PremiumSpanDto actualPremiumSpanDto = actualPremiumSpans.stream().filter(actualPremiumSpan ->
+                        expectedPremiumSpanDto.getPremiumSpanCode().equals(actualPremiumSpan.getPremiumSpanCode()))
+                            .findFirst().orElse(PremiumSpanDto.builder()
+                                .premiumSpanCode("Random Premium Span")
+                                .build());
+                assertEquals(expectedPremiumSpanDto.getPremiumSpanCode(), actualPremiumSpanDto.getPremiumSpanCode());
+                if(expectedPremiumSpanDto.getPremiumSpanCode().equals(actualPremiumSpanDto.getPremiumSpanCode())){
+                    assertEquals(expectedPremiumSpanDto.getZtcn(), actualPremiumSpanDto.getZtcn());
+                    assertEquals(expectedPremiumSpanDto.getStartDate(), actualPremiumSpanDto.getStartDate());
+                    assertEquals(expectedPremiumSpanDto.getEndDate(), actualPremiumSpanDto.getEndDate());
+                    log.info("Actual Premium Span Code:{}", actualPremiumSpanDto.getPremiumSpanCode());
+                    log.info("Expected Premium Span Code:{}", expectedPremiumSpanDto.getPremiumSpanCode());
+                    printComparedValues(expectedPremiumSpanDto.getStatusTypeCode(), actualPremiumSpanDto.getStatusTypeCode(), "Premium span status");
+                    assertEquals(expectedPremiumSpanDto.getStatusTypeCode(), actualPremiumSpanDto.getStatusTypeCode());
+                    assertEquals(expectedPremiumSpanDto.getCsrVariant(), actualPremiumSpanDto.getCsrVariant());
+                    assertEquals(expectedPremiumSpanDto.getTotalPremiumAmount().longValue(),
+                            actualPremiumSpanDto.getTotalPremiumAmount().longValue());
+                    assertEquals(expectedPremiumSpanDto.getTotalResponsibleAmount().longValue(),
+                            actualPremiumSpanDto.getTotalResponsibleAmount().longValue());
+                    assertEquals(expectedPremiumSpanDto.getAptcAmount().longValue(),
+                            actualPremiumSpanDto.getAptcAmount().longValue());
+                    assertEquals(expectedPremiumSpanDto.getOtherPayAmount().longValue(),
+                            actualPremiumSpanDto.getOtherPayAmount().longValue());
+                    assertEquals(expectedPremiumSpanDto.getCsrAmount().longValue(),
+                            actualPremiumSpanDto.getCsrAmount().longValue());
+                }
+            });
+        }
+    }
+
+    private void assertMemberPremiums(Set<MemberPremiumDto> expectedMemberPremiums,
+                                      Set<MemberPremiumDto> actualMemberPremiums){
+        int expectedMemberPremiumSize = expectedMemberPremiums.size();
+        int actualMemberPremiumSize = actualMemberPremiums.size();
+        assertEquals(expectedMemberPremiumSize, actualMemberPremiumSize);
+        if(expectedMemberPremiumSize == actualMemberPremiumSize){
+            expectedMemberPremiums.stream().forEach(expectedMemberPremiumDto -> {
+                MemberPremiumDto actualMemberPremiumDto = actualMemberPremiums.stream().filter(actualMemberPremium ->
+                                expectedMemberPremiumDto.getMemberCode().equals(actualMemberPremium.getMemberCode()))
+                        .findFirst().orElse(MemberPremiumDto.builder()
+                                .memberCode("Random Member Code")
+                                .build());
+                assertEquals(expectedMemberPremiumDto.getMemberCode(), actualMemberPremiumDto.getMemberCode());
+                if(expectedMemberPremiumDto.getMemberCode().equals(actualMemberPremiumDto.getMemberCode())){
+                    assertEquals(expectedMemberPremiumDto.getExchangeMemberId(),
+                            actualMemberPremiumDto.getExchangeMemberId());
+                    assertEquals(expectedMemberPremiumDto.getIndividualPremiumAmount().longValue(),
+                            actualMemberPremiumDto.getIndividualPremiumAmount().longValue());
+                }
+            });
+        }
     }
 
     /**
