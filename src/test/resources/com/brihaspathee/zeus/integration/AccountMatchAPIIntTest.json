@@ -41,6 +41,7 @@
                           ],
                           "startDate": "2023-01-01",
                           "endDate": "2023-06-30",
+                          "statusTypeCode": "ACTIVE",
                           "csrVariant": "03",
                           "totalPremiumAmount": 150.00,
                           "totalResponsibleAmount": 100.00,
@@ -64,6 +65,7 @@
                           ],
                           "startDate": "2023-07-01",
                           "endDate": "2023-12-31",
+                          "statusTypeCode": "ACTIVE",
                           "csrVariant": "03",
                           "totalPremiumAmount": 150.00,
                           "totalResponsibleAmount": 150.00,
@@ -245,7 +247,8 @@
                             }
                           ],
                           "startDate": "2023-01-01",
-                          "endDate": "2023-06-30",
+                          "endDate": "2023-07-31",
+                          "statusTypeCode": "ACTIVE",
                           "csrVariant": "03",
                           "totalPremiumAmount": 200.00,
                           "totalResponsibleAmount": 150.00,
@@ -267,12 +270,13 @@
                               "individualPremiumAmount": 200.00
                             }
                           ],
-                          "startDate": "2023-07-01",
+                          "startDate": "2023-08-01",
                           "endDate": "2023-12-31",
+                          "statusTypeCode": "ACTIVE",
                           "csrVariant": "03",
-                          "totalPremiumAmount": 150.00,
-                          "totalResponsibleAmount": 150.00,
-                          "aptcAmount": 0.00,
+                          "totalPremiumAmount": 200.00,
+                          "totalResponsibleAmount": 125.00,
+                          "aptcAmount": 75.00,
                           "otherPayAmount": 0.00,
                           "csrAmount": 20.00
                         }
