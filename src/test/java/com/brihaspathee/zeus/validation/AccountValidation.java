@@ -141,9 +141,6 @@ public class AccountValidation {
                     assertEquals(expectedPremiumSpanDto.getZtcn(), actualPremiumSpanDto.getZtcn());
                     assertEquals(expectedPremiumSpanDto.getStartDate(), actualPremiumSpanDto.getStartDate());
                     assertEquals(expectedPremiumSpanDto.getEndDate(), actualPremiumSpanDto.getEndDate());
-                    log.info("Actual Premium Span Code:{}", actualPremiumSpanDto.getPremiumSpanCode());
-                    log.info("Expected Premium Span Code:{}", expectedPremiumSpanDto.getPremiumSpanCode());
-                    printComparedValues(expectedPremiumSpanDto.getStatusTypeCode(), actualPremiumSpanDto.getStatusTypeCode(), "Premium span status");
                     assertEquals(expectedPremiumSpanDto.getStatusTypeCode(), actualPremiumSpanDto.getStatusTypeCode());
                     assertEquals(expectedPremiumSpanDto.getCsrVariant(), actualPremiumSpanDto.getCsrVariant());
                     assertEquals(expectedPremiumSpanDto.getTotalPremiumAmount().longValue(),
@@ -156,11 +153,18 @@ public class AccountValidation {
                             actualPremiumSpanDto.getOtherPayAmount().longValue());
                     assertEquals(expectedPremiumSpanDto.getCsrAmount().longValue(),
                             actualPremiumSpanDto.getCsrAmount().longValue());
+                    assertMemberPremiums(expectedPremiumSpanDto.getMemberPremiumSpans(),
+                            actualPremiumSpanDto.getMemberPremiumSpans());
                 }
             });
         }
     }
 
+    /**
+     * Assert the individual member premium spans
+     * @param expectedMemberPremiums
+     * @param actualMemberPremiums
+     */
     private void assertMemberPremiums(Set<MemberPremiumDto> expectedMemberPremiums,
                                       Set<MemberPremiumDto> actualMemberPremiums){
         int expectedMemberPremiumSize = expectedMemberPremiums.size();

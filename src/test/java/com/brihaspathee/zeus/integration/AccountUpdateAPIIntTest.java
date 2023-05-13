@@ -107,7 +107,7 @@ public class AccountUpdateAPIIntTest {
      * This method tests the get matched account end point
      * @param repetitionInfo
      */
-    @RepeatedTest(7)
+    @RepeatedTest(9)
     @Order(1)
     void testUpdateAccount(RepetitionInfo repetitionInfo) throws JsonProcessingException {
         log.info("Current Repetition:{}", repetitionInfo.getCurrentRepetition());
@@ -126,11 +126,40 @@ public class AccountUpdateAPIIntTest {
         // Call the API Endpoint to process the transaction
         ResponseEntity<ZeusApiResponse> responseEntity = testRestTemplate
                 .postForEntity(uri,httpEntity, ZeusApiResponse.class);
-        ZeusApiResponse apiResponse = responseEntity.getBody();
         // Get the updated account dto object
         AccountDto updatedAccountDto = getUpdatedAccount(inputAccountDto.getAccountNumber());
         String accountAsString = objectMapper.writeValueAsString(updatedAccountDto);
         log.info("Updated Account Dto:{}", accountAsString);
+        accountValidation.assertAccountDetails(expectedAccountUpdateDto, updatedAccountDto);
+    }
+
+    /**
+     * This method tests the get matched account end point
+     * @param repetitionInfo
+     */
+    @RepeatedTest(3)
+    @Order(1)
+    void testCreateAccount(RepetitionInfo repetitionInfo) throws JsonProcessingException {
+        log.info("Current Repetition:{}", repetitionInfo.getCurrentRepetition());
+
+        // Retrieve the account create request for the repetition
+        TestAccountUpdateRequest testAccountUpdateRequest = requests.get(repetitionInfo.getCurrentRepetition() - 1);
+        log.info("Test account create request:{}", testAccountUpdateRequest);
+        // Get the account dto to be created from the test data
+        AccountDto inputAccountDto = testAccountUpdateRequest.getInputAccountDto();
+        // Get the account dto that is expected after the account creation is made
+        AccountDto expectedAccountUpdateDto = testAccountUpdateRequest.getExpectedAccountUpdateDto();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<AccountDto> httpEntity = new HttpEntity<>(inputAccountDto, headers);
+        String uri = "/api/v1/zeus/account";
+        // Call the API Endpoint to process the transaction
+        ResponseEntity<ZeusApiResponse> responseEntity = testRestTemplate
+                .postForEntity(uri,httpEntity, ZeusApiResponse.class);
+        // Get the updated account dto object
+        AccountDto updatedAccountDto = getUpdatedAccount(inputAccountDto.getAccountNumber());
+        String accountAsString = objectMapper.writeValueAsString(updatedAccountDto);
+        log.info("Created Account Dto:{}", accountAsString);
         accountValidation.assertAccountDetails(expectedAccountUpdateDto, updatedAccountDto);
     }
 
