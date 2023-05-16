@@ -2,9 +2,11 @@ package com.brihaspathee.zeus.service.impl;
 
 import com.brihaspathee.zeus.domain.entity.Account;
 import com.brihaspathee.zeus.domain.entity.Member;
+import com.brihaspathee.zeus.domain.entity.MemberIdentifier;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.domain.repository.MemberRepository;
 import com.brihaspathee.zeus.dto.account.MemberDto;
+import com.brihaspathee.zeus.dto.account.MemberIdentifierDto;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.*;
@@ -15,8 +17,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created in Intellij IDEA
@@ -121,6 +126,71 @@ public class MemberServiceImpl implements MemberService {
         createMemberEmail(memberDto, member.getMemberSK());
         createAlternateContact(memberDto, member.getMemberSK());
         return memberMapper.memberToMemberDto(member);
+    }
+
+    /**
+     * Get member by social security number
+     * @param socialSecurityNumber
+     * @return
+     */
+    @Override
+    public List<MemberDto> getMemberBySSN(String socialSecurityNumber) {
+        List<MemberIdentifier> memberIdentifiers =
+                memberIdentifierHelper.getMemberIdentifiersByValue(
+                        "SSN",
+                        socialSecurityNumber,
+                        true);
+        return getMemberDtos(memberIdentifiers);
+    }
+
+    /**
+     * Get the HOHs by SSN
+     * @param socialSecurityNumber
+     * @return
+     */
+    @Override
+    public List<MemberDto> getHOHBySSN(String socialSecurityNumber) {
+        List<MemberIdentifier> memberIdentifiers =
+                memberIdentifierHelper.getMemberIdentifiersByValue(
+                        "SSN",
+                        socialSecurityNumber,
+                        true);
+        // Filter out to have only members who have the relationship type code "HOH"
+        memberIdentifiers = memberIdentifiers.stream()
+                .filter(memberId ->
+                        memberId.getMember().getRelationshipTypeCode().equals("HOH"))
+                .collect(Collectors.toList());
+        return getMemberDtos(memberIdentifiers);
+    }
+
+    /**
+     * Get member by first name, last name, gender type code and date of birth
+     * @param firstName
+     * @param lastName
+     * @param genderTypeCode
+     * @param dateOfBirth
+     * @return
+     */
+    @Override
+    public List<MemberDto> getMembersByNameAndDOB(String firstName, String lastName, String genderTypeCode, LocalDate dateOfBirth) {
+        List<Member> members = memberRepository.findMemberByFirstNameAndLastNameAndGenderTypeCodeAndDateOfBirth(firstName,
+                lastName,
+                genderTypeCode,
+                dateOfBirth);
+        return memberMapper.membersToMemberDtos(members.stream().collect(Collectors.toSet())).stream().toList();
+    }
+
+    /**
+     * Get the member dtos from member identifier
+     * @param memberIdentifiers
+     * @return
+     */
+    private List<MemberDto> getMemberDtos(List<MemberIdentifier> memberIdentifiers) {
+        if (memberIdentifiers != null && !memberIdentifiers.isEmpty()){
+            List<Member> members = memberIdentifiers.stream().map(memberIdentifier -> memberIdentifier.getMember()).collect(Collectors.toList());
+            return memberMapper.membersToMemberDtos(members.stream().collect(Collectors.toSet())).stream().toList();
+        }
+        return null;
     }
 
     /**

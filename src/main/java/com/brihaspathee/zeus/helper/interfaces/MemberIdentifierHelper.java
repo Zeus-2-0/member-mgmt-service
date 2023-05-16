@@ -1,6 +1,9 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
+import com.brihaspathee.zeus.domain.entity.MemberIdentifier;
 import com.brihaspathee.zeus.dto.account.MemberIdentifierDto;
+
+import java.util.List;
 
 /**
  * Created in Intellij IDEA
@@ -19,4 +22,26 @@ public interface MemberIdentifierHelper {
      * @return
      */
     MemberIdentifierDto createMemberIdentifier(MemberIdentifierDto memberIdentifierDto);
+
+    /**
+     * Find the member using identifier type and value
+     * @param identifierTypeCode
+     * @param identifierValue
+     * @param isActive
+     * @return
+     */
+    List<MemberIdentifierDto> getMemberIdentifierDtosByValue(String identifierTypeCode,
+                                                         String identifierValue,
+                                                         boolean isActive);
+
+    /**
+     * Find the member using identifier type and value
+     * @param identifierTypeCode
+     * @param identifierValue
+     * @param isActive
+     * @return
+     */
+    List<MemberIdentifier> getMemberIdentifiersByValue(String identifierTypeCode,
+                                                      String identifierValue,
+                                                      boolean isActive);
 }
