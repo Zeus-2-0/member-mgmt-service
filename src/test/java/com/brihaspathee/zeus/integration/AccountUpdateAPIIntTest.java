@@ -6,8 +6,6 @@ import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
 import com.brihaspathee.zeus.validation.AccountValidation;
-import com.brihaspathee.zeus.web.model.AccountMatchParam;
-import com.brihaspathee.zeus.web.model.TestAccountMatchRequest;
 import com.brihaspathee.zeus.web.model.TestAccountUpdateRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;

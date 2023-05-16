@@ -413,10 +413,93 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccountList getMatchingAccounts(AccountMatchParam accountMatchParam) {
+        // The account list that will be returned
+        // Initially there will be no accounts in the list
+        AccountList accountList = AccountList.builder().build();
+        // Check if the account number is present in the search
+        // If account number is present, search for the account is using the account number
+        // and return the account
         if(accountMatchParam.getAccountNumber() != null){
             AccountDto accountDto = getAccountByNumber(accountMatchParam.getAccountNumber());
-            return AccountList.builder().accountDtos(Set.of(accountDto)).build();
+            accountList.setAccountDtos(Set.of(accountDto));
+            return accountList;
         }
+        // If account number is not present then first try to find the account using exchange subscriber id and state
+        if(accountMatchParam.getExchangeSubscriberId() != null &&
+            accountMatchParam.getStateTypeCode() != null){
+            accountList = getAccountByExchangeSubId(accountMatchParam);
+        }
+        // If no account is found using exchange subscriber id,
+        // if SSN is provided in the search, see if an account can be found using SSN of the
+        // primary subscriber
+        if(accountList.getAccountDtos() == null || accountList.getAccountDtos().isEmpty()){
+            getAccountBySSN(accountMatchParam, accountList);
+        }
+        // If no account is found using SSN or no SSN is provided, then
+        // try to find an account using the first name, last name, gender and date of birth of the
+        // primary subscriber
+        if(accountList.getAccountDtos() ==null || accountList.getAccountDtos().isEmpty()){
+            getAccountByNameAndDOB(accountMatchParam, accountList);
+        }
+        return accountList;
+    }
+
+    /**
+     * Get account by name, date of birth and gender of the primary subscriber
+     * @param accountMatchParam
+     * @param accountList
+     */
+    private void getAccountByNameAndDOB(AccountMatchParam accountMatchParam, AccountList accountList) {
+        if(accountMatchParam.getFirstName() !=null && accountMatchParam.getLastName() != null &&
+            accountMatchParam.getGenderTypeCode() != null && accountMatchParam.getDateOfBirth() !=null){
+            List<MemberDto> memberDtos = memberService.getMembersByNameAndDOB(accountMatchParam.getFirstName(), accountMatchParam.getLastName(),
+                    accountMatchParam.getGenderTypeCode(), accountMatchParam.getDateOfBirth());
+            if(memberDtos!=null && !memberDtos.isEmpty()){
+                Set<AccountDto> accountDtos = memberDtos
+                        .stream().map(memberDto -> getMemberAccount(memberDto))
+                        .collect(Collectors.toSet());
+                accountList.setAccountDtos(accountDtos);
+            }
+
+        }
+    }
+
+    /**
+     * Get account by matching with the SSN of the primary subscriber
+     * @param accountMatchParam
+     * @param accountList
+     */
+    private void getAccountBySSN(AccountMatchParam accountMatchParam, AccountList accountList) {
+        if(accountMatchParam.getSocialSecurityNumber() != null){
+            List<MemberDto> memberDtos = memberService.getHOHBySSN(accountMatchParam.getSocialSecurityNumber());
+            if(memberDtos!=null && !memberDtos.isEmpty()){
+                Set<AccountDto> accountDtos = memberDtos
+                        .stream().map(memberDto -> getMemberAccount(memberDto)).collect(Collectors.toSet());
+                accountList.setAccountDtos(accountDtos);
+            }
+        }
+    }
+
+    /**
+     * Get Member account from member dto
+     * @param memberDto
+     * @return
+     */
+    private AccountDto getMemberAccount(MemberDto memberDto) {
+        Account account = accountRepository.findById(memberDto.getAccountSK()).orElse(null);
+        if(account!=null){
+            return accountMapper.accountToAccountDto(account);
+        }else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the account that matches the exchange subscriber id
+     * @param accountMatchParam
+     * @return
+     */
+    private AccountList getAccountByExchangeSubId(AccountMatchParam accountMatchParam) {
         List<EnrollmentSpan> enrollmentSpans = enrollmentSpanHelper
                 .getMatchingEnrollmentSpan(accountMatchParam.getExchangeSubscriberId(),
                         accountMatchParam.getStateTypeCode());

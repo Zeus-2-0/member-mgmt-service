@@ -94,11 +94,8 @@ public class MemberIdentifier {
     public String toString() {
         return "MemberIdentifier{" +
                 "memberIdentifierSK=" + memberIdentifierSK +
-                ", member=" + member +
                 ", identifierTypeCode='" + identifierTypeCode + '\'' +
                 ", identifierValue='" + identifierValue + '\'' +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
                 '}';
     }
 

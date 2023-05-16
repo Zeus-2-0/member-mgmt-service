@@ -5,6 +5,7 @@ import com.brihaspathee.zeus.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,4 +35,15 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
      * @return
      */
     Optional<Member> findMemberByMemberCode(String memberCode);
+
+    /**
+     * Get member by first name, last name, gender and date of birth
+     * @param firstName
+     * @param lastName
+     * @param genderTypeCode
+     * @param dateOfBirth
+     * @return
+     */
+    List<Member> findMemberByFirstNameAndLastNameAndGenderTypeCodeAndDateOfBirth(String firstName, String lastName,
+                                                                                 String genderTypeCode, LocalDate dateOfBirth);
 }

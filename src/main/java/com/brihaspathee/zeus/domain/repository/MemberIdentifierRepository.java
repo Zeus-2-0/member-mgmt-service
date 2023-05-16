@@ -4,6 +4,7 @@ import com.brihaspathee.zeus.domain.entity.MemberIdentifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,4 +18,27 @@ import java.util.UUID;
  */
 @Repository
 public interface MemberIdentifierRepository extends JpaRepository<MemberIdentifier, UUID> {
+
+    /**
+     * Find the member identifier by type and value
+     * @param identifierValue
+     * @param identifierTypeCode
+     * @return
+     */
+    List<MemberIdentifier> findMemberIdentifierByAndIdentifierValueAndIdentifierTypeCode(String identifierValue,
+                                                                                      String identifierTypeCode);
+
+    /**
+     * Find member identifier by identifier value
+     * @param identifierValue
+     * @return
+     */
+    List<MemberIdentifier> findMemberIdentifierByIdentifierValue(String identifierValue);
+
+    /**
+     * Find member identifier by identifier type code
+     * @param identifierTypeCode
+     * @return
+     */
+    List<MemberIdentifier> findMemberIdentifierByIdentifierTypeCode(String identifierTypeCode);
 }

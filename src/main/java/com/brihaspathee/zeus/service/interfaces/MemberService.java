@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.service.interfaces;
 
 import com.brihaspathee.zeus.dto.account.MemberDto;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,4 +37,30 @@ public interface MemberService {
      * @return
      */
     MemberDto createMember(MemberDto memberDto);
+
+    /**
+     * Get member by social security number
+     * @param socialSecurityNumber
+     * @return
+     */
+    List<MemberDto> getMemberBySSN(String socialSecurityNumber);
+
+    /**
+     * Get the HOHs by SSN
+     * @param socialSecurityNumber
+     * @return
+     */
+    List<MemberDto> getHOHBySSN(String socialSecurityNumber);
+
+    /**
+     * Get member by first name, last name, gender type code and date of birth
+     * @param firstName
+     * @param lastName
+     * @param genderTypeCode
+     * @param dateOfBirth
+     * @return
+     */
+    List<MemberDto> getMembersByNameAndDOB(String firstName, String lastName, String genderTypeCode, LocalDate dateOfBirth);
+
+
 }

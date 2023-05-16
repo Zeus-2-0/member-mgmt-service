@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -45,5 +48,39 @@ public class MemberIdentifierHelperImpl implements MemberIdentifierHelper {
         MemberIdentifier memberIdentifier = memberIdentifierMapper.identifierDtoToIdentifier(memberIdentifierDto);
         memberIdentifier = memberIdentifierRepository.save(memberIdentifier);
         return memberIdentifierMapper.identifierToIdentifierDto(memberIdentifier);
+    }
+
+    /**
+     * Find the member using identifier type and value
+     * @param identifierTypeCode
+     * @param identifierValue
+     * @param isActive
+     * @return
+     */
+    @Override
+    public List<MemberIdentifierDto> getMemberIdentifierDtosByValue(String identifierTypeCode, String identifierValue,
+                                                                boolean isActive) {
+        List<MemberIdentifier> memberIdentifiers = getMemberIdentifiersByValue(
+                identifierTypeCode,
+                identifierValue,
+                isActive);
+        return memberIdentifierMapper.identifiersToIdentifierDtos(
+                memberIdentifiers.stream().collect(Collectors.toSet()))
+                .stream().toList();
+    }
+
+    /**
+     * Find the member using identifier type and value
+     * @param identifierTypeCode
+     * @param identifierValue
+     * @param isActive
+     * @return
+     */
+    @Override
+    public List<MemberIdentifier> getMemberIdentifiersByValue(String identifierTypeCode, String identifierValue,
+                                                                    boolean isActive) {
+        return memberIdentifierRepository.findMemberIdentifierByAndIdentifierValueAndIdentifierTypeCode(
+                identifierValue,
+                identifierTypeCode);
     }
 }

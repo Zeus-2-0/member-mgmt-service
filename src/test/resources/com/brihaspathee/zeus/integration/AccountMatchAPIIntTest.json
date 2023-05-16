@@ -218,7 +218,12 @@
             "httpStatusCode": "200",
             "accountMatchParam": {
               "exchangeSubscriberId": "427434667",
-              "stateTypeCode": "MA"
+              "stateTypeCode": "MA",
+              "socialSecurityNumber": "956-49-9375",
+              "firstName": "Mark",
+              "lastName": "Wood",
+              "genderTypeCode": "MALE",
+              "dateOfBirth": "1991-04-23"
             },
             "expectedAccountList": {
               "accountDtos": [
@@ -419,15 +424,397 @@
         },
         {
           "testCaseId": "ZEUS-MMS-ACCT-MATCH-03",
-          "testCaseDescription": "Invalid Exchange Subscriber id",
+          "testCaseDescription": "Match account using the SSN of the primary subscriber",
           "testData": {
             "exceptionExpected": false,
             "httpStatusCode": "200",
             "accountMatchParam": {
-              "exchangeSubscriberId": "invalid id",
-              "stateTypeCode": "FL"
+              "exchangeSubscriberId": "735676274",
+              "stateTypeCode": "MA",
+              "socialSecurityNumber": "834-62-6746",
+              "firstName": "Lincoln",
+              "lastName": "King",
+              "genderTypeCode": "MALE",
+              "dateOfBirth": "1974-08-21"
             },
             "expectedAccountList": {
+              "accountDtos": [
+                {
+                  "accountSK": "bd6fff28-cad7-475f-b082-aa440924e549",
+                  "accountNumber": "K0S0NELOTEFHPDG",
+                  "lineOfBusinessTypeCode": "HIX",
+                  "enrollmentSpans": [
+                    {
+                      "enrollmentSpanSK": "33c2bd6e-458a-4100-adb5-b591502e8c0d",
+                      "enrollmentSpanCode": "AZVLRLJ8YB96N3H",
+                      "premiumSpans": [
+                        {
+                          "premiumSpanSK": "533de075-451a-48c7-92a4-afdee2f6b5d4",
+                          "ztcn": "Q811JNQWPP6SH94",
+                          "premiumSpanCode": "JZMK2P2PDH3JB1P",
+                          "memberPremiumSpans": [
+                            {
+                              "memberPremiumSK": "53b4259f-594a-4ce4-9b1d-c3696d727f5a",
+                              "memberCode": "J3YOBZTMZGGNIK1",
+                              "exchangeMemberId": "95574764701",
+                              "individualPremiumAmount": 150.00
+                            }
+                          ],
+                          "startDate": "2023-01-01",
+                          "endDate": "2023-06-30",
+                          "statusTypeCode": "ACTIVE",
+                          "csrVariant": "03",
+                          "totalPremiumAmount": 150.00,
+                          "totalResponsibleAmount": 100.00,
+                          "aptcAmount": 50.00,
+                          "otherPayAmount": 0.00,
+                          "csrAmount": 10.00
+                        },
+                        {
+                          "premiumSpanSK": "6a634063-9628-4556-97ff-7a97333ad009",
+                          "ztcn": "FAXE0US7NPUYLDN",
+                          "premiumSpanCode": "ZHOOHJZTH4G7GKZ",
+                          "memberPremiumSpans": [
+                            {
+                              "memberPremiumSK": "a9cd6c89-cc9c-4c53-b29d-f33f71009f8a",
+                              "memberCode": "J3YOBZTMZGGNIK1",
+                              "exchangeMemberId": "95574764701",
+                              "individualPremiumAmount": 150.00
+                            }
+                          ],
+                          "startDate": "2023-07-01",
+                          "endDate": "2023-12-31",
+                          "statusTypeCode": "ACTIVE",
+                          "csrVariant": "03",
+                          "totalPremiumAmount": 150.00,
+                          "totalResponsibleAmount": 150.00,
+                          "aptcAmount": 0.00,
+                          "otherPayAmount": 0.00,
+                          "csrAmount": 20.00
+                        }
+                      ],
+                      "stateTypeCode": "FL",
+                      "marketplaceTypeCode": "FFM",
+                      "businessUnitTypeCode": "MP_FL",
+                      "startDate": "2023-01-01",
+                      "endDate": "2023-12-31",
+                      "exchangeSubscriberId": "955747647",
+                      "effectuationDate": "2022-10-01",
+                      "planId": "89355FL0234597",
+                      "groupPolicyId": "73467573",
+                      "productTypeCode": "HMO",
+                      "coverageTypeCode": "FAM",
+                      "delinqInd": false,
+                      "paidThroughDate": null,
+                      "claimPaidThroughDate": null,
+                      "statusTypeCode": "ENROLLED",
+                      "ztcn": "Q811JNQWPP6SH94"
+                    }
+                  ],
+                  "members": [
+                    {
+                      "memberSK": "e3336592-1435-40f2-8153-04262e3d1cba",
+                      "memberCode": "J3YOBZTMZGGNIK1",
+                      "firstName": "Lincoln",
+                      "middleName": "J",
+                      "lastName": "King",
+                      "relationshipTypeCode": "HOH",
+                      "dateOfBirth": "1974-08-21",
+                      "genderTypeCode": "MALE",
+                      "height": 5.4,
+                      "weight": 178.6,
+                      "memberAttributes": null,
+                      "memberAddresses": [
+                        {
+                          "memberAddressSK": "e63af544-b3df-42a3-bcef-7c38f6fe560f",
+                          "memberAddressCode": "Z5ZXIE3ASNZIZ1P",
+                          "addressTypeCode": "RESIDENCE",
+                          "addressLine1": "6736 Ridge Plains Blvd",
+                          "city": "Odessa",
+                          "stateTypeCode": "FL",
+                          "zipCode": "33556",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        },
+                        {
+                          "memberAddressSK": "97e90147-dfa0-4126-bc2c-301d894bad00",
+                          "memberAddressCode": "54VYK6MAQCQPNWZ",
+                          "addressTypeCode": "MAIL",
+                          "addressLine1": "P.O Box 62556",
+                          "city": "Odessa",
+                          "stateTypeCode": "FL",
+                          "zipCode": "33556",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        }
+                      ],
+                      "memberIdentifiers": [
+                        {
+                          "memberIdentifierSK": "6e65a5b8-693a-4f56-90c9-91327e915588",
+                          "memberIdentifierCode": "8WDC5HWNMDH5P7R",
+                          "identifierTypeCode": "SSN",
+                          "identifierValue": "834-62-6746",
+                          "isActive": true,
+                          "active": true
+                        }
+                      ],
+                      "memberLanguages": [
+                        {
+                          "memberLanguageSK": "25f035b0-2fec-4067-9f13-0257b4a126b6",
+                          "memberLanguageCode": "87IUE173Y66MTBL",
+                          "languageTypeCode": "SPOKEN",
+                          "languageCode": "ENG",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        },
+                        {
+                          "memberLanguageSK": "66893302-196b-4cf3-b116-35ed994e6175",
+                          "memberLanguageCode": "OEBRG2KCHAD26WB",
+                          "languageTypeCode": "WRITTEN",
+                          "languageCode": "SPA",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        }
+                      ],
+                      "memberPhones": [
+                        {
+                          "memberPhoneSK": "7189a642-4387-481c-a35d-ec2f4f76ce0b",
+                          "memberPhoneCode": "MYYQWARXKQ5J06B",
+                          "phoneTypeCode": "MOBILE",
+                          "phoneNumber": "813-357-9161",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        }
+                      ],
+                      "memberEmails": [
+                        {
+                          "memberEmailSK": "7b76a24a-2333-4ad8-bf80-2d7d6d12f7a0",
+                          "memberEmailCode": "FR50Q9MCK9IMFJ7",
+                          "emailTypeCode": "PERSONAL",
+                          "email": "lking@gmail.com",
+                          "isPrimary": true,
+                          "startDate": "2021-12-15",
+                          "endDate": null,
+                          "primary": true
+                        },
+                        {
+                          "memberEmailSK": "103f1b8d-44b6-4801-90a1-c265610ce902",
+                          "memberEmailCode": "8GB889276VTNAPZ",
+                          "emailTypeCode": "WORK",
+                          "email": "lincoln.king@wellcare.com",
+                          "isPrimary": false,
+                          "startDate": "2021-12-15",
+                          "endDate": null,
+                          "primary": false
+                        }
+                      ],
+                      "alternateContacts": null
+                    }
+                  ],
+                  "brokers": null,
+                  "sponsors": null,
+                  "payers": null,
+                  "accountAttributes": null
+                }
+              ]
+            }
+          }
+        },
+        {
+          "testCaseId": "ZEUS-MMS-ACCT-MATCH-04",
+          "testCaseDescription": "Match account using the first name, last name, gender and date of birth of the primary subscriber",
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "accountMatchParam": {
+              "exchangeSubscriberId": "964563464",
+              "stateTypeCode": "MA",
+              "socialSecurityNumber": "095-52-8235",
+              "firstName": "Ryan",
+              "lastName": "Baker",
+              "genderTypeCode": "MALE",
+              "dateOfBirth": "1975-10-14"
+            },
+            "expectedAccountList": {
+              "accountDtos": [
+                {
+                  "accountSK": "a9823b71-e48c-4ad2-9c80-d2998219b7a9",
+                  "accountNumber": "HWQ0W5QJ5X1VV0W",
+                  "lineOfBusinessTypeCode": "HIX",
+                  "enrollmentSpans": [
+                    {
+                      "enrollmentSpanSK": "708c3ceb-10f2-470d-96e2-9a0d52479f7a",
+                      "enrollmentSpanCode": "RP7ZOZSFSJXSHT9",
+                      "premiumSpans": [
+                        {
+                          "premiumSpanSK": "3a95613d-b9f5-4c19-99ef-484aa4a3cb34",
+                          "ztcn": "21D79B066V1CBPO",
+                          "premiumSpanCode": "YHBF0BI2393JYBM",
+                          "memberPremiumSpans": [
+                            {
+                              "memberPremiumSK": "c217bc88-7144-4a08-b596-2610d8133809",
+                              "memberCode": "D643R689ER27R3O",
+                              "exchangeMemberId": "67358583601",
+                              "individualPremiumAmount": 150.00
+                            }
+                          ],
+                          "startDate": "2023-01-01",
+                          "endDate": "2023-06-30",
+                          "statusTypeCode": "ACTIVE",
+                          "csrVariant": "03",
+                          "totalPremiumAmount": 150.00,
+                          "totalResponsibleAmount": 100.00,
+                          "aptcAmount": 50.00,
+                          "otherPayAmount": 0.00,
+                          "csrAmount": 10.00
+                        },
+                        {
+                          "premiumSpanSK": "4a73f039-4dde-487a-9928-502498e74edc",
+                          "ztcn": "PU0EL7734JJF5J5",
+                          "premiumSpanCode": "G7VSAP4XB30LVYT",
+                          "memberPremiumSpans": [
+                            {
+                              "memberPremiumSK": "57b1d87b-7f5a-4ba8-aa50-8f905715d532",
+                              "memberCode": "D643R689ER27R3O",
+                              "exchangeMemberId": "67358583601",
+                              "individualPremiumAmount": 150.00
+                            }
+                          ],
+                          "startDate": "2023-07-01",
+                          "endDate": "2023-12-31",
+                          "statusTypeCode": "ACTIVE",
+                          "csrVariant": "03",
+                          "totalPremiumAmount": 150.00,
+                          "totalResponsibleAmount": 150.00,
+                          "aptcAmount": 0.00,
+                          "otherPayAmount": 0.00,
+                          "csrAmount": 20.00
+                        }
+                      ],
+                      "stateTypeCode": "FL",
+                      "marketplaceTypeCode": "FFM",
+                      "businessUnitTypeCode": "MP_FL",
+                      "startDate": "2023-01-01",
+                      "endDate": "2023-12-31",
+                      "exchangeSubscriberId": "673585836",
+                      "effectuationDate": "2022-10-01",
+                      "planId": "89355FL0234597",
+                      "groupPolicyId": "63456387",
+                      "productTypeCode": "HMO",
+                      "coverageTypeCode": "FAM",
+                      "delinqInd": false,
+                      "paidThroughDate": null,
+                      "claimPaidThroughDate": null,
+                      "statusTypeCode": "ENROLLED",
+                      "ztcn": "21D79B066V1CBPO"
+                    }
+                  ],
+                  "members": [
+                    {
+                      "memberSK": "4124d9bc-449b-4726-a327-5ec6e8a24963",
+                      "memberCode": "D643R689ER27R3O",
+                      "firstName": "Ryan",
+                      "middleName": "T",
+                      "lastName": "Baker",
+                      "relationshipTypeCode": "HOH",
+                      "dateOfBirth": "1975-10-14",
+                      "genderTypeCode": "MALE",
+                      "height": 5.9,
+                      "weight": 175.4,
+                      "memberAttributes": null,
+                      "memberAddresses": [
+                        {
+                          "memberAddressSK": "03dead91-8de6-4369-bc50-a38eb1a2e6c1",
+                          "memberAddressCode": "VITQ09O5LT9E8QB",
+                          "addressTypeCode": "RESIDENCE",
+                          "addressLine1": "7364 Hillsborough Avenue",
+                          "city": "Tampa",
+                          "stateTypeCode": "FL",
+                          "zipCode": "33626",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        },
+                        {
+                          "memberAddressSK": "073c5a5f-1972-41a1-9c44-68df828002f8",
+                          "memberAddressCode": "NQ5Q2JNHOZRZAHU",
+                          "addressTypeCode": "MAIL",
+                          "addressLine1": "P.O Box 73465",
+                          "city": "Tampa",
+                          "stateTypeCode": "FL",
+                          "zipCode": "33626",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        }
+                      ],
+                      "memberIdentifiers": [
+                        {
+                          "memberIdentifierSK": "54b84a87-3ef3-4a14-adb8-2931c5069692",
+                          "memberIdentifierCode": "813KJNACDM9S3PW",
+                          "identifierTypeCode": "SSN",
+                          "identifierValue": "636-73-7456",
+                          "isActive": false,
+                          "active": false
+                        }
+                      ],
+                      "memberLanguages": [
+                        {
+                          "memberLanguageSK": "a455b815-c742-476d-8b8f-869e07d2ff23",
+                          "memberLanguageCode": "3O9UVXTWALNQHWD",
+                          "languageTypeCode": "SPOKEN",
+                          "languageCode": "ENG",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        },
+                        {
+                          "memberLanguageSK": "ba164be2-4cf9-45b8-a75a-1c925fef00a0",
+                          "memberLanguageCode": "MFEQNSBTTUYA1OD",
+                          "languageTypeCode": "WRITTEN",
+                          "languageCode": "SPA",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        }
+                      ],
+                      "memberPhones": [
+                        {
+                          "memberPhoneSK": "3d05dec9-2a9a-4d65-aa97-e32a59838232",
+                          "memberPhoneCode": "X8SF8VEXRVYFPWU",
+                          "phoneTypeCode": "MOBILE",
+                          "phoneNumber": "813-357-9162",
+                          "startDate": "2021-12-15",
+                          "endDate": null
+                        }
+                      ],
+                      "memberEmails": [
+                        {
+                          "memberEmailSK": "36031b64-8702-4876-b02b-856666736230",
+                          "memberEmailCode": "DMQNYV4AEZKIBU2",
+                          "emailTypeCode": "PERSONAL",
+                          "email": "rbaker@gmail.com",
+                          "isPrimary": true,
+                          "startDate": "2021-12-15",
+                          "endDate": null,
+                          "primary": true
+                        },
+                        {
+                          "memberEmailSK": "c0e962fe-ed03-4688-bf15-c6cadf4f1318",
+                          "memberEmailCode": "OHAW4V9GH6XE061",
+                          "emailTypeCode": "WORK",
+                          "email": "ryan.baker@wellcare.com",
+                          "isPrimary": false,
+                          "startDate": "2021-12-15",
+                          "endDate": null,
+                          "primary": false
+                        }
+                      ],
+                      "alternateContacts": null
+                    }
+                  ],
+                  "brokers": null,
+                  "sponsors": null,
+                  "payers": null,
+                  "accountAttributes": null
+                }
+              ]
             }
           }
         }

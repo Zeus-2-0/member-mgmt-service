@@ -1,6 +1,5 @@
 package com.brihaspathee.zeus.integration;
 
-import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
@@ -10,7 +9,6 @@ import com.brihaspathee.zeus.web.model.TestAccountMatchRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +21,6 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -101,7 +97,7 @@ public class AccountMatchAPIIntTest {
      * This method tests the get matched account end point
      * @param repetitionInfo
      */
-    @RepeatedTest(3)
+    @RepeatedTest(4)
     @Order(1)
     void testGetMatchedAccounts(RepetitionInfo repetitionInfo){
         log.info("Current Repetition:{}", repetitionInfo.getCurrentRepetition());
@@ -116,11 +112,26 @@ public class AccountMatchAPIIntTest {
         String exchangeSubscriberId = accountMatchParam.getExchangeSubscriberId();
         String stateTypeCode = accountMatchParam.getStateTypeCode();
         String accountNumber = accountMatchParam.getAccountNumber();
+        String ssn = accountMatchParam.getSocialSecurityNumber();
+        String firstName = accountMatchParam.getFirstName();
+        String lastName = accountMatchParam.getLastName();
+        String gender = accountMatchParam.getGenderTypeCode();
+        String dob = "";
+        if(accountMatchParam.getDateOfBirth()!=null){
+            dob = accountMatchParam.getDateOfBirth().toString();
+        }
+
         String uri = "";
         if(accountNumber != null){
             uri = "/api/v1/zeus/account/search?accountNumber="+accountNumber;
         }else{
-            uri = "/api/v1/zeus/account/search?exchangeSubscriberId="+exchangeSubscriberId+"&stateTypeCode="+stateTypeCode;
+            uri = "/api/v1/zeus/account/search?exchangeSubscriberId="+exchangeSubscriberId+
+                    "&stateTypeCode="+stateTypeCode+
+                    "&socialSecurityNumber="+ssn+
+                    "&firstName="+firstName+
+                    "&lastName="+lastName+
+                    "&genderTypeCode="+gender+
+                    "&dateOfBirth="+dob;
         }
         ResponseEntity<ZeusApiResponse> responseEntity  =
                 testRestTemplate.getForEntity(
