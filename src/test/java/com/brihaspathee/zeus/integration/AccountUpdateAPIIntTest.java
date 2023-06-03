@@ -5,7 +5,7 @@ import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
-import com.brihaspathee.zeus.validation.AccountValidation;
+import com.brihaspathee.zeus.test.validator.AccountValidation;
 import com.brihaspathee.zeus.web.model.TestAccountUpdateRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -128,7 +128,7 @@ public class AccountUpdateAPIIntTest {
         AccountDto updatedAccountDto = getUpdatedAccount(inputAccountDto.getAccountNumber());
         String accountAsString = objectMapper.writeValueAsString(updatedAccountDto);
         log.info("Updated Account Dto:{}", accountAsString);
-        accountValidation.assertAccountDetails(expectedAccountUpdateDto, updatedAccountDto);
+        accountValidation.assertAccount(expectedAccountUpdateDto, updatedAccountDto);
     }
 
     /**
@@ -158,7 +158,7 @@ public class AccountUpdateAPIIntTest {
         AccountDto updatedAccountDto = getUpdatedAccount(inputAccountDto.getAccountNumber());
         String accountAsString = objectMapper.writeValueAsString(updatedAccountDto);
         log.info("Created Account Dto:{}", accountAsString);
-        accountValidation.assertAccountDetails(expectedAccountUpdateDto, updatedAccountDto);
+        accountValidation.assertAccount(expectedAccountUpdateDto, updatedAccountDto);
     }
 
     /**

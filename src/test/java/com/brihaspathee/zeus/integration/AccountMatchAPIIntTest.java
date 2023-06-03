@@ -3,7 +3,7 @@ package com.brihaspathee.zeus.integration;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
-import com.brihaspathee.zeus.validation.AccountValidation;
+import com.brihaspathee.zeus.test.validator.AccountValidation;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.brihaspathee.zeus.web.model.TestAccountMatchRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
