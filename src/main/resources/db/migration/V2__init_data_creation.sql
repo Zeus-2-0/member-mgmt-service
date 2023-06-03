@@ -24,6 +24,10 @@ INSERT INTO membermgmtdb.premium_span(premium_span_sk, premium_span_code, ztcn, 
 INSERT INTO membermgmtdb.member_premiums(member_premium_sk, premium_span_sk, member_sk, exchange_member_id, individual_premium_amount, created_date, updated_date) VALUES ('6dfe06fb-05e8-4f2e-88c0-7441bd0b5e43', '12573e17-7244-4e49-a152-38d59b03e2f6', '1817da35-c65d-469d-a7ce-d6eb1569ffe9', '24524734501', 150, sysdate(), sysdate());
 INSERT INTO membermgmtdb.member_premiums(member_premium_sk, premium_span_sk, member_sk, exchange_member_id, individual_premium_amount, created_date, updated_date) VALUES ('d421d90b-74a9-4df9-add9-a1f84ef9908f', '96aedae2-95b1-4181-bd2b-cfc26179e044', '1817da35-c65d-469d-a7ce-d6eb1569ffe9', '24524734501', 150,sysdate(), sysdate());
 
+INSERT INTO membermgmtdb.broker(broker_sk, account_sk, broker_code, broker_name, broker_id, agency_name, agency_id, account_number_1, account_number_2, start_date, end_date, created_date, updated_date) VALUES ('803b938c-b4ee-4d98-be3c-0e36ddd845b1','e29f6d8d-51c8-4259-b789-1aac0e5fcfe7', 'K8Y3XMEKND1X8L2', 'Ben Stokes', '53234534', 'Sapphire Brokers Inc.', '63363754', '523645-63456', null, '2022-01-01 00:00:00', null, sysdate(), sysdate());
+INSERT INTO membermgmtdb.sponsor(sponsor_sk, account_sk, sponsor_code, sponsor_id, sponsor_name, start_date, end_date, created_date, updated_date) VALUES ('66aff58a-a9f0-43ce-8f03-2699f4f5bb30','e29f6d8d-51c8-4259-b789-1aac0e5fcfe7', '1MFGMD2ATZLCX9N', '023-53-5234', 'Balaji Varadharajan', '2022-01-01 00:00:00', null, sysdate(), sysdate());
+INSERT INTO membermgmtdb.payer(payer_sk, account_sk, payer_code, payer_name, payer_id, start_date, end_date, created_date, updated_date) VALUES ('97fc21a9-a202-4e5d-9dd0-625c7f3f3cf0', 'e29f6d8d-51c8-4259-b789-1aac0e5fcfe7', '8G0R6X17WMER37G', 'Zeus Health', '5235343', '2022-01-01 00:00:00', null, sysdate(), sysdate());
+
 /** Pooja Mohanakrishnan Account **/
 INSERT INTO membermgmtdb.account(account_sk, acct_number, line_of_business_type_code, created_date, updated_date) VALUES ('c601259a-6b0f-4a18-882f-d645e934d092','652C183K1DEBCNC','HIX',sysdate(), sysdate());
 

@@ -5,6 +5,7 @@ import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 import com.brihaspathee.zeus.dto.account.MemberDto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -39,4 +40,5 @@ public interface EnrollmentSpanHelper {
      * @param enrollmentSpanDto
      */
     void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto);
+
 }

@@ -1,15 +1,16 @@
 package com.brihaspathee.zeus.mapper.impl;
 
 import com.brihaspathee.zeus.domain.entity.Account;
+import com.brihaspathee.zeus.domain.entity.Broker;
 import com.brihaspathee.zeus.dto.account.AccountDto;
-import com.brihaspathee.zeus.mapper.interfaces.AccountAttributeMapper;
-import com.brihaspathee.zeus.mapper.interfaces.AccountMapper;
-import com.brihaspathee.zeus.mapper.interfaces.EnrollmentSpanMapper;
-import com.brihaspathee.zeus.mapper.interfaces.MemberMapper;
+import com.brihaspathee.zeus.dto.account.BrokerDto;
+import com.brihaspathee.zeus.mapper.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,21 @@ public class AccountMapperImpl implements AccountMapper {
     private final AccountAttributeMapper attributeMapper;
 
     /**
+     * Broker mapper to map the broker entity
+     */
+    private final BrokerMapper brokerMapper;
+
+    /**
+     * Sponsor mapper to map the sponsor entity
+     */
+    private final SponsorMapper sponsorMapper;
+
+    /**
+     * Payer mapper to map the payer entity
+     */
+    private final PayerMapper payerMapper;
+
+    /**
      * Convert account dto to account entity
      * @param accountDto
      * @return
@@ -62,6 +78,15 @@ public class AccountMapperImpl implements AccountMapper {
                 .createdDate(accountDto.getCreatedDate())
                 .updatedDate(accountDto.getUpdatedDate())
                 .build();
+        if(accountDto.getBrokers() != null && !accountDto.getBrokers().isEmpty()){
+            account.setBrokers(new HashSet<>(brokerMapper.brokerDtosToBrokers(new ArrayList<>(accountDto.getBrokers()))));
+        }
+        if(accountDto.getSponsors() != null && !accountDto.getSponsors().isEmpty()){
+            account.setSponsors(new HashSet<>(sponsorMapper.sponsorDtosToSponsors(new ArrayList<>(accountDto.getSponsors()))));
+        }
+        if(accountDto.getPayers() != null && !accountDto.getPayers().isEmpty()){
+            account.setPayers(new HashSet<>(payerMapper.payerDtosToPayers(new ArrayList<>(accountDto.getPayers()))));
+        }
         return account;
     }
 
@@ -85,6 +110,15 @@ public class AccountMapperImpl implements AccountMapper {
                 .createdDate(account.getCreatedDate())
                 .updatedDate(account.getUpdatedDate())
                 .build();
+        if(account.getBrokers() != null && !account.getBrokers().isEmpty()){
+            accountDto.setBrokers(new HashSet<>(brokerMapper.brokersToBrokerDtos(new ArrayList<>(account.getBrokers()))));
+        }
+        if(account.getSponsors() != null && !account.getSponsors().isEmpty()){
+            accountDto.setSponsors(new HashSet<>(sponsorMapper.sponsorsToSponsorDtos(new ArrayList<>(account.getSponsors()))));
+        }
+        if(account.getPayers() != null && !account.getPayers().isEmpty()){
+            accountDto.setPayers(new HashSet<>(payerMapper.payersToPayerDtos(new ArrayList<>(account.getPayers()))));
+        }
         return accountDto;
     }
 
