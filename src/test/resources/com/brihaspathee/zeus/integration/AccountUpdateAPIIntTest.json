@@ -94,7 +94,6 @@
                       "aptcAmount": 0.0,
                       "otherPayAmount": 0.0,
                       "csrAmount": 20.0,
-                      "changed": null,
                       "createdDate": "2023-04-06 11:34:24",
                       "updatedDate": "2023-04-06 11:34:24"
                     }
@@ -115,7 +114,6 @@
                   "claimPaidThroughDate": null,
                   "statusTypeCode": "PRE_MEMBER",
                   "ztcn": "5BEHZ72SRU96SH1",
-                  "changed": null,
                   "createdDate": "2023-04-06 11:34:24",
                   "updatedDate": "2023-04-06 11:34:24"
                 },
@@ -149,7 +147,6 @@
                       "aptcAmount": 0.0,
                       "otherPayAmount": 0.0,
                       "csrAmount": 20.0,
-                      "changed": null,
                       "createdDate": "2023-04-06 11:34:23",
                       "updatedDate": "2023-04-06 11:34:23"
                     },
@@ -178,7 +175,6 @@
                       "aptcAmount": 0.0,
                       "otherPayAmount": 0.0,
                       "csrAmount": 10.0,
-                      "changed": null,
                       "createdDate": "2023-04-06 11:34:23",
                       "updatedDate": "2023-04-06 11:34:23"
                     }
@@ -215,8 +211,8 @@
                   "relationshipTypeCode": "HOH",
                   "dateOfBirth": "1983-05-21",
                   "genderTypeCode": "MALE",
-                  "height": 6.0,
-                  "weight": 156.0,
+                  "height": 5.8,
+                  "weight": 155.6,
                   "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
@@ -677,8 +673,8 @@
                   "relationshipTypeCode": "HOH",
                   "dateOfBirth": "1985-12-10",
                   "genderTypeCode": "FEMALE",
-                  "height": 5.0,
-                  "weight": 113.0,
+                  "height": 5.3,
+                  "weight": 113.2,
                   "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
@@ -2625,8 +2621,7 @@
                       "totalResponsibleAmount": 225.00,
                       "aptcAmount": 25.00,
                       "otherPayAmount": 0.00,
-                      "csrAmount": 20.00,
-                      "changed": null
+                      "csrAmount": 20.00
                     }
                   ],
                   "stateTypeCode": "FL",
@@ -2663,7 +2658,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "CQZBVFLEAPDY0MB",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"3d6e6757-9386-4853-a79d-965609cc5d65",
@@ -2678,7 +2672,6 @@
                       "aptcAmount": 50.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 30.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"e6a73c1d-e36c-4540-a0cb-56302e6470bf",
@@ -2702,7 +2695,6 @@
                       "aptcAmount": 75.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 40.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"93cd9a46-998c-4e04-8a63-e849a401b1e0",
@@ -2732,7 +2724,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "HRFC2BMHIZIMDMG",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"816b4130-aea1-40dd-b993-1da6a384d326",
@@ -2747,7 +2738,6 @@
                       "aptcAmount": 100.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 50.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"dd9d8810-4e17-48cf-b1e0-9a921a3e3077",
@@ -2771,7 +2761,6 @@
                       "aptcAmount": 0.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 60.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"b7f3ff1b-6c97-4b8f-b589-8654ab26b2c9",
@@ -2795,7 +2784,6 @@
                       "aptcAmount": 150.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 70.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"36bbce72-a5b8-441e-bddd-e84accc1ad9f",
@@ -2825,7 +2813,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "V8CJPWXO7PD54LO",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"5a49ba1f-58f5-48d3-b048-72fe1b30fe46",
@@ -2840,7 +2827,6 @@
                       "aptcAmount": 1750.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 80.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"bced4b2b-c2d8-4ca5-bccc-278103fde7ee",
@@ -2854,7 +2840,6 @@
                   ]
                 },
                 {
-                  "accountSK": "9267c989-124e-4c1f-a341-16de5abdd4d0",
                   "enrollmentSpanCode": "ZAMTZ7HL3CM6U8X",
                   "premiumSpans": [
                     {
@@ -3435,7 +3420,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "ZLUD6R2Q3F0M42G",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"dad77e1e-bfb3-4367-940f-0201857bd69c",
@@ -3450,7 +3434,6 @@
                       "aptcAmount": 100.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"37d7b2a8-4dec-46bf-a6ce-298fdc4e5766",
@@ -3495,7 +3478,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"bda250b2-2d41-4b73-b822-1baae6371d88",
@@ -3540,7 +3522,6 @@
                       "aptcAmount": 75.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 30.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"1dbb133e-9068-4a72-9dcb-ab02eb3b6541",
@@ -3591,7 +3572,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "BM4KY8ROZIMWU43",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"e2f0a63d-d74b-4642-a09e-9aeeb50d3843",
@@ -3606,7 +3586,6 @@
                       "aptcAmount": 200.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"692efe5a-52ba-4a04-9728-813f4d799422",
@@ -3651,7 +3630,6 @@
                       "aptcAmount": 150.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"0a8558b4-c3ce-4366-bc76-39bad19c16cf",
@@ -3696,7 +3674,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"46659d0e-576e-4913-b7e6-f2058f9ca7aa",
@@ -3741,7 +3718,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"688a90c4-e7aa-409f-8741-85fe36bc0045",
@@ -3792,7 +3768,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "0ANV998W939QOF4",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"264785fe-0af8-472b-83fe-2c3777c2beb5",
@@ -3807,7 +3782,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"94c48a8f-ccd5-41d7-9c97-388efb801f60",
@@ -3858,7 +3832,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "7TEAU7SSWL45ZXV",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"42d44bf6-8613-43b0-a1a7-5d2810f913f0",
@@ -3873,7 +3846,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"f1db529c-455e-4542-8845-487718b4e0a7",
@@ -3908,7 +3880,6 @@
                   ]
                 },
                 {
-                  "accountSK": "7c820beb-c01e-4332-9abf-926d61674dad",
                   "enrollmentSpanCode": "3L0HYF9F3SCEEQZ",
                   "premiumSpans": [
                     {
@@ -4813,7 +4784,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "BD36OSMPT45PASK",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"d3c740d4-066a-4b33-9c22-3019c927df53",
@@ -4828,7 +4798,6 @@
                       "aptcAmount": 100.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"d8260ab9-5024-4213-a8b0-0e695cc8b027",
@@ -4873,7 +4842,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"d9b21e2f-c5a8-474f-a358-96f146853388",
@@ -4918,7 +4886,6 @@
                       "aptcAmount": 75.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 30.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"059eaa31-b2ac-4aa7-a329-8c974ddc44b0",
@@ -4969,7 +4936,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "MEI95AG749ANRLM",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"3a6a1ec2-f88a-44b8-8f48-82610e4db7b8",
@@ -4984,7 +4950,6 @@
                       "aptcAmount": 200.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"42f00714-397a-4d04-86c3-8045130a5bc8",
@@ -5029,7 +4994,6 @@
                       "aptcAmount": 150.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"3d098c01-194e-4da5-baa0-f2df4bb48b44",
@@ -5074,7 +5038,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"55e7ba45-d71d-4cba-bca4-8a9cec4e389e",
@@ -5119,7 +5082,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"ed066a9e-ff03-4d6f-a2d8-44e217adf5c3",
@@ -5170,7 +5132,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "HSU0ER8HAXP5YUP",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"4bc0c667-718b-4142-a5f3-969cccc861b0",
@@ -5185,7 +5146,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"4c5afda6-662a-4064-818b-af61b2539f32",
@@ -5236,7 +5196,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "Q5A7WR38X0O0Q09",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"30dbcb8e-a502-4e6f-aaab-9ca1d87d277d",
@@ -5251,7 +5210,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"a3961140-b38c-476e-9892-639996c41a8e",
@@ -6005,7 +5963,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "OHOBW5A5QJELEXK",
-                  "changed": true,
                   "premiumSpans": [
                     {
                       "premiumSpanSK": "9187f14c-68d5-44d4-8990-35bb67feb417",
@@ -6020,7 +5977,6 @@
                       "aptcAmount": 100.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "712ea1c8-e942-4961-b300-722054c38c67",
@@ -6058,7 +6014,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "e738eb26-e1c7-4d83-a94e-4a5fa59d4965",
@@ -6096,7 +6051,6 @@
                       "aptcAmount": 75.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 30.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "a3696665-8632-4067-8320-13ee0344c091",
@@ -6140,7 +6094,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "DQY1C725PJ086D1",
-                  "changed": true,
                   "premiumSpans": [
                     {
                       "premiumSpanSK": "eec3260b-1baa-4163-8035-d5ea5b9e0a3b",
@@ -6155,7 +6108,6 @@
                       "aptcAmount": 200.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": false,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "8edb1d68-f0e5-4b62-b55b-22ff4d92d70d",
@@ -6193,7 +6145,6 @@
                       "aptcAmount": 150.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": false,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "25faa506-3eca-47be-8b4f-058a0e2534a7",
@@ -6231,7 +6182,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "2794054c-ac2d-4569-86b4-555d4b95db39",
@@ -6269,7 +6219,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "58601608-9b72-4643-871d-6dc82b07cb88",
@@ -6313,7 +6262,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "4FVTN9JRDUHG0Q0",
-                  "changed": true,
                   "premiumSpans": [
                     {
                       "premiumSpanSK": "6424f03c-30d7-4000-9b68-0fa5e6c88387",
@@ -6328,7 +6276,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "1f100083-fe62-440b-be20-ee12f7a7a2cb",
@@ -6372,7 +6319,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "H3IFIF0IHFHJU2T",
-                  "changed": true,
                   "premiumSpans": [
                     {
                       "premiumSpanSK": "0f68f3a3-4ef6-46e9-9f4b-357d9dd25599",
@@ -6387,7 +6333,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberPremiumSK": "a196f10a-d69f-4757-934e-8167be6f06da",
@@ -6430,7 +6375,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "8MTB7J5RT0EE3QF",
-                  "changed": true,
                   "premiumSpans": [
                     {
                       "startDate": "2023-05-01",
@@ -6444,7 +6388,6 @@
                       "aptcAmount": 0.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans": [
                         {
                           "memberSK": "411863a4-da9d-4f27-a6dd-c526d04ed5bb",
@@ -6482,7 +6425,6 @@
                   "genderTypeCode": "MALE",
                   "height": 5.7,
                   "weight": 175.23,
-                  "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
                     {
@@ -6584,7 +6526,6 @@
                   "genderTypeCode": "FEMALE",
                   "height": 5.4,
                   "weight": 120.56,
-                  "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
                     {
@@ -6686,7 +6627,6 @@
                   "genderTypeCode": "MALE",
                   "height": 5.1,
                   "weight": 105.43,
-                  "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
                     {
@@ -6788,7 +6728,6 @@
                   "genderTypeCode": "FEMALE",
                   "height": 5.4,
                   "weight": 111.76,
-                  "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
                     {
@@ -7128,7 +7067,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "N1K0C357M0TAXXK",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"9e0386d4-02b4-4d32-af10-17f788290fbb",
@@ -7143,7 +7081,6 @@
                       "aptcAmount": 0.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"b720cc8f-7be2-4ec0-a9b9-e4fc02caa02d",
@@ -7413,7 +7350,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "MOUD29N8Y0CBPUL",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"9aebed1b-83d8-46c3-8d97-ca3b2f8bb099",
@@ -7465,7 +7401,6 @@
                       "aptcAmount": 150.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": false,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"24d77db4-4095-4eff-8568-b995207026ae",
@@ -7503,7 +7438,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"b0bbc96b-aaef-4b2b-a78f-bd0112f7f2aa",
@@ -7541,7 +7475,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"7a101087-8f19-4aff-8e2a-deb9d2f456e8",
@@ -7585,7 +7518,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "XEMQFIF7JMLD3Q9",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"01dd80b7-f3fe-468b-ac91-94d1ec8689a0",
@@ -7600,7 +7532,6 @@
                       "aptcAmount": 175.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"cea6afdc-5ac6-4532-872e-493ecf1c9532",
@@ -7644,7 +7575,6 @@
                   "statusTypeCode": "CANCELED",
                   "delinqInd": false,
                   "ztcn": "ITS2JSTOBOQREPW",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "premiumSpanSK":"7c9ea538-f2bc-4849-917c-4595fba5a4b4",
@@ -7659,7 +7589,6 @@
                       "aptcAmount": 125.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberPremiumSK":"9f0d8af1-c650-4421-a0c5-7561a741726b",
@@ -7702,7 +7631,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "XZ38W864SJEGJDF",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "startDate": "2023-01-01",
@@ -7716,7 +7644,6 @@
                       "aptcAmount": 0.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 20.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberSK":"d7f11156-7bfa-4648-8e69-a6bc45186be1",
@@ -7952,7 +7879,7 @@
                   "dateOfBirth": "1998-07-23",
                   "genderTypeCode": "MALE",
                   "height": 5.9,
-                  "weight": 155.43,
+                  "weight": 155.53,
                   "memberAttributes": null,
                   "memberAddresses": [
                     {
@@ -8175,6 +8102,7 @@
                   "genderTypeCode": "MALE",
                   "height": 6.3,
                   "weight": 186.6,
+                  "changed": true,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "F6RSLZ250888UGM",
@@ -8310,8 +8238,6 @@
                   "genderTypeCode": "MALE",
                   "height": 6.3,
                   "weight": 186.6,
-                  "changed": null,
-                  "memberAttributes": null,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "F6RSLZ250888UGM",
@@ -8389,9 +8315,7 @@
                       "endDate": null,
                       "primary": true
                     }
-                  ],
-                  "alternateContacts": null,
-                  "memberPremiums": null
+                  ]
                 }
               ],
               "enrollmentSpans":[
@@ -8410,7 +8334,6 @@
                   "statusTypeCode": "PRE_MEMBER",
                   "delinqInd": false,
                   "ztcn": "TZELAROTFFKP15I",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "startDate": "2023-01-01",
@@ -8424,7 +8347,6 @@
                       "aptcAmount": 0.00,
                       "otherPayAmount": 0.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberCode": "F8S9L7YA7CA2ZYZ",
@@ -8435,11 +8357,7 @@
                     }
                   ]
                 }
-              ],
-              "brokers": null,
-              "sponsors": null,
-              "payers": null,
-              "accountAttributes": null
+              ]
             }
           }
         },
@@ -8783,8 +8701,6 @@
                   "genderTypeCode": "MALE",
                   "height": 5.9,
                   "weight": 176.7,
-                  "changed": null,
-                  "memberAttributes": null,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "UX64B6N3X9MIKE3",
@@ -8876,7 +8792,6 @@
                   "genderTypeCode": "FEMALE",
                   "height": 5.2,
                   "weight": 116.7,
-                  "changed": null,
                   "memberAttributes": null,
                   "memberAddresses": [
                     {
@@ -8955,9 +8870,7 @@
                       "endDate": null,
                       "primary": true
                     }
-                  ],
-                  "alternateContacts": null,
-                  "memberPremiums": null
+                  ]
                 },
                 {
                   "memberCode": "H8FDYRGM7UZXOS8",
@@ -8969,8 +8882,6 @@
                   "genderTypeCode": "MALE",
                   "height": 3.1,
                   "weight": 25.7,
-                  "changed": null,
-                  "memberAttributes": null,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "1LTD4J7PDIN5KDI",
@@ -9048,9 +8959,7 @@
                       "endDate": null,
                       "primary": true
                     }
-                  ],
-                  "alternateContacts": null,
-                  "memberPremiums": null
+                  ]
                 }
               ],
               "enrollmentSpans":[
@@ -9070,7 +8979,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "QB16QF6PHEUEW2A",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "startDate": "2023-01-01",
@@ -9084,7 +8992,6 @@
                       "aptcAmount": 75.00,
                       "otherPayAmount": 25.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberCode": "HJLBL8V1RHMWJJY",
@@ -9105,11 +9012,7 @@
                     }
                   ]
                 }
-              ],
-              "brokers": null,
-              "sponsors": null,
-              "payers": null,
-              "accountAttributes": null
+              ]
             }
           }
         },
@@ -9448,8 +9351,6 @@
                   "genderTypeCode": "MALE",
                   "height": 6.8,
                   "weight": 205.7,
-                  "changed": null,
-                  "memberAttributes": null,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "RHMK6BW0P9E6QEO",
@@ -9541,8 +9442,6 @@
                   "genderTypeCode": "FEMALE",
                   "height": 5.1,
                   "weight": 120.7,
-                  "changed": null,
-                  "memberAttributes": null,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "Z7EVAX0WLGVQLMC",
@@ -9634,8 +9533,6 @@
                   "genderTypeCode": "MALE",
                   "height": 5.8,
                   "weight": 110.7,
-                  "changed": null,
-                  "memberAttributes": null,
                   "memberAddresses": [
                     {
                       "memberAddressCode": "6F9WRW8W0JYWD0A",
@@ -9735,7 +9632,6 @@
                   "statusTypeCode": "ENROLLED",
                   "delinqInd": false,
                   "ztcn": "3MNBARGPECE5DCS",
-                  "changed": true,
                   "premiumSpans":[
                     {
                       "startDate": "2023-01-01",
@@ -9749,7 +9645,6 @@
                       "aptcAmount": 75.00,
                       "otherPayAmount": 25.00,
                       "csrAmount": 10.00,
-                      "changed": true,
                       "memberPremiumSpans":[
                         {
                           "memberCode": "AO49EQVFGPTX8P3",
@@ -9765,11 +9660,7 @@
                     }
                   ]
                 }
-              ],
-              "brokers": null,
-              "sponsors": null,
-              "payers": null,
-              "accountAttributes": null
+              ]
             }
           }
         }

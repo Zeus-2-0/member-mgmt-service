@@ -117,7 +117,9 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public MemberDto createMember(MemberDto memberDto) {
+        log.info("To be saved Member DTO height:{}", memberDto.getHeight());
         Member member = memberMapper.memberDtoToMember(memberDto);
+        log.info("Saved Member height:{}", member.getHeight());
         member = memberRepository.save(member);
         createMemberAddress(memberDto, member.getMemberSK());
         createMemberIdentifier(memberDto,member.getMemberSK());

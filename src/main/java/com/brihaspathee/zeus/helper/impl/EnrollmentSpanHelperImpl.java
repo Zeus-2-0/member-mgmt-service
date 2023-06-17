@@ -107,6 +107,77 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
     }
 
     /**
+     * Save the enrollment spans associated with the account
+     * Enrollment span will be updated if it is already present
+     * Enrollment span will be created if it is not present
+     * @param accountDto The account that contains the enrollment spans
+     */
+    @Override
+    public void saveEnrollmentSpans(AccountDto accountDto) {
+        if(accountDto.getEnrollmentSpans() != null && !accountDto.getEnrollmentSpans().isEmpty()){
+            accountDto.getEnrollmentSpans().forEach(enrollmentSpanDto -> {
+                if(enrollmentSpanDto.getEnrollmentSpanSK() == null){
+                    // The enrollment span does not exist for the account
+                    // it has to be created
+                    createEnrollmentSpan(accountDto, enrollmentSpanDto);
+                }else{
+                    // Enrollment span exist for the account
+                    if(enrollmentSpanDto.getChanged().get()){
+                        enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
+                        enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK()));
+                        // Enrollment span has changed hence it has to be updated
+                        updateEnrollmentSpan(enrollmentSpanDto, accountDto);
+                        enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> {
+                            // premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK());
+                            // Check if the premium span already exists
+                            if(premiumSpanDto.getPremiumSpanSK() == null){
+                                // Premium span does not exist for the enrollment span
+                                // so create it
+                                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+                                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+                            }else{
+                                // Premium span exist check if it has to be updated
+                                if(premiumSpanDto.getChanged().get()){
+                                    // premium span has to be updated
+                                    premiumSpanHelper.updatePremiumSpan(premiumSpanDto);
+                                }
+                            }
+                        });
+                    }else{
+                        // enrollment span is not updated
+                        // todo check if premium spans are updated
+                        // this happens on a CHANGE transaction
+                    }
+                }
+
+                //enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto, accountDto);
+            });
+        }
+    }
+
+    /**
+     * Create a new enrollment span for the account
+     * @param accountDto
+     * @param enrollmentSpanDto
+     */
+    private void createEnrollmentSpan(AccountDto accountDto, EnrollmentSpanDto enrollmentSpanDto) {
+        enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
+        UUID enrollmentSpanSK = createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
+        enrollmentSpanDto.setEnrollmentSpanSK(
+                enrollmentSpanSK);
+        enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> {
+            premiumSpanDto.getMemberPremiumSpans().forEach(memberPremiumDto -> {
+                if(memberPremiumDto.getMemberSK() == null){
+                    populateMemberSK(memberPremiumDto, accountDto.getMembers());
+                }
+            });
+            premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
+            UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+            premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+        });
+    }
+
+    /**
      * Populate the member surrogate key to the member premium objects
      * @param memberPremiumDto
      * @param memberDtos
