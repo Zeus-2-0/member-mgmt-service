@@ -118,24 +118,7 @@ public class AccountServiceImpl implements AccountService {
             memberDto.setAccountSK(account.getAccountSK());
             memberDto.setMemberSK(memberService.createMember(memberDto).getMemberSK());
         });
-        accountDto.getEnrollmentSpans().stream().forEach(enrollmentSpanDto -> {
-//            enrollmentSpanDto.setAccountSK(account.getAccountSK());
-//            UUID enrollmentSpanSK = enrollmentSpanHelper.createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
-//            enrollmentSpanDto.setEnrollmentSpanSK(
-//                    enrollmentSpanSK);
-//            enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
-//                premiumSpanDto.getMemberPremiumSpans().stream().forEach(memberPremiumDto -> {
-//                    if(memberPremiumDto.getMemberSK() == null){
-//                        populateMemberSK(memberPremiumDto, accountDto.getMembers());
-//                    }
-//                });
-//                premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
-//                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
-//                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
-//            });
-            createEnrollmentSpan(accountDto, enrollmentSpanDto);
-
-        });
+        enrollmentSpanHelper.saveEnrollmentSpans(accountDto);
         if(accountDto.getBrokers() != null && accountDto.getBrokers().size() > 0){
             accountDto.getBrokers().stream().forEach(brokerDto -> {
                 brokerDto.setAccountSK(account.getAccountSK());
@@ -170,67 +153,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto updateAccount(AccountDto accountDto) throws JsonProcessingException {
         log.info("Inside the update account method");
-        if(accountDto.getEnrollmentSpans() != null && !accountDto.getEnrollmentSpans().isEmpty()){
-            accountDto.getEnrollmentSpans().stream().forEach(enrollmentSpanDto -> {
-                if(enrollmentSpanDto.getEnrollmentSpanSK() == null){
-                    // The enrollment span does not exist for the account
-                    // it has to be created
-                    createEnrollmentSpan(accountDto, enrollmentSpanDto);
-                }else{
-                    // Enrollment span exist for the account
-                    if(enrollmentSpanDto.getChanged().get() == true){
-                        enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
-                        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK()));
-                        // Enrollment span has changed hence it has to be updated
-                        enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto, accountDto);
-                        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
-                            // premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK());
-                            // Check if the premium span already exists
-                            if(premiumSpanDto.getPremiumSpanSK() == null){
-                                // Premium span does not exist for the enrollment span
-                                // so create it
-                                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
-                                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
-                            }else{
-                                // Premium span exist check if it has to be updated
-                                if(premiumSpanDto.getChanged().get() == true){
-                                    // premium span has to be updated
-                                    premiumSpanHelper.updatePremiumSpan(premiumSpanDto);
-                                }
-                            }
-                        });
-                    }else{
-                        // enrollment span is not updated
-                        // check if premium spans are updated
-                    }
-                }
-
-                //enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto, accountDto);
-            });
-        }
+        enrollmentSpanHelper.saveEnrollmentSpans(accountDto);
+        // todo Check if the member has been updated
+        // todo Check if the broker has been updated
+        // todo Check if the sponsor has been updated
+        // todo Check if the payer has been updated
         return accountDto;
-    }
-
-    /**
-     * Create a new enrollment span for the account
-     * @param accountDto
-     * @param enrollmentSpanDto
-     */
-    private void createEnrollmentSpan(AccountDto accountDto, EnrollmentSpanDto enrollmentSpanDto) {
-        enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
-        UUID enrollmentSpanSK = enrollmentSpanHelper.createEnrollmentSpan(enrollmentSpanDto).getEnrollmentSpanSK();
-        enrollmentSpanDto.setEnrollmentSpanSK(
-                enrollmentSpanSK);
-        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
-            premiumSpanDto.getMemberPremiumSpans().stream().forEach(memberPremiumDto -> {
-                if(memberPremiumDto.getMemberSK() == null){
-                    populateMemberSK(memberPremiumDto, accountDto.getMembers());
-                }
-            });
-            premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanSK);
-            UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
-            premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
-        });
     }
 
     /**
@@ -244,6 +172,7 @@ public class AccountServiceImpl implements AccountService {
             throw new AccountNotFoundException("Account with account number " + accountNumber + " not found" );
         });
         log.info("Retrieved account:{}",account);
+        account.getMembers().forEach(member -> log.info("Height of the member:{}",String.valueOf(member.getHeight())));
         return accountMapper.accountToAccountDto(account);
     }
 
@@ -456,7 +385,7 @@ public class AccountServiceImpl implements AccountService {
                     accountMatchParam.getGenderTypeCode(), accountMatchParam.getDateOfBirth());
             if(memberDtos!=null && !memberDtos.isEmpty()){
                 Set<AccountDto> accountDtos = memberDtos
-                        .stream().map(memberDto -> getMemberAccount(memberDto))
+                        .stream().map(this::getMemberAccount)
                         .collect(Collectors.toSet());
                 accountList.setAccountDtos(accountDtos);
             }
@@ -474,7 +403,7 @@ public class AccountServiceImpl implements AccountService {
             List<MemberDto> memberDtos = memberService.getHOHBySSN(accountMatchParam.getSocialSecurityNumber());
             if(memberDtos!=null && !memberDtos.isEmpty()){
                 Set<AccountDto> accountDtos = memberDtos
-                        .stream().map(memberDto -> getMemberAccount(memberDto)).collect(Collectors.toSet());
+                        .stream().map(this::getMemberAccount).collect(Collectors.toSet());
                 accountList.setAccountDtos(accountDtos);
             }
         }
@@ -530,30 +459,12 @@ public class AccountServiceImpl implements AccountService {
      * @return
      */
     private List<EnrollmentSpanDto> removeCanceledSpans(List<EnrollmentSpanDto> enrollmentSpanDtos){
-        List<EnrollmentSpanDto> nonCanceledEnrollmentSpans = enrollmentSpanDtos.stream()
+        return enrollmentSpanDtos.stream()
                 .filter(
                         enrollmentSpanDto ->
                                 !enrollmentSpanDto.getStatusTypeCode()
                                         .equals(EnrollmentSpanStatus.CANCELED))
                 .collect(Collectors.toList());
-        return nonCanceledEnrollmentSpans;
-    }
-
-    /**
-     * Populate the member surrogate key to the member premium objects
-     * @param memberPremiumDto
-     * @param memberDtos
-     */
-    private void populateMemberSK(MemberPremiumDto memberPremiumDto, Set<MemberDto> memberDtos){
-       MemberDto retrievedMember = memberDtos.stream()
-               .filter(
-                       memberDto ->
-                               memberDto.getMemberCode().equals(memberPremiumDto.getMemberCode()))
-               .findFirst()
-               .orElseThrow(() -> {
-                   throw new MemberNotFoundException("Member with member code " + memberPremiumDto.getMemberCode() + " not found");
-               });
-       memberPremiumDto.setMemberSK(retrievedMember.getMemberSK());
     }
 
     /**

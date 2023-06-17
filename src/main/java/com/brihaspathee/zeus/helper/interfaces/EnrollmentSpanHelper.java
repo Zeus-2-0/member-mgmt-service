@@ -41,4 +41,12 @@ public interface EnrollmentSpanHelper {
      */
     void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto);
 
+    /**
+     * Save the enrollment spans associated with the account
+     * Enrollment span will be updated if it is already present
+     * Enrollment span will be created if it is not present
+     * @param accountDto The account that contains the enrollment spans
+     */
+    void saveEnrollmentSpans(AccountDto accountDto);
+
 }

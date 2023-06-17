@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -96,13 +97,13 @@ public class Member {
     /**
      * The height of the member
      */
-    @Column(name = "height", columnDefinition = "decimal", nullable = true)
+    @Column(name = "height", nullable = true)
     private double height;
 
     /**
      * The weight of the member
      */
-    @Column(name = "weight", columnDefinition = "decimal", nullable = true)
+    @Column(name = "weight", nullable = true)
     private double weight;
 
     /**
