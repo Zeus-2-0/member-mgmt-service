@@ -103,8 +103,8 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccountDto createAccount(AccountDto accountDto) throws JsonProcessingException {
-        // validate the account details provided before saving the account
-        accountValidator.validateAccount(accountDto);
+        // todo validate the account details provided before saving the account
+        // accountValidator.validateAccount(accountDto);
 //        String validationMessageId = ZeusRandomStringGenerator.randomString(15);
 //        log.info("validationMessageId:{}",validationMessageId);
 //        messageAdapter.publishAccountValidationMessage(AccountValidationRequest.builder()
