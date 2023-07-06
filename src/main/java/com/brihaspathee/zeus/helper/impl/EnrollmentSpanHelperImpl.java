@@ -110,6 +110,8 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
      * Save the enrollment spans associated with the account
      * Enrollment span will be updated if it is already present
      * Enrollment span will be created if it is not present
+     * The detail description of the functionality should be updated
+     * <a href="https://app.nuclino.com/t/b/9929faaa-47be-4f5a-a254-96644d3dd6d5#5QdPT2dD">here</a>
      * @param accountDto The account that contains the enrollment spans
      */
     @Override
