@@ -98,13 +98,13 @@ public class Member {
      * The height of the member
      */
     @Column(name = "height", nullable = true)
-    private double height;
+    private BigDecimal height;
 
     /**
      * The weight of the member
      */
     @Column(name = "weight", nullable = true)
-    private double weight;
+    private BigDecimal weight;
 
     /**
      * The list of all the attributes associated with the member

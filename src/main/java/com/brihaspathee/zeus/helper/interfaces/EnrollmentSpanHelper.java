@@ -20,12 +20,12 @@ import java.util.Set;
  */
 public interface EnrollmentSpanHelper {
 
-    /**
-     * Create an enrollment span
-     * @param enrollmentSpanDto
-     * @return
-     */
-    EnrollmentSpanDto createEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
+//    /**
+//     * Create an enrollment span
+//     * @param enrollmentSpanDto
+//     * @return
+//     */
+//    EnrollmentSpanDto createEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
 
     /**
      * Get enrollment spans that match the exchange subcriber id and state type code
@@ -35,11 +35,11 @@ public interface EnrollmentSpanHelper {
      */
     List<EnrollmentSpan> getMatchingEnrollmentSpan(String exchangeSubscriberId, String stateTypeCode);
 
-    /**
-     * Update an enrollment span
-     * @param enrollmentSpanDto
-     */
-    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto);
+//    /**
+//     * Update an enrollment span
+//     * @param enrollmentSpanDto
+//     */
+//    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto);
 
     /**
      * Save the enrollment spans associated with the account

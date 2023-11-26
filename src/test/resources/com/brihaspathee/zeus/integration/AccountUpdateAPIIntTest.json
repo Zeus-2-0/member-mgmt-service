@@ -2255,8 +2255,7 @@
                   ],
                   "memberPhones": [
                     {
-                      "memberPhoneSK": "bb2b8f4d-2389-48d3-b86e-f1e32bc1d8b6",
-                      "memberSK": "ad940221-4744-4890-9e34-395431276c36",
+                      "memberPhoneSK": "ad940221-4744-4890-9e34-395431276c36",
                       "memberPhoneCode": "4HXKLEDRRGGPGJC",
                       "phoneTypeCode": "MOBILE",
                       "phoneNumber": "813-357-9158",
@@ -4305,7 +4304,7 @@
                       "endDate": null
                     },
                     {
-                      "memberLanguageSK": "a65f6a0b-9e98-4f66-91f0-6db86e4e6caf",
+                      "memberLanguageSK": "33da1a16-4b10-4a94-a329-5e6829fbb38a",
                       "memberLanguageCode": "SQCUNMEHCLUEUHP",
                       "languageTypeCode": "WRITTEN",
                       "languageCode": "SPA",
@@ -8011,7 +8010,7 @@
                       "memberIdentifierSK": "261a8915-d4d5-4143-856f-e01f5e1caa09",
                       "memberIdentifierCode": "2ZDZM75QJOTSZR4",
                       "identifierTypeCode": "SSN",
-                      "identifierValue": "009-62-6246",
+                      "identifierValue": "746-46-2746",
                       "isActive": true,
                       "active": true
                     }
