@@ -13,11 +13,10 @@ import com.brihaspathee.zeus.mapper.interfaces.EnrollmentSpanMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created in Intellij IDEA
@@ -27,6 +26,8 @@ import java.util.stream.Collectors;
  * Project: Zeus
  * Package Name: com.brihaspathee.zeus.helper.impl
  * To change this template use File | Settings | File and Code Template
+ * Confluence: <a href="https://vbalaji.atlassian.net/wiki/spaces/ZEUS/pages/98926645/Enrollment+Span+Helper">Confluence</a>
+ * Nuclino: <a href="https://share.nuclino.com/p/Enrollment-Span-Helper-T6W0El3FN0AxKRbjjoYcNm">Nuclino</a>
  */
 @Slf4j
 @Component
@@ -48,24 +49,14 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
      */
     private final PremiumSpanHelper premiumSpanHelper;
 
-    /**
-     * Create an enrollment span
-     * @param enrollmentSpanDto
-     * @return
-     */
-    @Override
-    public EnrollmentSpanDto createEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto) {
-        EnrollmentSpan enrollmentSpan = enrollmentSpanMapper.enrollmentSpanDtoToEnrollmentSpan(enrollmentSpanDto);
-        enrollmentSpan = enrollmentSpanRepository.save(enrollmentSpan);
-        log.info("Created Enrollment span:{}", enrollmentSpan);
-        return enrollmentSpanMapper.enrollmentSpanToEnrollmentSpanDto(enrollmentSpan);
-    }
 
     /**
      * Get enrollment spans that match exchange subscriber id and state type code
      * @param exchangeSubscriberId
      * @param stateTypeCode
      * @return
+     * Nuclino: <a href="https://app.nuclino.com/t/b/9929faaa-47be-4f5a-a254-96644d3dd6d5#1fjRI702">Nuclino</a>
+     * Confluence: <a href="https://vbalaji.atlassian.net/wiki/spaces/ZEUS/pages/98926645/Enrollment+Span+Helper#Get-Matching-Enrollment-Span">Confluence</a>
      */
     @Override
     public List<EnrollmentSpan> getMatchingEnrollmentSpan(String exchangeSubscriberId, String stateTypeCode) {
@@ -76,43 +67,12 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
     }
 
     /**
-     * Update an enrollment span
-     * @param enrollmentSpanDto
-     * @param accountDto
-     */
-    @Override
-    public void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto,
-                                                  AccountDto accountDto) {
-        EnrollmentSpan enrollmentSpan = enrollmentSpanMapper.enrollmentSpanDtoToEnrollmentSpan(enrollmentSpanDto);
-        log.info("Enrollment span to be updated:{}", enrollmentSpan);
-        enrollmentSpan = enrollmentSpanRepository.save(enrollmentSpan);
-        log.info("Updated Enrollment span:{}", enrollmentSpan);
-//        enrollmentSpanDto.getPremiumSpans().stream().forEach(premiumSpanDto -> {
-//            // Check if the premium span already exists
-//            if(premiumSpanDto.getPremiumSpanSK() == null){
-//                // Premium span does not exist for the enrollment span
-//                // so create it
-//                premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK());
-//                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
-//                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
-//            }else{
-//                // Premium span exist check if it has to be updated
-//                if(premiumSpanDto.getChanged().get() == true){
-//                    // premium span has to be updated
-//                    premiumSpanHelper.updatePremiumSpan(premiumSpanDto);
-//                }
-//            }
-//        });
-//        return enrollmentSpanMapper.enrollmentSpanToEnrollmentSpanDto(enrollmentSpan);
-    }
-
-    /**
      * Save the enrollment spans associated with the account
      * Enrollment span will be updated if it is already present
      * Enrollment span will be created if it is not present
-     * The detail description of the functionality should be updated
-     * <a href="https://app.nuclino.com/t/b/9929faaa-47be-4f5a-a254-96644d3dd6d5#5QdPT2dD">here</a>
      * @param accountDto The account that contains the enrollment spans
+     * Nuclino: <a href="https://app.nuclino.com/t/b/9929faaa-47be-4f5a-a254-96644d3dd6d5#5QdPT2dD">Nuclino</a>
+     * Confluence: <a href="https://vbalaji.atlassian.net/wiki/spaces/ZEUS/pages/98926645/Enrollment+Span+Helper#Save-Enrollment-Span">Confluence</a>
      */
     @Override
     public void saveEnrollmentSpans(AccountDto accountDto) {
@@ -155,6 +115,31 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
                 //enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto, accountDto);
             });
         }
+    }
+
+    /**
+     * Update an enrollment span
+     * @param enrollmentSpanDto
+     * @param accountDto
+     */
+    private void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto,
+                                      AccountDto accountDto) {
+        EnrollmentSpan enrollmentSpan = enrollmentSpanMapper.enrollmentSpanDtoToEnrollmentSpan(enrollmentSpanDto);
+        log.info("Enrollment span to be updated:{}", enrollmentSpan);
+        enrollmentSpan = enrollmentSpanRepository.save(enrollmentSpan);
+        log.info("Updated Enrollment span:{}", enrollmentSpan);
+    }
+
+    /**
+     * Create an enrollment span
+     * @param enrollmentSpanDto
+     * @return
+     */
+    private EnrollmentSpanDto createEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto) {
+        EnrollmentSpan enrollmentSpan = enrollmentSpanMapper.enrollmentSpanDtoToEnrollmentSpan(enrollmentSpanDto);
+        enrollmentSpan = enrollmentSpanRepository.save(enrollmentSpan);
+        log.info("Created Enrollment span:{}", enrollmentSpan);
+        return enrollmentSpanMapper.enrollmentSpanToEnrollmentSpanDto(enrollmentSpan);
     }
 
     /**
