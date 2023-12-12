@@ -63,6 +63,12 @@ public class PremiumSpan {
     private String statusTypeCode;
 
     /**
+     * The sequence in which the premium span was created
+     */
+    @Column(name = "sequence", nullable = true)
+    private int sequence;
+
+    /**
      * The enrollment span associated with the premium span
      */
     @ManyToOne

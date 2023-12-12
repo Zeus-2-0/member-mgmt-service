@@ -97,6 +97,8 @@ public class AccountUpdateAPIIntTest {
         // Read the file information and convert to test class object
         accountUpdateRequestTestClass = objectMapper.readValue(resourceFile.getFile(), new TypeReference<TestClass<TestAccountUpdateRequest>>() {});
 
+        accountValidation.setTestServiceName("MEMBER-MGMT-SERVICE");
+
         // Build the test data for the test method that is to be executed
         this.requests = buildTestData.buildData(testInfo.getTestMethod().get().getName(),this.accountUpdateRequestTestClass);
     }
