@@ -88,6 +88,8 @@ public class AccountMatchAPIIntTest {
         // Read the file information and convert to test class object
         accountMatchRequestTestClass = objectMapper.readValue(resourceFile.getFile(), new TypeReference<TestClass<TestAccountMatchRequest>>() {});
 
+        accountValidation.setTestServiceName("MEMBER-MGMT-SERVICE");
+
         // Build the test data for the test method that is to be executed
         this.requests = buildTestData.buildData(testInfo.getTestMethod().get().getName(),this.accountMatchRequestTestClass);
         objectMapper.findAndRegisterModules();

@@ -47,7 +47,8 @@
                           "totalResponsibleAmount": 100.00,
                           "aptcAmount": 50.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 10.00
+                          "csrAmount": 10.00,
+                          "sequence": 1
                         },
                         {
                           "premiumSpanSK": "bda4a6ec-b702-48b9-95d1-56f0eaf1ee39",
@@ -71,7 +72,8 @@
                           "totalResponsibleAmount": 150.00,
                           "aptcAmount": 0.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 20.00
+                          "csrAmount": 20.00,
+                          "sequence": 2
                         }
                       ],
                       "stateTypeCode": "FL",
@@ -89,6 +91,7 @@
                       "paidThroughDate": null,
                       "claimPaidThroughDate": null,
                       "statusTypeCode": "ENROLLED",
+                      "effectiveReason": "MBS",
                       "ztcn": "CS4RLQWPD7SYWV4"
                     }
                   ],
@@ -259,10 +262,11 @@
                           "totalResponsibleAmount": 150.00,
                           "aptcAmount": 50.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 10.00
+                          "csrAmount": 10.00,
+                          "sequence": 1
                         },
                         {
-                          "premiumSpanSK": "bda4a6ec-b702-48b9-95d1-56f0eaf1ee39",
+                          "premiumSpanSK": "462d3dcc-3d92-47e1-b098-626ecbb21df3",
                           "enrollmentSpanSK": "3883ffe2-de9c-41a9-9d88-da96b13ac0fb",
                           "ztcn": "YUAKS9A5ALCIJQP",
                           "premiumSpanCode": "IW52JIALWDFCUS5",
@@ -283,7 +287,8 @@
                           "totalResponsibleAmount": 125.00,
                           "aptcAmount": 75.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 20.00
+                          "csrAmount": 20.00,
+                          "sequence": 2
                         }
                       ],
                       "stateTypeCode": "MA",
@@ -301,6 +306,7 @@
                       "paidThroughDate": null,
                       "claimPaidThroughDate": null,
                       "statusTypeCode": "ENROLLED",
+                      "effectiveReason": "MBS",
                       "ztcn": "3OTWU8VCIN9OPPW"
                     }
                   ],
@@ -468,7 +474,8 @@
                           "totalResponsibleAmount": 100.00,
                           "aptcAmount": 50.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 10.00
+                          "csrAmount": 10.00,
+                          "sequence": 1
                         },
                         {
                           "premiumSpanSK": "6a634063-9628-4556-97ff-7a97333ad009",
@@ -490,7 +497,8 @@
                           "totalResponsibleAmount": 150.00,
                           "aptcAmount": 0.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 20.00
+                          "csrAmount": 20.00,
+                          "sequence": 2
                         }
                       ],
                       "stateTypeCode": "FL",
@@ -508,6 +516,7 @@
                       "paidThroughDate": null,
                       "claimPaidThroughDate": null,
                       "statusTypeCode": "ENROLLED",
+                      "effectiveReason": "MBS",
                       "ztcn": "Q811JNQWPP6SH94"
                     }
                   ],
@@ -666,7 +675,8 @@
                           "totalResponsibleAmount": 100.00,
                           "aptcAmount": 50.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 10.00
+                          "csrAmount": 10.00,
+                          "sequence": 1
                         },
                         {
                           "premiumSpanSK": "4a73f039-4dde-487a-9928-502498e74edc",
@@ -688,7 +698,8 @@
                           "totalResponsibleAmount": 150.00,
                           "aptcAmount": 0.00,
                           "otherPayAmount": 0.00,
-                          "csrAmount": 20.00
+                          "csrAmount": 20.00,
+                          "sequence": 2
                         }
                       ],
                       "stateTypeCode": "FL",
@@ -706,6 +717,7 @@
                       "paidThroughDate": null,
                       "claimPaidThroughDate": null,
                       "statusTypeCode": "ENROLLED",
+                      "effectiveReason": "MBS",
                       "ztcn": "21D79B066V1CBPO"
                     }
                   ],
