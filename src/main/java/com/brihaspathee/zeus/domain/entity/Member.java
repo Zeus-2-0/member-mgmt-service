@@ -107,6 +107,18 @@ public class Member {
     private BigDecimal weight;
 
     /**
+     * The zeus transaction control number of the transaction that created the member
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * The list of all the attributes associated with the member
      */
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)

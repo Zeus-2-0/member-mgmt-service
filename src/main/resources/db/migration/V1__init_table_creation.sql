@@ -5,16 +5,24 @@ DROP TABLE IF EXISTS `membermgmtdb`.`member_email`;
 DROP TABLE IF EXISTS `membermgmtdb`.`member_language`;
 DROP TABLE IF EXISTS `membermgmtdb`.`member_phone`;
 DROP TABLE IF EXISTS `membermgmtdb`.`member_premiums`;
+DROP TABLE IF EXISTS `membermgmtdb`.`alternate_contact`;
 DROP TABLE IF EXISTS `membermgmtdb`.`member`;
 DROP TABLE IF EXISTS `membermgmtdb`.`premium_span`;
 DROP TABLE IF EXISTS `membermgmtdb`.`enrollment_span`;
 DROP TABLE IF EXISTS `membermgmtdb`.`account_attributes`;
 DROP TABLE IF EXISTS `membermgmtdb`.`attribute`;
+DROP TABLE IF EXISTS `membermgmtdb`.`broker`;
+DROP TABLE IF EXISTS `membermgmtdb`.`sponsor`;
+DROP TABLE IF EXISTS `membermgmtdb`.`payer`;
 DROP TABLE IF EXISTS `membermgmtdb`.`account`;
+DROP TABLE IF EXISTS `membermgmtdb`.`payload_tracker_detail`;
+DROP TABLE IF EXISTS `membermgmtdb`.`payload_tracker`;
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`account` (
   `account_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the account',
   `acct_number` VARCHAR(50) NOT NULL COMMENT 'A unique account number that is created for each account. This is the customer facing number.',
   `line_of_business_type_code` VARCHAR(45) NOT NULL COMMENT 'The line of business of the account',
+  `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the account',
+  `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
   `created_date` DATETIME NULL,
   `updated_date` DATETIME NULL,
   PRIMARY KEY (`account_sk`),
@@ -36,6 +44,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`account_attributes` (
   `account_sk` VARCHAR(36) NOT NULL COMMENT 'Account foreign key',
   `attribute_sk` VARCHAR(36) NOT NULL,
   `attribute_value` VARCHAR(45) NOT NULL,
+  `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the account',
+  `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
   `created_date` DATETIME NULL,
   `updated_date` DATETIME NULL,
   PRIMARY KEY (`acct_attribute_sk`),
@@ -63,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`broker` (
     `agency_id` VARCHAR(50) NULL COMMENT 'The agency id of the broker',
     `account_number_1` VARCHAR(50) NULL COMMENT 'The first account number of the broker',
     `account_number_2` VARCHAR(50) NULL COMMENT 'The second account number of the broker',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the broker',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATE NOT NULL COMMENT 'The start date of the broker',
     `end_date` DATE NULL COMMENT 'The end date of the broker',
     `created_date` DATETIME NULL COMMENT 'The date when the record was created',
@@ -82,6 +94,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`sponsor` (
     `sponsor_code` VARCHAR(50) NOT NULL COMMENT 'The unique code for the sponsor in MMS',
     `sponsor_id` VARCHAR(50) NOT NULL COMMENT 'The id of the sponsor',
     `sponsor_name` VARCHAR(50) NOT NULL COMMENT 'The name of the sponsor',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the sponsor',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATE NOT NULL COMMENT 'The start date of the sponsor',
     `end_date` DATE NULL COMMENT 'The end date of the sponsor',
     `created_date` DATETIME NULL COMMENT 'The date when the record was created',
@@ -101,6 +115,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`payer` (
     `payer_code` VARCHAR(50) NOT NULL COMMENT 'The unique code assigned to the payer in MMS',
     `payer_name` VARCHAR(100) NOT NULL COMMENT 'The name of the payer',
     `payer_id` VARCHAR(50) NULL COMMENT 'The id of the payer',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the payer',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATE NOT NULL COMMENT 'The start date of the payer',
     `end_date` DATE NULL COMMENT 'The end date of the payer',
     `created_date` DATETIME NULL COMMENT 'The date when the record was created',
@@ -135,7 +151,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
     `status_type_code` VARCHAR(50) NOT NULL COMMENT 'The status of the enrollment span',
     `effective_reason` VARCHAR(150) NULL COMMENT 'The effective reason of the enrollment span',
     `term_reason` VARCHAR(150) NULL COMMENT 'The term reason of the enrollment span',
-    `ztcn` VARCHAR(20) NOT NULL COMMENT 'The ZTCN of the transaction that created the enrollment span',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the enrollment span',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `created_date` DATETIME NULL COMMENT 'The date when the record was created',
     `updated_date` DATETIME NULL COMMENT 'The date when the record was updated',
     PRIMARY KEY (`enrlmnt_span_sk`),
@@ -151,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
 CREATE TABLE IF NOT EXISTS `membermgmtdb`.`premium_span` (
     `premium_span_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
     `premium_span_code` VARCHAR(50) NOT NULL COMMENT 'Unique premium span code created for the premium span',
-    `ztcn` VARCHAR(50) NOT NULL COMMENT 'The transaction control number that created the premium span',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the premium span',
     `enrollment_span_sk` VARCHAR(36) NULL COMMENT 'The enrollment span that the premium span belongs to',
     `start_date` DATETIME NOT NULL,
     `end_date` DATETIME NOT NULL,
@@ -163,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`premium_span` (
     `aptc_amt` DECIMAL(10,2) NULL COMMENT 'Federal contribution towards the premium',
     `other_pay_amt` DECIMAL(10,2) NULL COMMENT 'The amounts contributed by other sources (like the state) towards the premium',
     `csr_amt` DECIMAL(10,2) NULL COMMENT 'The Cost Sharing Reduction amount',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `created_Date` DATETIME NULL COMMENT 'Date when the record was created',
     `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
     PRIMARY KEY (`premium_span_sk`),
@@ -187,6 +205,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member` (
                                                        `gender_type_code` VARCHAR(50) NOT NULL COMMENT 'The gender of the member',
                                                        `height` DECIMAL(10,2) NULL COMMENT 'The height of the member',
                                                        `weight` DECIMAL(10,2) NULL COMMENT 'The weight of the member',
+                                                       `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the member',
+                                                       `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
                                                        `created_date` DATETIME NULL COMMENT 'The date when the record was created',
                                                        `updated_date` DATETIME NULL COMMENT 'The date when the record was updated\n',
                                                        PRIMARY KEY (`member_sk`),
@@ -204,6 +224,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_attribute` (
   `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key of the member',
   `attribute_sk` VARCHAR(36) NOT NULL,
   `attribute_value` VARCHAR(100) NOT NULL,
+  `ztcn` VARCHAR(50) NULL COMMENT 'The ZTCN of the transaction that created the account',
+  `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
   `created_date` DATETIME NULL,
   `updated_date` DATETIME NULL,
   PRIMARY KEY (`member_attribute_sk`),
@@ -231,6 +253,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_address` (
     `city` VARCHAR(100) NOT NULL COMMENT 'City of the address',
     `state_type_code` VARCHAR(20) NOT NULL COMMENT 'State of the address',
     `zip_code` VARCHAR(10) NOT NULL COMMENT 'Zip code of the address',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the address',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATETIME NOT NULL COMMENT 'Start date of the address',
     `end_date` DATETIME NULL,
     `created_date` DATETIME NULL,
@@ -252,6 +276,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_identifier` (
     `identifier_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of identifier',
     `identifier_value` VARCHAR(50) NOT NULL COMMENT 'Value of the identifier',
     `is_active` BOOLEAN NULL COMMENT 'Identifies if the identifier is active',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the identifier',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `created_date` DATETIME NULL COMMENT 'Date when the record was created',
     `updated_date` DATETIME NULL COMMENT 'Date when the record was updated',
     PRIMARY KEY (`member_identifier_sk`),
@@ -268,9 +294,11 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_email` (
     `member_email_sk` VARCHAR(36) NOT NULL COMMENT 'Primary key of the table',
     `member_email_code` VARCHAR(50) NOT NULL COMMENT 'Unique member email code that is created for the email',
     `member_sk` VARCHAR(36) NOT NULL COMMENT 'Foreign key to the member table',
-    `email_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of email (e.g. personal, work, school)\n',
+    `email_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of email (e.g. personal, work, school)',
     `email` VARCHAR(100) NOT NULL COMMENT 'The email',
     `is_primary` BOOLEAN NOT NULL,
+    `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the email',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATETIME NOT NULL COMMENT 'The start date of the email',
     `end_date` DATETIME NULL COMMENT 'The end date of the email',
     `created_date` DATETIME NULL COMMENT 'Date when the record was created',
@@ -291,6 +319,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_language` (
     `member_sk` VARCHAR(36) NULL COMMENT 'Foreign key to the member table',
     `language_type_code` VARCHAR(20) NULL COMMENT 'The type of language (like Written and Spoken)',
     `language_code` VARCHAR(30) NULL COMMENT 'The language (i.e. English, Spanish etc)',
+    `ztcn` VARCHAR(50) NOT NULL COMMENT 'The transaction control number that created the language',
+    `source` VARCHAR(50) NULL COMMENT 'The source of the data',
     `start_date` DATETIME NOT NULL COMMENT 'Date when the language was effective ',
     `end_date` DATETIME NULL,
     `created_date` DATETIME NULL COMMENT 'Date when the record was created',
@@ -311,6 +341,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_phone` (
     `member_sk` VARCHAR(36) NULL COMMENT 'Foreign key to the member table',
     `phone_type_code` VARCHAR(20) NOT NULL COMMENT 'Type of phone number',
     `phone_number` VARCHAR(30) NOT NULL COMMENT 'The phone number of the member',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the phone number',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATETIME NOT NULL COMMENT 'Date when the phone was effective',
     `end_date` DATETIME NULL,
     `created_date` DATETIME NULL COMMENT 'Date when the record was created',
@@ -343,6 +375,8 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`alternate_contact` (
     `city` VARCHAR(50) NULL COMMENT 'The city of the alternate contact address',
     `state_type_code` VARCHAR(50) NULL COMMENT 'The state of the alternate contact address',
     `zip_code` VARCHAR(50) NULL COMMENT 'The zip code of the alternate contact address',
+    `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the alternate contact',
+    `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',
     `start_date` DATE NULL COMMENT 'The start date of the alternate contact',
     `end_date` DATE NULL COMMENT 'The end date of the alternate contact',
     `created_date` DATETIME NULL COMMENT 'The date when the record was created',

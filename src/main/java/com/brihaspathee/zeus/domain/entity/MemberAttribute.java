@@ -62,6 +62,18 @@ public class MemberAttribute {
     private String attributeValue;
 
     /**
+     * The zeus transaction control number of the transaction that created the address
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * Date when the record was created
      */
     @CreationTimestamp

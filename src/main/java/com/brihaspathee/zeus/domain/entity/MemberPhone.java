@@ -68,6 +68,18 @@ public class MemberPhone {
     private String phoneNumber;
 
     /**
+     * The zeus transaction control number of the transaction that created the phone number
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * Start date of the phone number
      */
     @Column(name = "start_date", columnDefinition = "datetime", nullable = false)

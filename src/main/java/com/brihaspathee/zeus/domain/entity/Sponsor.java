@@ -67,6 +67,18 @@ public class Sponsor {
     private String sponsorName;
 
     /**
+     * The zeus transaction control number of the transaction that created the sponsor
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * The start date of the sponsor
      */
     @Column(name = "start_date")
