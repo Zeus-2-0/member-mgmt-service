@@ -39,6 +39,7 @@ public class AccountAttributeMapperImpl implements AccountAttributeMapper {
                 .attribute(Attribute.builder().attributeSK(accountAttributeDto.getAttributeSK()).build())
                 .account(Account.builder().accountSK(accountAttributeDto.getAccountSK()).build())
                 .attributeValue(accountAttributeDto.getAttributeValue())
+                .source(accountAttributeDto.getSource())
                 .createdDate(accountAttributeDto.getCreatedDate())
                 .updatedDate(accountAttributeDto.getUpdatedDate())
                 .build();
@@ -60,6 +61,7 @@ public class AccountAttributeMapperImpl implements AccountAttributeMapper {
                 .attributeSK(accountAttribute.getAttribute().getAttributeSK())
                 .accountSK(accountAttribute.getAccount().getAccountSK())
                 .attributeValue(accountAttribute.getAttributeValue())
+                .source(accountAttribute.getSource())
                 .createdDate(accountAttribute.getCreatedDate())
                 .updatedDate(accountAttribute.getUpdatedDate())
                 .build();

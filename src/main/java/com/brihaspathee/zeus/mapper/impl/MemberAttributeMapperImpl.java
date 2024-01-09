@@ -39,6 +39,7 @@ public class MemberAttributeMapperImpl implements MemberAttributeMapper {
                 .member(Member.builder().memberSK(memberAttributeDto.getMemberSK()).build())
                 .attribute(Attribute.builder().attributeSK(memberAttributeDto.getAttributeSK()).build())
                 .attributeValue(memberAttributeDto.getAttributeValue())
+                .source(memberAttributeDto.getSource())
                 .createdDate(memberAttributeDto.getCreatedDate())
                 .updatedDate(memberAttributeDto.getUpdatedDate())
                 .build();
@@ -60,6 +61,7 @@ public class MemberAttributeMapperImpl implements MemberAttributeMapper {
                 .memberSK(memberAttribute.getMember().getMemberSK())
                 .attributeSK(memberAttribute.getAttribute().getAttributeSK())
                 .attributeValue(memberAttribute.getAttributeValue())
+                .source(memberAttribute.getSource())
                 .createdDate(memberAttribute.getCreatedDate())
                 .updatedDate(memberAttribute.getUpdatedDate())
                 .build();

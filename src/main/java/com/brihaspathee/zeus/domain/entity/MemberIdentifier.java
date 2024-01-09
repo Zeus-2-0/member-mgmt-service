@@ -67,6 +67,18 @@ public class MemberIdentifier {
     private String identifierValue;
 
     /**
+     * The zeus transaction control number of the transaction that created the identifier
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * Identifies if the identifier is active
      */
     @Column(name="is_Active")

@@ -67,6 +67,18 @@ public class Payer {
     private String payerName;
 
     /**
+     * The zeus transaction control number of the transaction that created the payer
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * The start date of the sponsor
      */
     @Column(name = "start_date")

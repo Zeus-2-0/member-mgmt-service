@@ -42,6 +42,44 @@ public class Account {
     private UUID accountSK;
 
     /**
+     * Unique number associated with each account
+     */
+    @Column(name = "acct_number", nullable = false)
+    private String accountNumber;
+
+    /**
+     * The line of business associated with the account
+     */
+    @Column(name = "line_of_business_type_code", columnDefinition = "varchar", length = 45, nullable = false)
+    private String lineOfBusinessTypeCode;
+
+    /**
+     * The date when the record was created
+     */
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    /**
+     * The date when the record was updated
+     */
+    @UpdateTimestamp
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
+    /**
+     * The zeus transaction control number of the transaction that created the account
+     */
+    @Column(name = "ztcn", length = 50, columnDefinition = "varchar", nullable = true)
+    private String ztcn;
+
+    /**
+     * The source of the data
+     */
+    @Column(name = "source", length = 50, columnDefinition = "varchar", nullable = false)
+    private String source;
+
+    /**
      * The list of all the members associated with the account
      */
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
@@ -77,48 +115,28 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     private Set<AccountAttribute> accountAttributes;
 
-    /**
-     * Unique number associated with each account
-     */
-    @Column(name = "acct_number", nullable = false)
-    private String accountNumber;
-
-    /**
-     * The line of business associated with the account
-     */
-    @Column(name = "line_of_business_type_code", columnDefinition = "varchar", length = 45, nullable = false)
-    private String lineOfBusinessTypeCode;
-
-    /**
-     * The date when the record was created
-     */
-    @CreationTimestamp
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
-    /**
-     * The date when the record was updated
-     */
-    @UpdateTimestamp
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
 
     /**
      * toString method
      * @return returns a string
      */
-//    @Override
-//    public String toString() {
-//        return "Account{" +
-//                "accountSK=" + accountSK +
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountSK=" + accountSK +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", lineOfBusinessTypeCode='" + lineOfBusinessTypeCode + '\'' +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", ztcn='" + ztcn + '\'' +
 //                ", members=" + members +
 //                ", enrollmentSpans=" + enrollmentSpans +
+//                ", brokers=" + brokers +
+//                ", payers=" + payers +
+//                ", sponsors=" + sponsors +
 //                ", accountAttributes=" + accountAttributes +
-//                ", accountNumber='" + accountNumber +
-//                ", createdDate=" + createdDate +
-//                ", updatedDate=" + updatedDate +
-//                '}';
-//    }
+                '}';
+    }
 
     /**
      * equals method
