@@ -3,7 +3,7 @@ package com.brihaspathee.zeus.integration;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
-import com.brihaspathee.zeus.test.validator.AccountValidation;
+import com.brihaspathee.zeus.test.validator.AccountValidator;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.brihaspathee.zeus.web.model.TestAccountMatchRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
@@ -75,7 +75,7 @@ public class AccountMatchAPIIntTest {
     /**
      * The account validation instance to validate the details of the account
      */
-    private AccountValidation accountValidation = new AccountValidation();
+    private final AccountValidator accountValidator = new AccountValidator();
 
     /**
      * The setup method is executed before each test method is executed
@@ -88,7 +88,7 @@ public class AccountMatchAPIIntTest {
         // Read the file information and convert to test class object
         accountMatchRequestTestClass = objectMapper.readValue(resourceFile.getFile(), new TypeReference<TestClass<TestAccountMatchRequest>>() {});
 
-        accountValidation.setTestServiceName("MEMBER-MGMT-SERVICE");
+        accountValidator.setTestServiceName("MEMBER-MGMT-SERVICE");
 
         // Build the test data for the test method that is to be executed
         this.requests = buildTestData.buildData(testInfo.getTestMethod().get().getName(),this.accountMatchRequestTestClass);
@@ -147,7 +147,7 @@ public class AccountMatchAPIIntTest {
         log.info("Account List:{}", actualAccountList);
         if(expectedAccountList.getAccountDtos()!=null && expectedAccountList.getAccountDtos().size() > 0){
             assertEquals(expectedAccountList.getAccountDtos().size(), actualAccountList.getAccountDtos().size());
-            accountValidation.assertAccount(expectedAccountList, actualAccountList);
+            accountValidator.assertAccount(expectedAccountList, actualAccountList);
         }else{
             assertNull(actualAccountList.getAccountDtos());
         }

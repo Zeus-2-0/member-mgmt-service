@@ -5,7 +5,7 @@ import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
 import com.brihaspathee.zeus.test.BuildTestData;
 import com.brihaspathee.zeus.test.TestClass;
-import com.brihaspathee.zeus.test.validator.AccountValidation;
+import com.brihaspathee.zeus.test.validator.AccountValidator;
 import com.brihaspathee.zeus.web.model.TestAccountUpdateRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -84,7 +84,7 @@ public class AccountUpdateAPIIntTest {
     /**
      * The account validation instance to validate the details of the account
      */
-    private AccountValidation accountValidation = new AccountValidation();
+    private final AccountValidator accountValidator = new AccountValidator();
 
     /**
      * The setup method is executed before each test method is executed
@@ -97,7 +97,7 @@ public class AccountUpdateAPIIntTest {
         // Read the file information and convert to test class object
         accountUpdateRequestTestClass = objectMapper.readValue(resourceFile.getFile(), new TypeReference<TestClass<TestAccountUpdateRequest>>() {});
 
-        accountValidation.setTestServiceName("MEMBER-MGMT-SERVICE");
+        accountValidator.setTestServiceName("MEMBER-MGMT-SERVICE");
 
         // Build the test data for the test method that is to be executed
         this.requests = buildTestData.buildData(testInfo.getTestMethod().get().getName(),this.accountUpdateRequestTestClass);
@@ -130,7 +130,7 @@ public class AccountUpdateAPIIntTest {
         AccountDto updatedAccountDto = getUpdatedAccount(inputAccountDto.getAccountNumber());
         String accountAsString = objectMapper.writeValueAsString(updatedAccountDto);
         log.info("Updated Account Dto:{}", accountAsString);
-        accountValidation.assertAccount(expectedAccountUpdateDto, updatedAccountDto);
+        accountValidator.assertAccount(expectedAccountUpdateDto, updatedAccountDto);
     }
 
     /**
@@ -160,7 +160,7 @@ public class AccountUpdateAPIIntTest {
         AccountDto updatedAccountDto = getUpdatedAccount(inputAccountDto.getAccountNumber());
         String accountAsString = objectMapper.writeValueAsString(updatedAccountDto);
         log.info("Created Account Dto:{}", accountAsString);
-        accountValidation.assertAccount(expectedAccountUpdateDto, updatedAccountDto);
+        accountValidator.assertAccount(expectedAccountUpdateDto, updatedAccountDto);
     }
 
     /**

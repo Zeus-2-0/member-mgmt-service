@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.dto.account.MemberEmailDto;
 
+import java.util.Set;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -19,4 +21,10 @@ public interface MemberEmailHelper {
      * @return return member email
      */
     MemberEmailDto createMemberEmail(MemberEmailDto memberEmailDto);
+
+    /**
+     * Save member email
+     * @param memberEmailDtos
+     */
+    void saveMemberEmail(Set<MemberEmailDto> memberEmailDtos);
 }

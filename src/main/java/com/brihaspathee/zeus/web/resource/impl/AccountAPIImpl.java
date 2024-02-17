@@ -6,6 +6,7 @@ import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.service.interfaces.AccountService;
+import com.brihaspathee.zeus.util.ZeusRandomStringGenerator;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.brihaspathee.zeus.web.resource.interfaces.AccountAPI;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,18 +50,26 @@ public class AccountAPIImpl implements AccountAPI {
      */
     @Override
     public ResponseEntity<ZeusApiResponse<AccountList>> getAccountByNumber(String accountNumber) {
+        log.info("Inside the API Endpoint to get the account by account number:{}", accountNumber);
         AccountDto accountDto = accountService.getAccountByNumber(accountNumber);
+        log.info("Account Dto returned:{}", accountDto);
+        Set<AccountDto> accountDtos = new HashSet<>();
+        if(accountDto != null){
+            accountDtos.add(accountDto);
+        }
         AccountList accountList = AccountList.builder()
-                .accountDtos(Set.of(accountDto))
+                .accountDtos(accountDtos)
                 .build();
+        log.info("Account List returned:{}", accountList);
         ZeusApiResponse<AccountList> apiResponse = ZeusApiResponse.<AccountList>builder()
                 .response(accountList)
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.OK)
                 .statusCode(200)
                 .message(ApiResponseConstants.SUCCESS)
-                .developerMessage(ApiResponseConstants.API_SUCCESS)
+                .developerMessage(ZeusRandomStringGenerator.randomString(20))
                 .build();
+        log.info("API Response:{}", apiResponse);
         return ResponseEntity.ok(apiResponse);
     }
 
