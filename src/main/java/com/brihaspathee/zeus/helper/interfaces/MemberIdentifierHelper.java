@@ -4,6 +4,7 @@ import com.brihaspathee.zeus.domain.entity.MemberIdentifier;
 import com.brihaspathee.zeus.dto.account.MemberIdentifierDto;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created in Intellij IDEA
@@ -44,4 +45,10 @@ public interface MemberIdentifierHelper {
     List<MemberIdentifier> getMemberIdentifiersByValue(String identifierTypeCode,
                                                       String identifierValue,
                                                       boolean isActive);
+
+    /**
+     * Save member identifier
+     * @param memberIdentifierDtos
+     */
+    void saveMemberIdentifiers(Set<MemberIdentifierDto> memberIdentifierDtos);
 }

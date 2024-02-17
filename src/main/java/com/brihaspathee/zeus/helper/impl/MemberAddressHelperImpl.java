@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -85,6 +86,22 @@ public class MemberAddressHelperImpl implements MemberAddressHelper {
             prevAddress = currAddress;
         }
 
+    }
+
+    /**
+     * Save member addresses
+     * @param memberAddressDtos
+     */
+    @Override
+    public void saveMemberAddresses(Set<MemberAddressDto> memberAddressDtos) {
+        if(memberAddressDtos == null || memberAddressDtos.isEmpty()){
+            return;
+        }
+        memberAddressDtos.forEach(memberAddressDto -> {
+           if(memberAddressDto.getChanged().get()){
+               createMemberAddress(memberAddressDto);
+           }
+        });
     }
 
     /**

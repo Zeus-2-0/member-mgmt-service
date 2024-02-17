@@ -2,6 +2,8 @@ package com.brihaspathee.zeus.helper.interfaces;
 
 import com.brihaspathee.zeus.dto.account.MemberPhoneDto;
 
+import java.util.Set;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -19,4 +21,10 @@ public interface MemberPhoneHelper {
      * @return return the created phone
      */
     MemberPhoneDto createMemberPhone(MemberPhoneDto memberPhoneDto);
+
+    /**
+     * Save member phones
+     * @param memberPhoneDtos
+     */
+    void saveMemberPhones(Set<MemberPhoneDto> memberPhoneDtos);
 }

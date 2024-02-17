@@ -5,6 +5,7 @@ import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import reactor.core.publisher.Mono;
@@ -42,7 +43,7 @@ public interface AccountService {
      * @param accountNumber
      * @return
      */
-    AccountDto getAccountByNumber(String accountNumber);
+    AccountDto getAccountByNumber(String accountNumber) ;
 
     /**
      * Get all the accounts

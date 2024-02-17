@@ -5,6 +5,7 @@ import com.brihaspathee.zeus.domain.entity.Member;
 import com.brihaspathee.zeus.domain.entity.MemberIdentifier;
 import com.brihaspathee.zeus.domain.repository.AccountRepository;
 import com.brihaspathee.zeus.domain.repository.MemberRepository;
+import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.MemberDto;
 import com.brihaspathee.zeus.dto.account.MemberIdentifierDto;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -179,7 +181,60 @@ public class MemberServiceImpl implements MemberService {
                 lastName,
                 genderTypeCode,
                 dateOfBirth);
-        return memberMapper.membersToMemberDtos(members.stream().collect(Collectors.toSet())).stream().toList();
+        if(members == null || members.isEmpty()){
+            return null;
+        }
+        return memberMapper.membersToMemberDtos(new HashSet<>(members)).stream().toList();
+    }
+
+    /**
+     * Save member updates or create new members
+     * @param accountDto
+     */
+    @Override
+    public void saveMembers(AccountDto accountDto) {
+        // Check if there are any members present in the account
+        // when an account gets updated, it is not necessary for any member information to get update
+        // if no members are updated then the account dto will not have any members
+        if(accountDto.getMembers() != null && !accountDto.getMembers().isEmpty()){
+            // Iterate through the member collection present in the account
+            accountDto.getMembers().forEach(memberDto -> {
+                // check if member sk is present in the member dto, if present then it is an existing member
+                // if not then it is a new member
+                UUID memberSK = memberDto.getMemberSK();
+                if(memberSK == null){
+                    // the member is not present in the account
+                    // create the member
+                    createMember(memberDto);
+                }else{
+                    // it is an existing member
+                    if(memberDto.getChanged().get()){
+                        memberDto.setAccountSK(accountDto.getAccountSK());
+                        updateMember(memberDto);
+                        // todo check if member address is updated
+                        memberAddressHelper.saveMemberAddresses(memberDto.getMemberAddresses());
+                        // todo check if member email is updated
+                        memberEmailHelper.saveMemberEmail(memberDto.getMemberEmails());
+                        // todo check if member phone is updated
+                        memberPhoneHelper.saveMemberPhones(memberDto.getMemberPhones());
+                        // todo check if member language is updated
+                        memberLanguageHelper.saveMemberLanguages(memberDto.getMemberLanguages());
+                        // todo check if member identifier is updated
+                        memberIdentifierHelper.saveMemberIdentifiers(memberDto.getMemberIdentifiers());
+                    }
+                }
+            });
+        }
+
+    }
+
+    /**
+     * Update the member entity
+     * @param memberDto
+     */
+    private void updateMember(MemberDto memberDto){
+        Member member = memberMapper.memberDtoToMember(memberDto);
+        memberRepository.save(member);
     }
 
     /**
@@ -189,8 +244,8 @@ public class MemberServiceImpl implements MemberService {
      */
     private List<MemberDto> getMemberDtos(List<MemberIdentifier> memberIdentifiers) {
         if (memberIdentifiers != null && !memberIdentifiers.isEmpty()){
-            List<Member> members = memberIdentifiers.stream().map(memberIdentifier -> memberIdentifier.getMember()).collect(Collectors.toList());
-            return memberMapper.membersToMemberDtos(members.stream().collect(Collectors.toSet())).stream().toList();
+            List<Member> members = memberIdentifiers.stream().map(MemberIdentifier::getMember).toList();
+            return memberMapper.membersToMemberDtos(new HashSet<>(members)).stream().toList();
         }
         return null;
     }
@@ -203,7 +258,7 @@ public class MemberServiceImpl implements MemberService {
     private void createMemberAddress(MemberDto memberDto, UUID memberSK){
         if (memberDto.getMemberAddresses() != null && !memberDto.getMemberAddresses().isEmpty()){
             memberAddressHelper.validateMemberAddresses(memberDto.getMemberAddresses());
-            memberDto.getMemberAddresses().stream().forEach(memberAddressDto -> {
+            memberDto.getMemberAddresses().forEach(memberAddressDto -> {
                 memberAddressDto.setMemberSK(memberSK);
                 memberAddressHelper.createMemberAddress(memberAddressDto);
             });

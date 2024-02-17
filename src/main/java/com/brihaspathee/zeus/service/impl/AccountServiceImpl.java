@@ -153,8 +153,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto updateAccount(AccountDto accountDto) throws JsonProcessingException {
         log.info("Inside the update account method");
+        // Check if the enrollment span has been updated
         enrollmentSpanHelper.saveEnrollmentSpans(accountDto);
-        // todo Check if the member has been updated
+        // Check if the member has been updated
+        memberService.saveMembers(accountDto);
         // todo Check if the broker has been updated
         // todo Check if the sponsor has been updated
         // todo Check if the payer has been updated
@@ -168,12 +170,15 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public AccountDto getAccountByNumber(String accountNumber) {
-        Account account = accountRepository.findAccountsByAccountNumber(accountNumber).orElseThrow(() -> {
-            throw new AccountNotFoundException("Account with account number " + accountNumber + " not found" );
-        });
+        Account account = accountRepository.findAccountsByAccountNumber(accountNumber).orElse(null);
         log.info("Retrieved account:{}",account);
-        account.getMembers().forEach(member -> log.info("Height of the member:{}",String.valueOf(member.getHeight())));
-        return accountMapper.accountToAccountDto(account);
+        if(account!=null){
+            account.getMembers().forEach(member -> log.info("Height of the member:{}",String.valueOf(member.getHeight())));
+            return accountMapper.accountToAccountDto(account);
+        }else{
+            return null;
+        }
+
     }
 
     /**

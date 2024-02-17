@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -82,5 +83,21 @@ public class MemberIdentifierHelperImpl implements MemberIdentifierHelper {
         return memberIdentifierRepository.findMemberIdentifierByAndIdentifierValueAndIdentifierTypeCode(
                 identifierValue,
                 identifierTypeCode);
+    }
+
+    /**
+     * Save member identifiers
+     * @param memberIdentifierDtos
+     */
+    @Override
+    public void saveMemberIdentifiers(Set<MemberIdentifierDto> memberIdentifierDtos) {
+        if(memberIdentifierDtos == null || memberIdentifierDtos.isEmpty()){
+            return;
+        }
+        memberIdentifierDtos.forEach(memberIdentifierDto -> {
+            if(memberIdentifierDto.getChanged().get()){
+                createMemberIdentifier(memberIdentifierDto);
+            }
+        });
     }
 }

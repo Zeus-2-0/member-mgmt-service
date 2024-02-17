@@ -1,6 +1,9 @@
 package com.brihaspathee.zeus.helper.interfaces;
 
+import com.brihaspathee.zeus.domain.entity.MemberLanguage;
 import com.brihaspathee.zeus.dto.account.MemberLanguageDto;
+
+import java.util.Set;
 
 /**
  * Created in Intellij IDEA
@@ -19,4 +22,10 @@ public interface MemberLanguageHelper {
      * @return return the created member language
      */
     MemberLanguageDto createMemberLanguage(MemberLanguageDto memberLanguageDto);
+
+    /**
+     * Save member languages
+     * @param memberLanguageDtos
+     */
+    void saveMemberLanguages(Set<MemberLanguageDto> memberLanguageDtos);
 }

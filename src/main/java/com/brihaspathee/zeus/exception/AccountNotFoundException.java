@@ -9,13 +9,13 @@ package com.brihaspathee.zeus.exception;
  * Package Name: com.brihaspathee.zeus.exception
  * To change this template use File | Settings | File and Code Template
  */
-public class AccountNotFoundException extends RuntimeException{
+public class AccountNotFoundException extends RuntimeException {
 
     public AccountNotFoundException(String message){
-        super(message);
+        super();
     }
 
     public AccountNotFoundException(String message, Throwable cause){
-        super(message, cause);
+        super();
     }
 }

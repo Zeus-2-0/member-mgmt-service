@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -43,5 +45,21 @@ public class MemberPhoneHelperImpl implements MemberPhoneHelper {
         MemberPhone memberPhone = memberPhoneMapper.phoneDtoToPhone(memberPhoneDto);
         memberPhone = memberPhoneRepository.save(memberPhone);
         return memberPhoneMapper.phoneToPhoneDto(memberPhone);
+    }
+
+    /**
+     * Save member phones
+     * @param memberPhoneDtos
+     */
+    @Override
+    public void saveMemberPhones(Set<MemberPhoneDto> memberPhoneDtos) {
+        if(memberPhoneDtos == null || memberPhoneDtos.isEmpty()){
+            return;
+        }
+        memberPhoneDtos.forEach(memberPhoneDto -> {
+            if(memberPhoneDto.getChanged().get()){
+                createMemberPhone(memberPhoneDto);
+            }
+        });
     }
 }

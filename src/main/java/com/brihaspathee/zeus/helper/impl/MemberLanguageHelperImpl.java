@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -43,5 +45,21 @@ public class MemberLanguageHelperImpl implements MemberLanguageHelper {
         MemberLanguage memberLanguage = memberLanguageMapper.languageDtoToLanguage(memberLanguageDto);
         memberLanguage = memberLanguageRepository.save(memberLanguage);
         return memberLanguageMapper.languageToLanguageDto(memberLanguage);
+    }
+
+    /**
+     * Save member languages
+     * @param memberLanguageDtos
+     */
+    @Override
+    public void saveMemberLanguages(Set<MemberLanguageDto> memberLanguageDtos) {
+        if(memberLanguageDtos == null || memberLanguageDtos.isEmpty()){
+            return;
+        }
+        memberLanguageDtos.forEach(memberLanguageDto -> {
+            if(memberLanguageDto.getChanged().get()){
+                createMemberLanguage(memberLanguageDto);
+            }
+        });
     }
 }

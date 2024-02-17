@@ -22,5 +22,15 @@ public interface MemberAddressHelper {
      */
     MemberAddressDto createMemberAddress(MemberAddressDto memberAddressDto);
 
+    /**
+     * Validate member address
+     * @param memberAddressDtos
+     */
     void validateMemberAddresses(Set<MemberAddressDto> memberAddressDtos);
+
+    /**
+     * Save member address
+     * @param memberAddressDtos
+     */
+    void saveMemberAddresses(Set<MemberAddressDto> memberAddressDtos);
 }

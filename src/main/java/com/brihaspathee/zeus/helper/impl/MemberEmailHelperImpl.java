@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -43,5 +45,21 @@ public class MemberEmailHelperImpl implements MemberEmailHelper {
         MemberEmail memberEmail = memberEmailMapper.emailDtoToEmail(memberEmailDto);
         memberEmail = memberEmailRepository.save(memberEmail);
         return memberEmailMapper.emailToEmailDto(memberEmail);
+    }
+
+    /**
+     * Save member email
+     * @param memberEmailDtos
+     */
+    @Override
+    public void saveMemberEmail(Set<MemberEmailDto> memberEmailDtos) {
+        if(memberEmailDtos == null || memberEmailDtos.isEmpty()){
+            return;
+        }
+        memberEmailDtos.forEach(memberEmailDto -> {
+            if(memberEmailDto.getChanged().get()){
+                createMemberEmail(memberEmailDto);
+            }
+        });
     }
 }

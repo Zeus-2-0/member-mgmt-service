@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.service.interfaces;
 
+import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.MemberDto;
 
 import java.time.LocalDate;
@@ -61,6 +62,12 @@ public interface MemberService {
      * @return
      */
     List<MemberDto> getMembersByNameAndDOB(String firstName, String lastName, String genderTypeCode, LocalDate dateOfBirth);
+
+    /**
+     * Save member updates or create new members as needed
+     * @param accountDto
+     */
+    void saveMembers(AccountDto accountDto);
 
 
 }
