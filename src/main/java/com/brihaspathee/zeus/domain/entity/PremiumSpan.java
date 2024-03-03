@@ -85,7 +85,7 @@ public class PremiumSpan {
      * The members associated with the enrollment span
      */
     //@OneToMany(mappedBy = "premiumSpan", fetch = FetchType.EAGER)
-    @OneToMany(mappedBy = "premiumSpan")
+    @OneToMany(mappedBy = "premiumSpan", cascade = CascadeType.REMOVE)
     private Set<MemberPremium> members;
 
     /**

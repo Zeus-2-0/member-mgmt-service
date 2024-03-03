@@ -51,4 +51,12 @@ public class PayloadTrackerHelperImpl implements PayloadTrackerHelper {
                 });
         return payloadTracker;
     }
+
+    /**
+     * Clean up the payload tracker
+     */
+    @Override
+    public void deleteAll() {
+        payloadTrackerRepository.deleteAll();
+    }
 }

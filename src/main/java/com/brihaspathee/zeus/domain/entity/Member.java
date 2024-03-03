@@ -121,49 +121,49 @@ public class Member {
     /**
      * The list of all the attributes associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberAttribute> memberAttributes;
 
     /**
      * The list of all the addresses associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberAddress> memberAddresses;
 
     /**
      * The list of all the identifiers associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberIdentifier> memberIdentifiers;
 
     /**
      * The list of all the emails associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberEmail> memberEmails;
 
     /**
      * The list of all the languages associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberLanguage> memberLanguages;
 
     /**
      * The list of all the phone numbers associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberPhone> memberPhones;
 
     /**
      * The list of all the premium spans associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<MemberPremium> memberPremiums;
 
     /**
      * The list of all the alternate contacts associated with the member
      */
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private Set<AlternateContact> alternateContacts;
 
     /**
