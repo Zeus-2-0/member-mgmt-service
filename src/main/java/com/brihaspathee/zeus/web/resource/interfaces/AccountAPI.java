@@ -284,5 +284,49 @@ public interface AccountAPI {
     ResponseEntity<ZeusApiResponse<AccountList>> getMatchingAccounts(
             AccountMatchParam accountMatchParam);
 
+    /**
+     * Get the accounts where the HOH of the account has the SSN passed in the input
+     * @param ssn
+     * @return
+     */
+    @Operation(
+            operationId = "Get Accounts by ssn",
+            method = "GET",
+            description = "Get the details of the accounts by HOH's SSN",
+            tags = {"account"}
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully retrieved the details of the accounts",
+                            content = {
+                                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = AccountList.class))
+                            }
+                    )
+            }
+    )
+    @GetMapping("/ssn/{ssn}")
+    ResponseEntity<ZeusApiResponse<AccountList>> getAccountBySSN(@PathVariable("ssn") String ssn);
+
+    /**
+     * Clean up the entire db
+     * @return
+     */
+    @Operation(
+            operationId = "Delete all data",
+            method = "DELETE",
+            description = "Delete all data",
+            tags = {"account"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Data deleted successfully",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = ZeusApiResponse.class))
+                    })
+    })
+    @DeleteMapping("/delete")
+    ResponseEntity<ZeusApiResponse<String>> cleanUp();
 
 }

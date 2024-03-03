@@ -269,5 +269,39 @@ public class AccountAPIImpl implements AccountAPI {
         return ResponseEntity.ok(apiResponse);
     }
 
+    /**
+     * Match accounts by ssn
+     * @param ssn
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<AccountList>> getAccountBySSN(String ssn) {
+        log.info("SSN Passed in as input:{}", ssn);
+        AccountList accountList = accountService.getAccountsBySSN(ssn);
+        ZeusApiResponse<AccountList> apiResponse = ZeusApiResponse.<AccountList>builder()
+                .response(accountList)
+                .timestamp(LocalDateTime.now(ZoneId.systemDefault()))
+                .status(HttpStatus.OK)
+                .statusCode(HttpStatus.OK.value())
+                .message(ApiResponseConstants.SUCCESS)
+                .developerMessage(ApiResponseConstants.SUCCESS_REASON)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @Override
+    public ResponseEntity<ZeusApiResponse<String>> cleanUp() {
+        accountService.deleteAll();
+        ZeusApiResponse<String> apiResponse = ZeusApiResponse.<String>builder()
+                .response("Member management service cleaned up")
+                .statusCode(204)
+                .status(HttpStatus.NO_CONTENT)
+                .developerMessage(ApiResponseConstants.SUCCESS)
+                .message(ApiResponseConstants.SUCCESS_REASON)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.domain.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -82,37 +83,37 @@ public class Account {
     /**
      * The list of all the members associated with the account
      */
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<Member> members;
 
     /**
      * The list of all the enrollment spans associated with the account
      */
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<EnrollmentSpan> enrollmentSpans;
 
     /**
      * The list of all the brokers associated with the account
      */
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<Broker> brokers;
 
     /**
      * The list of all the payers associated with the account
      */
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<Payer> payers;
 
     /**
      * The list of all the sponsors associated with the account
      */
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<Sponsor> sponsors;
 
     /**
      * The list of all the attributes associated with the account
      */
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<AccountAttribute> accountAttributes;
 
 

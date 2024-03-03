@@ -112,4 +112,15 @@ public interface AccountService {
      */
     AccountList getMatchingAccounts(AccountMatchParam accountMatchParam);
 
+    /**
+     * Get account by matching with the SSN of the primary subscriber
+     * @param ssn
+     */
+    AccountList getAccountsBySSN(String ssn);
+
+    /**
+     * Clean up the entire database
+     */
+    void deleteAll();
+
 }

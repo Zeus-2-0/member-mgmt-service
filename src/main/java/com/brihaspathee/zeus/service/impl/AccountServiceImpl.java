@@ -97,6 +97,11 @@ public class AccountServiceImpl implements AccountService {
     private final MessageAdapter messageAdapter;
 
     /**
+     * Payload tracker helper instance
+     */
+    private final PayloadTrackerHelper payloadTrackerHelper;
+
+    /**
      * Create a new account
      * @param accountDto
      * @return
@@ -378,6 +383,8 @@ public class AccountServiceImpl implements AccountService {
         return accountList;
     }
 
+
+
     /**
      * Get account by name, date of birth and gender of the primary subscriber
      * @param accountMatchParam
@@ -413,6 +420,33 @@ public class AccountServiceImpl implements AccountService {
             }
         }
     }
+
+    /**
+     * Match account by ssn
+     * @param ssn
+     * @return
+     */
+    @Override
+    public AccountList getAccountsBySSN(String ssn) {
+        AccountList accountList = AccountList.builder().build();
+        List<MemberDto> memberDtos = memberService.getHOHBySSN(ssn);
+        if(memberDtos!=null && !memberDtos.isEmpty()){
+            Set<AccountDto> accountDtos = memberDtos
+                    .stream().map(this::getMemberAccount).collect(Collectors.toSet());
+            accountList.setAccountDtos(accountDtos);
+        }
+        return accountList;
+    }
+
+    /**
+     * Clean up the entire member management service database
+     */
+    @Override
+    public void deleteAll() {
+        accountRepository.deleteAll();
+        payloadTrackerHelper.deleteAll();
+    }
+
 
     /**
      * Get Member account from member dto

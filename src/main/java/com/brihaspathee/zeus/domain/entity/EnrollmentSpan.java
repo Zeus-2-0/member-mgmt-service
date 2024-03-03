@@ -60,7 +60,7 @@ public class EnrollmentSpan {
     /**
      * The list of all the premium spans associated with the enrollment span
      */
-    @OneToMany(mappedBy = "enrollmentSpan", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "enrollmentSpan", cascade = CascadeType.REMOVE)
     private Set<PremiumSpan> premiumSpans;
 
     /**
