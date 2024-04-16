@@ -58,6 +58,7 @@ public class PremiumSpanHelperImpl implements PremiumSpanHelper {
         final PremiumSpan premiumSpan = premiumSpanRepository.save(
                 premiumSpanMapper.premiumSpanDtoToPremiumSpan(premiumSpanDto));
         Set<MemberPremium> memberPremiums = premiumSpan.getMembers();
+        log.info("Member Premiums:{}", memberPremiums);
         memberPremiums.stream().forEach(memberPremium -> memberPremium.setPremiumSpan(premiumSpan));
         memberPremiumRepository.saveAll(memberPremiums);
         return premiumSpanMapper.premiumSpanToPremiumSpanDto(premiumSpan);

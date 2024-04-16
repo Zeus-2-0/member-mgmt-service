@@ -94,6 +94,7 @@ public class TransactionRequestListener {
         processAccount(accountRequestPayload, payloadTracker);
         log.info("Sending the ack for account {}", accountRequestPayload.getPayload().getAccountDto().getAccountNumber());
         log.info("Ack id is {}", ack.getPayload().getAckId());
+        log.info("Request Payload Id is {}", ack.getPayload().getRequestPayloadId());
         return ack;
     }
 
@@ -106,7 +107,7 @@ public class TransactionRequestListener {
     private void processAccount(ZeusMessagePayload<AccountUpdateRequest> messagePayload, PayloadTracker payloadTracker) throws JsonProcessingException {
         log.info(messagePayload.getPayload().getAccountDto().getAccountNumber());
         AccountDto accountDto = messagePayload.getPayload().getAccountDto();
-        log.info("Inside process account method for the account:{}", accountDto.getAccountNumber() );
+        log.info("Inside process account method for the account:{}", accountDto );
         log.info("The payload tracker is:{}", payloadTracker.getPayloadId());
 
         PayloadTracker finalPayloadTracker = payloadTracker;

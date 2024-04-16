@@ -17,6 +17,8 @@ import com.brihaspathee.zeus.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -91,6 +93,7 @@ public class MemberServiceImpl implements MemberService {
      * @return the member entity associated with the member code
      */
     @Override
+    @Transactional(propagation= Propagation.REQUIRED, readOnly=true, noRollbackFor=Exception.class)
     public MemberDto getMemberByCode(String memberCode) {
         Member member = memberRepository.findMemberByMemberCode(memberCode).orElseThrow(() ->{
             throw new MemberNotFoundException("Member with member code " + memberCode + " not found");
@@ -204,8 +207,12 @@ public class MemberServiceImpl implements MemberService {
                 UUID memberSK = memberDto.getMemberSK();
                 if(memberSK == null){
                     // the member is not present in the account
+                    // set the account SK
+                    memberDto.setAccountSK(accountDto.getAccountSK());
                     // create the member
-                    createMember(memberDto);
+                    MemberDto updatedMemberDto = createMember(memberDto);
+                    // set the member sk for the member in the account dto
+                    memberDto.setMemberSK(updatedMemberDto.getMemberSK());
                 }else{
                     // it is an existing member
                     if(memberDto.getChanged().get()){

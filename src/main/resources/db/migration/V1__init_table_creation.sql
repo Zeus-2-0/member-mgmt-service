@@ -137,6 +137,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`enrollment_span` (
     `state_type_code` VARCHAR(45) NOT NULL,
     `marketplace_type_code` VARCHAR(45) NOT NULL,
     `business_unit_type_code` VARCHAR(50) NOT NULL,
+    `enrollment_type` VARCHAR(50) NOT NULL COMMENT 'Indicates if the enrollment was a passive or active enrollment',
     `coverage_type_code` VARCHAR(50) NOT NULL,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,

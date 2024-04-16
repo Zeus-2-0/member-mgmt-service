@@ -38,24 +38,24 @@ paths:
               $ref: '#/components/schemas/AccountDto'
         required: true
       responses:
-        "201":
-          description: Successfully created the account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
         "409":
           description: Conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+        "201":
+          description: Successfully created the account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
   /api/v1/zeus/account/update:
     post:
       tags:
@@ -69,6 +69,12 @@ paths:
               $ref: '#/components/schemas/AccountDto'
         required: true
       responses:
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
         "400":
           description: Bad Request
           content:
@@ -81,12 +87,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountDto'
-        "409":
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
   /api/v1/zeus:
     get:
       tags:
