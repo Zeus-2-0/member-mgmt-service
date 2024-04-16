@@ -10,6 +10,7 @@ import com.brihaspathee.zeus.exception.MemberNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.EnrollmentSpanHelper;
 import com.brihaspathee.zeus.helper.interfaces.PremiumSpanHelper;
 import com.brihaspathee.zeus.mapper.interfaces.EnrollmentSpanMapper;
+import com.brihaspathee.zeus.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,11 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
      */
     private final PremiumSpanHelper premiumSpanHelper;
 
+    /**
+     * Member service instance to retrieve the member if not present in the payload
+     */
+    private final MemberService memberService;
+
 
     /**
      * Get enrollment spans that match exchange subscriber id and state type code
@@ -86,29 +92,16 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
                     // Enrollment span exist for the account
                     if(enrollmentSpanDto.getChanged().get()){
                         enrollmentSpanDto.setAccountSK(accountDto.getAccountSK());
-                        enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK()));
+                        // enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK()));
                         // Enrollment span has changed hence it has to be updated
                         updateEnrollmentSpan(enrollmentSpanDto, accountDto);
-                        enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> {
-                            // premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK());
-                            // Check if the premium span already exists
-                            if(premiumSpanDto.getPremiumSpanSK() == null){
-                                // Premium span does not exist for the enrollment span
-                                // so create it
-                                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
-                                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
-                            }else{
-                                // Premium span exist check if it has to be updated
-                                if(premiumSpanDto.getChanged().get()){
-                                    // premium span has to be updated
-                                    premiumSpanHelper.updatePremiumSpan(premiumSpanDto);
-                                }
-                            }
-                        });
+                        updatePremiumSpans(enrollmentSpanDto, accountDto);
                     }else{
                         // enrollment span is not updated
-                        // todo check if premium spans are updated
+                        // check if premium spans are updated
                         // this happens on a CHANGE transaction
+                        updatePremiumSpans(enrollmentSpanDto, accountDto);
+
                     }
                 }
 
@@ -128,6 +121,37 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
         log.info("Enrollment span to be updated:{}", enrollmentSpan);
         enrollmentSpan = enrollmentSpanRepository.save(enrollmentSpan);
         log.info("Updated Enrollment span:{}", enrollmentSpan);
+    }
+
+    /**
+     * Update the premium span
+     * @param enrollmentSpanDto
+     * @param accountDto
+     */
+    private void updatePremiumSpans(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto){
+        enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> {
+            premiumSpanDto.setEnrollmentSpanSK(enrollmentSpanDto.getEnrollmentSpanSK());
+            // Check if the premium span already exists
+            if(premiumSpanDto.getPremiumSpanSK() == null){
+                // Premium span does not exist for the enrollment span
+                // so create it
+                // First set the members in the member premiums
+                premiumSpanDto.getMemberPremiumSpans().forEach(memberPremiumDto -> {
+                    if(memberPremiumDto.getMemberSK() == null){
+
+                        populateMemberSK(memberPremiumDto, accountDto.getMembers());
+                    }
+                });
+                UUID premiumSpanSK = premiumSpanHelper.createPremiumSpan(premiumSpanDto).getPremiumSpanSK();
+                premiumSpanDto.setPremiumSpanSK(premiumSpanSK);
+            }else{
+                // Premium span exist check if it has to be updated
+                if(premiumSpanDto.getChanged().get()){
+                    // premium span has to be updated
+                    premiumSpanHelper.updatePremiumSpan(premiumSpanDto);
+                }
+            }
+        });
     }
 
     /**
@@ -155,6 +179,7 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
         enrollmentSpanDto.getPremiumSpans().forEach(premiumSpanDto -> {
             premiumSpanDto.getMemberPremiumSpans().forEach(memberPremiumDto -> {
                 if(memberPremiumDto.getMemberSK() == null){
+                    log.info("Members in the account:{}", accountDto.getMembers());
                     populateMemberSK(memberPremiumDto, accountDto.getMembers());
                 }
             });
@@ -170,14 +195,40 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
      * @param memberDtos
      */
     private void populateMemberSK(MemberPremiumDto memberPremiumDto, Set<MemberDto> memberDtos){
-        MemberDto retrievedMember = memberDtos.stream()
-                .filter(
-                        memberDto ->
-                                memberDto.getMemberCode().equals(memberPremiumDto.getMemberCode()))
-                .findFirst()
-                .orElseThrow(() -> {
-                    throw new MemberNotFoundException("Member with member code " + memberPremiumDto.getMemberCode() + " not found");
-                });
-        memberPremiumDto.setMemberSK(retrievedMember.getMemberSK());
+        log.info("Inside populate member SK method");
+        // Members in the member premium may not be present in the payload from APS unless they
+        // are either newly created or updated
+        String memberCode = memberPremiumDto.getMemberCode();
+        MemberDto retrievedMember = null;
+        if(memberDtos == null || memberDtos.isEmpty()){
+            // So if it is not in the payload then get it from the database
+            retrievedMember = retrieveMember(memberCode);
+        }else{
+            // if there are members in the payload
+            // check if the member that is needed in the premium span is present
+            // if not then retrieve it from DB
+            retrievedMember = memberDtos.stream()
+                    .filter(
+                            memberDto ->
+                                    memberDto.getMemberCode().equals(memberPremiumDto.getMemberCode()))
+                    .findFirst()
+                    .orElseGet(() -> retrieveMember(memberPremiumDto.getMemberCode()));
+        }
+        if(retrievedMember != null){
+            memberPremiumDto.setMemberSK(retrievedMember.getMemberSK());
+        }else{
+            throw new MemberNotFoundException("Member with member code " + memberCode + " not found");
+        }
+
+
+    }
+
+    /**
+     * Get member by member code
+     * @param memberCode
+     * @return
+     */
+    private MemberDto retrieveMember(String memberCode){
+        return memberService.getMemberByCode(memberCode);
     }
 }

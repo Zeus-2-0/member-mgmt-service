@@ -82,6 +82,12 @@ public class EnrollmentSpan {
     private String businessUnitTypeCode;
 
     /**
+     * The enrollment type of the enrollment span
+     */
+    @Column(name = "enrollment_type", length = 20, columnDefinition = "varchar", nullable = true)
+    private String enrollmentType;
+
+    /**
      * Identifies the coverage type of the enrollment span
      */
     @Column(name = "coverage_type_code", length = 50, columnDefinition = "varchar", nullable = false)

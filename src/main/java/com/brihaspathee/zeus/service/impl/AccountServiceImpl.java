@@ -119,7 +119,7 @@ public class AccountServiceImpl implements AccountService {
         // save the account to the repository
         final Account account = accountRepository.save(accountMapper.accountDtoToAccount(accountDto));
         accountDto.setAccountSK(account.getAccountSK());
-        accountDto.getMembers().stream().forEach(memberDto -> {
+        accountDto.getMembers().forEach(memberDto -> {
             memberDto.setAccountSK(account.getAccountSK());
             memberDto.setMemberSK(memberService.createMember(memberDto).getMemberSK());
         });
@@ -158,10 +158,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto updateAccount(AccountDto accountDto) throws JsonProcessingException {
         log.info("Inside the update account method");
-        // Check if the enrollment span has been updated
-        enrollmentSpanHelper.saveEnrollmentSpans(accountDto);
         // Check if the member has been updated
         memberService.saveMembers(accountDto);
+        // Check if the enrollment span has been updated
+        enrollmentSpanHelper.saveEnrollmentSpans(accountDto);
         // todo Check if the broker has been updated
         // todo Check if the sponsor has been updated
         // todo Check if the payer has been updated
@@ -222,7 +222,8 @@ public class AccountServiceImpl implements AccountService {
         }
         AccountUpdateResponse accountUpdateResponse =
                 constructAccountProcessingResponse(payloadTracker, accountDto);
-        return Mono.just(accountUpdateResponse).delayElement(Duration.ofSeconds(30));
+        return Mono.just(accountUpdateResponse);
+//        return Mono.just(accountUpdateResponse).delayElement(Duration.ofSeconds(30));
     }
 
     /**

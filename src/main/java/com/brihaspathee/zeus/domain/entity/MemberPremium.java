@@ -89,9 +89,10 @@ public class MemberPremium {
     public String toString() {
         return "MemberPremium{" +
                 "memberPremiumSK=" + memberPremiumSK +
+                ", exchangeMemberId=" + exchangeMemberId +
+                ", individualPremiumAmount=" + individualPremiumAmount +
                 ", premiumSpan=" + premiumSpan +
                 ", member=" + member +
-                ", individualPremiumAmount=" + individualPremiumAmount +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
