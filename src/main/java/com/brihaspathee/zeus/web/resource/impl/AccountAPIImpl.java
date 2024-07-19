@@ -289,11 +289,36 @@ public class AccountAPIImpl implements AccountAPI {
         return ResponseEntity.ok(apiResponse);
     }
 
+    /**
+     * Method to clean the data base
+     * @return
+     */
     @Override
     public ResponseEntity<ZeusApiResponse<String>> cleanUp() {
         accountService.deleteAll();
         ZeusApiResponse<String> apiResponse = ZeusApiResponse.<String>builder()
                 .response("Member management service cleaned up")
+                .statusCode(204)
+                .status(HttpStatus.NO_CONTENT)
+                .developerMessage(ApiResponseConstants.SUCCESS)
+                .message(ApiResponseConstants.SUCCESS_REASON)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Update the enrollment span with status and paid through dates
+     * @param enrollmentSpanDto - The enrollment span that needs to be updated
+     * @return
+     * @throws JsonProcessingException
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(EnrollmentSpanDto enrollmentSpanDto) throws JsonProcessingException {
+        log.info("EnrollmentSpanDto received for update:{}", enrollmentSpanDto);
+        accountService.updateEnrollmentSpan(enrollmentSpanDto);
+        ZeusApiResponse<String> apiResponse = ZeusApiResponse.<String>builder()
+                .response("Enrollment span updated successfully")
                 .statusCode(204)
                 .status(HttpStatus.NO_CONTENT)
                 .developerMessage(ApiResponseConstants.SUCCESS)

@@ -329,4 +329,35 @@ public interface AccountAPI {
     @DeleteMapping("/delete")
     ResponseEntity<ZeusApiResponse<String>> cleanUp();
 
+    /**
+     * Update the paid through date and status of an enrollment span
+     * @param enrollmentSpanDto - The enrollment span that needs to be updated
+     * @return
+     */
+    @Operation(
+            operationId = "Update the paid through date and status of an enrollment span",
+            method = "POST",
+            description = "Update the paid through date and status of an enrollment span",
+            tags = {"account"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Successfully update the enrollment span",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = AccountDto.class))
+                    }),
+            @ApiResponse(responseCode = "400",
+                    description = "Bad Request",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = ApiExceptionList.class))
+                    }),
+            @ApiResponse(responseCode = "409",
+                    description = "Conflict",
+                    content = {
+                            @Content(mediaType = "application/json",schema = @Schema(implementation = ApiExceptionList.class))
+                    })
+    })
+    @PostMapping(path = "/enrollmentSpan/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(@RequestBody @Valid EnrollmentSpanDto enrollmentSpanDto) throws JsonProcessingException;
+
 }

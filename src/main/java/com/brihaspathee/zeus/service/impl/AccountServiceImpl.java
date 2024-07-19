@@ -440,6 +440,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Update the enrollment span status and paid through dates
+     * @param enrollmentSpanDto
+     */
+    @Override
+    public void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto) {
+        enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto);
+    }
+
+    /**
      * Clean up the entire member management service database
      */
     @Override

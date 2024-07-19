@@ -119,6 +119,12 @@ public interface AccountService {
     AccountList getAccountsBySSN(String ssn);
 
     /**
+     * Update the enrollment span status and paid through dates
+     * @param enrollmentSpanDto
+     */
+    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
+
+    /**
      * Clean up the entire database
      */
     void deleteAll();
