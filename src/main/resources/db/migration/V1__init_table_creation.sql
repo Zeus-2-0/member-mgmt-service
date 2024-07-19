@@ -253,6 +253,7 @@ CREATE TABLE IF NOT EXISTS `membermgmtdb`.`member_address` (
     `address_line_2` VARCHAR(100) NULL COMMENT 'Address line 2 of the address',
     `city` VARCHAR(100) NOT NULL COMMENT 'City of the address',
     `state_type_code` VARCHAR(20) NOT NULL COMMENT 'State of the address',
+    `fips_code` VARCHAR(10) NOT NULL COMMENT 'County code of the address',
     `zip_code` VARCHAR(10) NOT NULL COMMENT 'Zip code of the address',
     `ztcn` VARCHAR(50) NULL COMMENT 'The transaction control number that created the address',
     `source` VARCHAR(50) NOT NULL COMMENT 'The source of the data',

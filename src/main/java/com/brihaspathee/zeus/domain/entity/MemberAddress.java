@@ -88,6 +88,12 @@ public class MemberAddress {
     /**
      * The zip code of the address
      */
+    @Column(name = "fips_code", columnDefinition = "varchar", nullable = false, length = 10)
+    private String fipsCode;
+
+    /**
+     * The zip code of the address
+     */
     @Column(name = "zip_code", columnDefinition = "varchar", nullable = false, length = 10)
     private String zipCode;
 
@@ -142,6 +148,7 @@ public class MemberAddress {
                 ", addressLine2='" + addressLine2 + '\'' +
                 ", city='" + city + '\'' +
                 ", stateTypeCode='" + stateTypeCode + '\'' +
+                ", fipsCode='" + fipsCode + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

@@ -68,7 +68,7 @@ public class MemberAddressHelperImpl implements MemberAddressHelper {
         log.info("Residential Addresses:{}", residentialAddresses);
         List<MemberAddressDto> sortedResAddresses = residentialAddresses.stream()
                 .sorted(Comparator.comparing(MemberAddressDto::getStartDate))
-                .collect(Collectors.toList());
+                .toList();
 //        sortedResAddresses.stream().
 //                forEach(
 //                        memberAddressDto ->

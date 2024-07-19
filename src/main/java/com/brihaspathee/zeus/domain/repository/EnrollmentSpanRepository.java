@@ -28,4 +28,11 @@ public interface EnrollmentSpanRepository extends JpaRepository<EnrollmentSpan, 
      */
     List<EnrollmentSpan> findEnrollmentSpansByExchangeSubscriberIdAndStateTypeCode(String exchangeSubscriberId,
                                                                    String stateTypeCode);
+
+    /**
+     * Find enrollment span by enrollment span code
+     * @param enrollmentSpanCode
+     * @return
+     */
+    Optional<EnrollmentSpan> findEnrollmentSpanByEnrollmentSpanCode(String enrollmentSpanCode);
 }

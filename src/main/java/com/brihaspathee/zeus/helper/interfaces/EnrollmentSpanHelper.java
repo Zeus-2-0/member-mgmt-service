@@ -35,11 +35,11 @@ public interface EnrollmentSpanHelper {
      */
     List<EnrollmentSpan> getMatchingEnrollmentSpan(String exchangeSubscriberId, String stateTypeCode);
 
-//    /**
-//     * Update an enrollment span
-//     * @param enrollmentSpanDto
-//     */
-//    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto, AccountDto accountDto);
+    /**
+     * Update an enrollment span status and paid through dates
+     * @param enrollmentSpanDto
+     */
+    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
 
     /**
      * Save the enrollment spans associated with the account
