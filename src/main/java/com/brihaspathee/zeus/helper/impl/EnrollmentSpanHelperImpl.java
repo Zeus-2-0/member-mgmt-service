@@ -87,8 +87,15 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
                         new EnrollmentSpanNotFoundException(enrollmentSpanDto.getEnrollmentSpanCode()));
         LocalDate currentPTD = enrollmentSpan.getPaidThroughDate();
         String currentStatus = enrollmentSpan.getStatusTypeCode();
+        log.info("Enrollment Span to be updated:{}", enrollmentSpanDto);
+        log.info("Enrollment Span paid through date to be updated:{}", enrollmentSpanDto.getPaidThroughDate());
         // Check if either the paid through date or the current status is different from what is passed in the input
-        if(currentPTD == null || !enrollmentSpanDto.getPaidThroughDate().isEqual(currentPTD) ||
+        if(enrollmentSpanDto.getPaidThroughDate() == null){
+            enrollmentSpan.setPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
+            enrollmentSpan.setClaimPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
+            enrollmentSpan.setStatusTypeCode(enrollmentSpanDto.getStatusTypeCode());
+            enrollmentSpan.setEffectuationDate(enrollmentSpanDto.getEffectuationDate());
+        } else if(currentPTD == null || !enrollmentSpanDto.getPaidThroughDate().isEqual(currentPTD) ||
                 !enrollmentSpanDto.getStatusTypeCode().equals(currentStatus)){
             enrollmentSpan.setPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
             enrollmentSpan.setClaimPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
@@ -99,8 +106,9 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
             enrollmentSpanDto.getEffectuationDate() !=null){
                 enrollmentSpan.setEffectuationDate(enrollmentSpanDto.getEffectuationDate());
             }
-            enrollmentSpanRepository.save(enrollmentSpan);
+
         }
+        enrollmentSpanRepository.save(enrollmentSpan);
     }
 
     /**

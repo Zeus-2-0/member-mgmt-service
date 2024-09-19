@@ -316,6 +316,7 @@ public class AccountAPIImpl implements AccountAPI {
     @Override
     public ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(EnrollmentSpanDto enrollmentSpanDto) throws JsonProcessingException {
         log.info("EnrollmentSpanDto received for update:{}", enrollmentSpanDto);
+        log.info("Paid Through Date received:{}", enrollmentSpanDto.getPaidThroughDate());
         accountService.updateEnrollmentSpan(enrollmentSpanDto);
         ZeusApiResponse<String> apiResponse = ZeusApiResponse.<String>builder()
                 .response("Enrollment span updated successfully")
