@@ -277,8 +277,8 @@ public class AccountServiceImpl implements AccountService {
         if(!matchCancelSpans){
             enrollmentSpanDtos = removeCanceledSpans(enrollmentSpanDtos);
         }
-        if(enrollmentSpanDtos != null && enrollmentSpanDtos.size() > 0){
-            return enrollmentSpanDtos.get(enrollmentSpanDtos.size() - 1);
+        if(enrollmentSpanDtos != null && !enrollmentSpanDtos.isEmpty()){
+            return enrollmentSpanDtos.getLast();
         }else {
             return null;
         }
@@ -512,7 +512,7 @@ public class AccountServiceImpl implements AccountService {
                 .filter(
                         enrollmentSpanDto ->
                                 !enrollmentSpanDto.getStatusTypeCode()
-                                        .equals(EnrollmentSpanStatus.CANCELED))
+                                        .equals(EnrollmentSpanStatus.CANCELED.toString()))
                 .collect(Collectors.toList());
     }
 
