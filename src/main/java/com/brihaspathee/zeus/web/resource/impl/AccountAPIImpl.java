@@ -309,15 +309,15 @@ public class AccountAPIImpl implements AccountAPI {
 
     /**
      * Update the enrollment span with status and paid through dates
-     * @param enrollmentSpanDto - The enrollment span that needs to be updated
+     * @param enrollmentSpanList - The enrollment span that needs to be updated
      * @return
      * @throws JsonProcessingException
      */
     @Override
-    public ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(EnrollmentSpanDto enrollmentSpanDto) throws JsonProcessingException {
-        log.info("EnrollmentSpanDto received for update:{}", enrollmentSpanDto);
-        log.info("Paid Through Date received:{}", enrollmentSpanDto.getPaidThroughDate());
-        accountService.updateEnrollmentSpan(enrollmentSpanDto);
+    public ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(EnrollmentSpanList enrollmentSpanList) throws JsonProcessingException {
+//        log.info("EnrollmentSpanDto received for update:{}", enrollmentSpanDto);
+//        log.info("Paid Through Date received:{}", enrollmentSpanDto.getPaidThroughDate());
+        accountService.updateEnrollmentSpan(enrollmentSpanList);
         ZeusApiResponse<String> apiResponse = ZeusApiResponse.<String>builder()
                 .response("Enrollment span updated successfully")
                 .statusCode(204)

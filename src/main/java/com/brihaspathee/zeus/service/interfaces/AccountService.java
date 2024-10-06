@@ -5,6 +5,7 @@ import com.brihaspathee.zeus.domain.entity.PayloadTracker;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.AccountList;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.exception.AccountNotFoundException;
 import com.brihaspathee.zeus.web.model.AccountMatchParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -120,9 +121,9 @@ public interface AccountService {
 
     /**
      * Update the enrollment span status and paid through dates
-     * @param enrollmentSpanDto
+     * @param enrollmentSpanList - List of enrollment spans to be updated
      */
-    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
+    void updateEnrollmentSpan(EnrollmentSpanList enrollmentSpanList);
 
     /**
      * Clean up the entire database

@@ -441,11 +441,11 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * Update the enrollment span status and paid through dates
-     * @param enrollmentSpanDto
+     * @param enrollmentSpanList - List of enrollment spans to be updated
      */
     @Override
-    public void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto) {
-        enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanDto);
+    public void updateEnrollmentSpan(EnrollmentSpanList enrollmentSpanList) {
+        enrollmentSpanHelper.updateEnrollmentSpan(enrollmentSpanList);
     }
 
     /**

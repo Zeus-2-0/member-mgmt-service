@@ -331,7 +331,7 @@ public interface AccountAPI {
 
     /**
      * Update the paid through date and status of an enrollment span
-     * @param enrollmentSpanDto - The enrollment span that needs to be updated
+     * @param enrollmentSpanList - The enrollment span that needs to be updated
      * @return
      */
     @Operation(
@@ -358,6 +358,6 @@ public interface AccountAPI {
                     })
     })
     @PostMapping(path = "/enrollmentSpan/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(@RequestBody @Valid EnrollmentSpanDto enrollmentSpanDto) throws JsonProcessingException;
+    ResponseEntity<ZeusApiResponse<String>> updatePaidThroughDate(@RequestBody @Valid EnrollmentSpanList enrollmentSpanList) throws JsonProcessingException;
 
 }

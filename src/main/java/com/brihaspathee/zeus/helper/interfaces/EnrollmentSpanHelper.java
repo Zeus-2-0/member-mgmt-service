@@ -3,6 +3,7 @@ package com.brihaspathee.zeus.helper.interfaces;
 import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
 import com.brihaspathee.zeus.dto.account.AccountDto;
 import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
+import com.brihaspathee.zeus.dto.account.EnrollmentSpanList;
 import com.brihaspathee.zeus.dto.account.MemberDto;
 
 import java.time.LocalDate;
@@ -37,9 +38,9 @@ public interface EnrollmentSpanHelper {
 
     /**
      * Update an enrollment span status and paid through dates
-     * @param enrollmentSpanDto
+     * @param enrollmentSpanList - List of enrollment spans to be updated
      */
-    void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto);
+    void updateEnrollmentSpan(EnrollmentSpanList enrollmentSpanList);
 
     /**
      * Save the enrollment spans associated with the account

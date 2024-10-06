@@ -2,10 +2,7 @@ package com.brihaspathee.zeus.helper.impl;
 
 import com.brihaspathee.zeus.domain.entity.EnrollmentSpan;
 import com.brihaspathee.zeus.domain.repository.EnrollmentSpanRepository;
-import com.brihaspathee.zeus.dto.account.AccountDto;
-import com.brihaspathee.zeus.dto.account.EnrollmentSpanDto;
-import com.brihaspathee.zeus.dto.account.MemberDto;
-import com.brihaspathee.zeus.dto.account.MemberPremiumDto;
+import com.brihaspathee.zeus.dto.account.*;
 import com.brihaspathee.zeus.exception.EnrollmentSpanNotFoundException;
 import com.brihaspathee.zeus.exception.MemberNotFoundException;
 import com.brihaspathee.zeus.helper.interfaces.EnrollmentSpanHelper;
@@ -77,38 +74,47 @@ public class EnrollmentSpanHelperImpl implements EnrollmentSpanHelper {
 
     /**
      * Update enrollment span status and paid through dates
-     * @param enrollmentSpanDto
+     * @param enrollmentSpanList - The list of enrollment spans to be updated
      */
     @Override
-    public void updateEnrollmentSpan(EnrollmentSpanDto enrollmentSpanDto) {
-        EnrollmentSpan enrollmentSpan = enrollmentSpanRepository
-                .findEnrollmentSpanByEnrollmentSpanCode(enrollmentSpanDto.getEnrollmentSpanCode())
-                .orElseThrow(() ->
-                        new EnrollmentSpanNotFoundException(enrollmentSpanDto.getEnrollmentSpanCode()));
-        LocalDate currentPTD = enrollmentSpan.getPaidThroughDate();
-        String currentStatus = enrollmentSpan.getStatusTypeCode();
-        log.info("Enrollment Span to be updated:{}", enrollmentSpanDto);
-        log.info("Enrollment Span paid through date to be updated:{}", enrollmentSpanDto.getPaidThroughDate());
-        // Check if either the paid through date or the current status is different from what is passed in the input
-        if(enrollmentSpanDto.getPaidThroughDate() == null){
-            enrollmentSpan.setPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
-            enrollmentSpan.setClaimPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
-            enrollmentSpan.setStatusTypeCode(enrollmentSpanDto.getStatusTypeCode());
-            enrollmentSpan.setEffectuationDate(enrollmentSpanDto.getEffectuationDate());
-        } else if(currentPTD == null || !enrollmentSpanDto.getPaidThroughDate().isEqual(currentPTD) ||
-                !enrollmentSpanDto.getStatusTypeCode().equals(currentStatus)){
-            enrollmentSpan.setPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
-            enrollmentSpan.setClaimPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
-            enrollmentSpan.setStatusTypeCode(enrollmentSpanDto.getStatusTypeCode());
-            // If the enrollment span does not have an effectuation date but the update received has
-            // and effectuation date then update the effectuation date
-            if(enrollmentSpan.getEffectuationDate() == null &&
-            enrollmentSpanDto.getEffectuationDate() !=null){
-                enrollmentSpan.setEffectuationDate(enrollmentSpanDto.getEffectuationDate());
-            }
-
+    public void updateEnrollmentSpan(EnrollmentSpanList enrollmentSpanList) {
+        if(enrollmentSpanList == null){
+            return;
         }
-        enrollmentSpanRepository.save(enrollmentSpan);
+        List<EnrollmentSpanDto> enrollmentSpanDtos = enrollmentSpanList.getEnrollmentSpans();
+        if(enrollmentSpanDtos !=null &&
+        !enrollmentSpanDtos.isEmpty()){
+            enrollmentSpanDtos.forEach(enrollmentSpanDto -> {
+                EnrollmentSpan enrollmentSpan = enrollmentSpanRepository
+                        .findEnrollmentSpanByEnrollmentSpanCode(enrollmentSpanDto.getEnrollmentSpanCode())
+                        .orElseThrow(() ->
+                                new EnrollmentSpanNotFoundException(enrollmentSpanDto.getEnrollmentSpanCode()));
+                LocalDate currentPTD = enrollmentSpan.getPaidThroughDate();
+                String currentStatus = enrollmentSpan.getStatusTypeCode();
+                log.info("Enrollment Span to be updated:{}", enrollmentSpanDto);
+                log.info("Enrollment Span paid through date to be updated:{}", enrollmentSpanDto.getPaidThroughDate());
+                // Check if either the paid through date or the current status is different from what is passed in the input
+                if(enrollmentSpanDto.getPaidThroughDate() == null){
+                    enrollmentSpan.setPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
+                    enrollmentSpan.setClaimPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
+                    enrollmentSpan.setStatusTypeCode(enrollmentSpanDto.getStatusTypeCode());
+                    enrollmentSpan.setEffectuationDate(enrollmentSpanDto.getEffectuationDate());
+                } else if(currentPTD == null || !enrollmentSpanDto.getPaidThroughDate().isEqual(currentPTD) ||
+                        !enrollmentSpanDto.getStatusTypeCode().equals(currentStatus)){
+                    enrollmentSpan.setPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
+                    enrollmentSpan.setClaimPaidThroughDate(enrollmentSpanDto.getPaidThroughDate());
+                    enrollmentSpan.setStatusTypeCode(enrollmentSpanDto.getStatusTypeCode());
+                    // If the enrollment span does not have an effectuation date but the update received has
+                    // and effectuation date then update the effectuation date
+                    if(enrollmentSpan.getEffectuationDate() == null &&
+                            enrollmentSpanDto.getEffectuationDate() !=null){
+                        enrollmentSpan.setEffectuationDate(enrollmentSpanDto.getEffectuationDate());
+                    }
+
+                }
+                enrollmentSpanRepository.save(enrollmentSpan);
+            });
+        }
     }
 
     /**
