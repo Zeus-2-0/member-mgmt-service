@@ -25,7 +25,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountList'
+                $ref: "#/components/schemas/AccountList"
     post:
       tags:
       - account
@@ -35,27 +35,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountDto'
+              $ref: "#/components/schemas/AccountDto"
         required: true
       responses:
-        "201":
-          description: Successfully created the account
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDto'
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
         "409":
           description: Conflict
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
+        "201":
+          description: Successfully created the account
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountDto"
   /api/v1/zeus/account/update:
     post:
       tags:
@@ -66,7 +66,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountDto'
+              $ref: "#/components/schemas/AccountDto"
         required: true
       responses:
         "201":
@@ -74,19 +74,50 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: "#/components/schemas/AccountDto"
         "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
         "409":
           description: Conflict
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
+  /api/v1/zeus/account/enrollmentSpan/update:
+    post:
+      tags:
+      - account
+      description: Update the paid through date and status of an enrollment span
+      operationId: Update the paid through date and status of an enrollment span
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnrollmentSpanDto"
+        required: true
+      responses:
+        "201":
+          description: Successfully update the enrollment span
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountDto"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiExceptionList"
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiExceptionList"
   /api/v1/zeus:
     get:
       tags:
@@ -99,7 +130,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WelcomeDto'
+                $ref: "#/components/schemas/WelcomeDto"
   /api/v1/zeus/member/{memberCode}:
     get:
       tags:
@@ -118,7 +149,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MemberDto'
+                $ref: "#/components/schemas/MemberDto"
   /api/v1/zeus/member/account/{accountNumber}:
     get:
       tags:
@@ -138,7 +169,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MemberList'
+                $ref: "#/components/schemas/MemberList"
   /api/v1/zeus/account/{accountNumber}:
     get:
       tags:
@@ -157,7 +188,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: "#/components/schemas/AccountDto"
   /api/v1/zeus/account/ssn/{ssn}:
     get:
       tags:
@@ -176,7 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountList'
+                $ref: "#/components/schemas/AccountList"
   /api/v1/zeus/account/search:
     get:
       tags:
@@ -188,14 +219,14 @@ paths:
         in: query
         required: true
         schema:
-          $ref: '#/components/schemas/AccountMatchParam'
+          $ref: "#/components/schemas/AccountMatchParam"
       responses:
         "200":
           description: Successfully retrieved matching accounts
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountList'
+                $ref: "#/components/schemas/AccountList"
   /api/v1/zeus/account/prior/{accountNumber}/{startDate}/{matchCancelSpans}:
     get:
       tags:
@@ -225,7 +256,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: "#/components/schemas/AccountDto"
   /api/v1/zeus/account/match/prior/{accountNumber}/{startDate}/{matchCancelSpans}:
     get:
       tags:
@@ -255,7 +286,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: "#/components/schemas/AccountDto"
   /api/v1/zeus/account/match/plan/{accountNumber}/{planId}/{groupPolicyId}/{startDate}:
     get:
       tags:
@@ -290,7 +321,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: "#/components/schemas/AccountDto"
   /api/v1/zeus/account/match/date/{accountNumber}/{startDate}/{matchCancelSpans}:
     get:
       tags:
@@ -320,7 +351,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDto'
+                $ref: "#/components/schemas/AccountDto"
   /api/v1/zeus/account/delete:
     delete:
       tags:
@@ -333,7 +364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZeusApiResponse'
+                $ref: "#/components/schemas/ZeusApiResponse"
 components:
   schemas:
     AccountAttributeDto:
@@ -413,32 +444,32 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/EnrollmentSpanDto'
+            $ref: "#/components/schemas/EnrollmentSpanDto"
         members:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/MemberDto'
+            $ref: "#/components/schemas/MemberDto"
         brokers:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/BrokerDto'
+            $ref: "#/components/schemas/BrokerDto"
         sponsors:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/SponsorDto'
+            $ref: "#/components/schemas/SponsorDto"
         payers:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/PayerDto'
+            $ref: "#/components/schemas/PayerDto"
         accountAttributes:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/AccountAttributeDto'
+            $ref: "#/components/schemas/AccountAttributeDto"
         createdDate:
           type: string
           description: The date when the account was created
@@ -797,7 +828,12 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/PremiumSpanDto'
+            $ref: "#/components/schemas/PremiumSpanDto"
+        premiumPayments:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: "#/components/schemas/PremiumPaymentDto"
     MemberAddressDto:
       required:
       - addressLine1
@@ -805,6 +841,7 @@ components:
       - addressTypeCode
       - changed
       - city
+      - fipsCode
       - memberAddressCode
       - source
       - startDate
@@ -851,6 +888,10 @@ components:
           type: string
           description: The zipcode of the address
           example: "33556"
+        fipsCode:
+          type: string
+          description: The fips code of the address
+          example: "12003"
         ztcn:
           type: string
           description: The zeus transaction control number of the transaction that
@@ -1035,49 +1076,49 @@ components:
           type: array
           description: The list of member attributes associated with the member
           items:
-            $ref: '#/components/schemas/MemberAttributeDto'
+            $ref: "#/components/schemas/MemberAttributeDto"
         memberAddresses:
           uniqueItems: true
           type: array
           description: The list of member addresses associated with the member
           items:
-            $ref: '#/components/schemas/MemberAddressDto'
+            $ref: "#/components/schemas/MemberAddressDto"
         memberIdentifiers:
           uniqueItems: true
           type: array
           description: The list of member identifiers associated with the member
           items:
-            $ref: '#/components/schemas/MemberIdentifierDto'
+            $ref: "#/components/schemas/MemberIdentifierDto"
         memberLanguages:
           uniqueItems: true
           type: array
           description: The list of member languages associated with the member
           items:
-            $ref: '#/components/schemas/MemberLanguageDto'
+            $ref: "#/components/schemas/MemberLanguageDto"
         memberPhones:
           uniqueItems: true
           type: array
           description: The list of member phone numbers associated with the member
           items:
-            $ref: '#/components/schemas/MemberPhoneDto'
+            $ref: "#/components/schemas/MemberPhoneDto"
         memberEmails:
           uniqueItems: true
           type: array
           description: The list of member emails associated with the member
           items:
-            $ref: '#/components/schemas/MemberEmailDto'
+            $ref: "#/components/schemas/MemberEmailDto"
         alternateContacts:
           uniqueItems: true
           type: array
           description: The list of alternate contacts associated with the member
           items:
-            $ref: '#/components/schemas/AlternateContactDto'
+            $ref: "#/components/schemas/AlternateContactDto"
         memberPremiums:
           uniqueItems: true
           type: array
           description: The list of premiums associated with the member
           items:
-            $ref: '#/components/schemas/MemberPremiumDto'
+            $ref: "#/components/schemas/MemberPremiumDto"
         createdDate:
           type: string
           description: The date when the member was created
@@ -1500,6 +1541,25 @@ components:
           type: string
           description: The date when the account was updated
           format: date-time
+    PremiumPaymentDto:
+      required:
+      - enrollmentSpanCode
+      - paymentAmount
+      - paymentDate
+      type: object
+      properties:
+        enrollmentSpanCode:
+          type: string
+          description: Enrollment Span Code
+          example: IDNTD4VNLJK9VL3
+        paymentAmount:
+          type: number
+          description: Premium Amount being paid
+          example: 350.0
+        paymentDate:
+          type: string
+          description: The payment date of the premium span
+          format: date
     PremiumSpanDto:
       required:
       - changed
@@ -1609,7 +1669,7 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/MemberPremiumDto'
+            $ref: "#/components/schemas/MemberPremiumDto"
     SponsorDto:
       required:
       - changed
@@ -1695,7 +1755,7 @@ components:
         exceptions:
           type: array
           items:
-            $ref: '#/components/schemas/ApiException'
+            $ref: "#/components/schemas/ApiException"
     WelcomeDto:
       type: object
       properties:
@@ -1708,7 +1768,7 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/MemberDto'
+            $ref: "#/components/schemas/MemberDto"
     AccountList:
       type: object
       properties:
@@ -1716,7 +1776,7 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/AccountDto'
+            $ref: "#/components/schemas/AccountDto"
     AccountMatchParam:
       required:
       - dateOfBirth
